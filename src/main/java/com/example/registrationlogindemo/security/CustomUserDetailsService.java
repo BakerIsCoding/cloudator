@@ -64,28 +64,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User dbUser = userRepository.fetchUser(username);
-        String providedRawPassword = "aB123jndsakj$";
 
-        UserController userController = new UserController();
-        //String htmlPass = userController.getPassword();
+        // UserController userController = new UserController();
+        // String htmlPass = userController.getPassword();
 
         if (dbUser != null) {
-            // Codifica la contraseña proporcionada antes de compararla
-
-            if (passwordEncoder.matches(providedRawPassword, dbUser.getPassword())) {
-                System.out.println("entro2");
-                return new org.springframework.security.core.userdetails.User(
-                        dbUser.getUsername(),
-                        dbUser.getPassword(),
-                        mapRolesToAuthorities(dbUser.getRoles()));
-            } else {
-                System.out.println("entro1");
-                throw new UsernameNotFoundException("Contraseña incorrecta");
-            }
+            return new org.springframework.security.core.userdetails.User(
+                    dbUser.getUsername(),
+                    dbUser.getPassword(),
+                    mapRolesToAuthorities(dbUser.getRoles()));
         } else {
             System.out.println("Entro");
             throw new UsernameNotFoundException("Usuario no encontrado");
-
         }
     }
 

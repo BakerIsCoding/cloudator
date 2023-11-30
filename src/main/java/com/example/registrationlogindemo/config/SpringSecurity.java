@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.registrationlogindemo.security.CustomLoginFailureHandler;
 import com.example.registrationlogindemo.security.CustomUserDetailsService;
 
 @Configuration
@@ -45,6 +46,9 @@ public class SpringSecurity {
 
         @Autowired
         private AuthenticationSuccessRedirect AuthenticationSuccessRedirect;
+        
+        @Autowired
+        private CustomLoginFailureHandler loginFailureHandler;
 
         public SpringSecurity(UserDetailsService userDetailsService) {
                 this.userDetailsService = userDetailsService;
@@ -74,6 +78,7 @@ public class SpringSecurity {
                                                 .loginProcessingUrl("/loginpost")
                                                 // .defaultSuccessUrl("/users/edit/{id}")
                                                 .successHandler(AuthenticationSuccessRedirect)
+                                                .failureHandler(loginFailureHandler)
                                                 .permitAll())
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

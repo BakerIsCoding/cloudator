@@ -3,7 +3,9 @@ package com.example.registrationlogindemo.service.impl;
 import com.example.registrationlogindemo.dto.UserDto;
 import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.entity.UserAccess;
 import com.example.registrationlogindemo.repository.RoleRepository;
+import com.example.registrationlogindemo.repository.UserAccessRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.UserService;
 
@@ -18,19 +20,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    
     @Autowired
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private UserAccessRepository userAccessRepository;
 
     public UserServiceImpl(UserRepository userRepository,
             RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, UserAccessRepository userAccessRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userAccessRepository = userAccessRepository;
     }
     
     @Override
@@ -50,6 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
+        UserAccess userAccess = new UserAccess();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         // encrypt the password once we integrate spring security
@@ -62,7 +67,7 @@ public class UserServiceImpl implements UserService {
         String role2Name = "ROLE_PREMIUM";
         String role3Name = "ROLE_USER";
 
-        //Asignamos la respuesta de la base de datos an una variable tipo Role
+        //Asignamos la respuesta de la base de datos a una variable tipo Role
         Role role = roleRepository.findByName(roleName);
         Role role1 = roleRepository.findByName(role1Name);
         Role role2 = roleRepository.findByName(role2Name);
@@ -89,6 +94,18 @@ public class UserServiceImpl implements UserService {
         //Guardamos el usuario final en la base de datos
         userRepository.save(user);
 
+        //Asignamos UserAccess
+        User username = userRepository.fetchUser(userDto.getUsername());
+        userAccess.setId(username.getId());
+
+        userAccessRepository.save(userAccess);
+
+    }
+    
+
+    @Override
+    public UserAccess findById(Integer id) {
+        return userAccessRepository.findById(id);
     }
 
     @Override

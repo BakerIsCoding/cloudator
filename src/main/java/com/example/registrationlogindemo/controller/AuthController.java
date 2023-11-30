@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.controller;
 import java.util.regex.Pattern;
 import com.example.registrationlogindemo.dto.UserDto;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.security.CustomUserDetails;
 import com.example.registrationlogindemo.security.CustomUserDetailsService;
 import com.example.registrationlogindemo.service.UserService;
 
@@ -29,6 +30,8 @@ public class AuthController {
     private UserService userService;
 
     private final CustomUserDetailsService customUserDetailsService;
+
+    //private final CustomUserDetails customUserDetails;
 
     public AuthController(UserService userService, CustomUserDetailsService customUserDetailsService) {
         this.userService = userService;
