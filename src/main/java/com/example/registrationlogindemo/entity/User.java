@@ -32,7 +32,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // Mirar Mirar Mirar Mirar
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = {
             @JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {

@@ -20,13 +20,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler{
+public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Autowired
     private UserService userService;
     private UserAccessService userAccessService;
     private CustomUserDetails customUserDetails;
     private UserAccessRepository userAccessRepository;
-    
+
     public CustomLoginFailureHandler(UserAccessService userAccessService, CustomUserDetails customUserDetails) {
         this.userAccessService = userAccessService;
         this.customUserDetails = customUserDetails;
@@ -35,39 +35,33 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
-        String username = request.getParameter("username");
+        try {
+            String username = request.getParameter("username");
+            User user = userService.findByUsername(username);
+            UserAccess userAccess = userAccessService.findById(user.getId());
 
-        User user = userService.findByUsername(username);
-        System.out.println(user.getId());
-
-        UserAccess userAccess = userAccessService.findById(user.getId());
-
-
-        System.out.println("Entro1");
-        if (userAccess != null) {
-            System.out.println("Entro2");
-            if (customUserDetails.isAccountNonLocked()) {
-                System.out.println("Entro3");
-                if (userAccess.getCounter() < UserAccessService.MAX_FAILED_ATTEMPTS - 1) {
-                    System.out.println("Entro4");
-                    userAccessService.increaseFailedAttempts(userAccess);
-                    System.out.println("Entro44");
-                } else {
-                    System.out.println("Entro5");
-                    userAccessService.lock(userAccess);
-                    exception = new LockedException("Se ha superado el maximo de intentos y la cuenta ha sido bloqueada, contacta con un administrador.");
+            if (userAccess != null) {
+                if (customUserDetails.isAccountNonLocked()) {
+                    if (userAccess.getCounter() < UserAccessService.MAX_FAILED_ATTEMPTS - 1) {
+                        exception = new LockedException(
+                                "Usuario y/o contraseña incorrecta.");
+                        userAccessService.increaseFailedAttempts(userAccess);
+                    } else {
+                        userAccessService.lock(userAccess);
+                        exception = new LockedException(
+                                "Se ha superado el maximo de intentos y la cuenta ha sido bloqueada, contacta con un administrador.");
+                    }
                 }
-            } 
-            /* 
-            else if (!userAccess.isAccountNonLocked()) {
-                if (userService.unlockWhenTimeExpired(userAccess)) {
-                    exception = new LockedException("Your account has been unlocked. Please try to login again.");
-                }
+
             }
-            */
+            super.setDefaultFailureUrl("/login?error");
+            super.onAuthenticationFailure(request, response, exception);
+        } catch (Exception e) {
+            exception = new LockedException(
+                    "Usuario y/o contraseña incorrecta.");
+            
+            super.setDefaultFailureUrl("/login?error");
+            super.onAuthenticationFailure(request, response, exception);
         }
-         
-        super.setDefaultFailureUrl("/login?error");
-        super.onAuthenticationFailure(request, response, exception);
     }
 }

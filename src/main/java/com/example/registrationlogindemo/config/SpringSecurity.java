@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.registrationlogindemo.security.AuthenticationSuccessRedirect;
 import com.example.registrationlogindemo.security.CustomLoginFailureHandler;
 import com.example.registrationlogindemo.security.CustomUserDetailsService;
 
@@ -20,33 +21,12 @@ import com.example.registrationlogindemo.security.CustomUserDetailsService;
 @EnableWebSecurity
 public class SpringSecurity {
 
-        /*
-         * CHATGPT Carry
-         * private final UserDetailsService userDetailsService;
-         * public SecurityConfig(UserDetailsService userDetailsService) {
-         * this.userDetailsService = userDetailsService;
-         * }
-         * 
-         * @Bean
-         * public UserDetailsService userDetailsService() {
-         * return new CustomUserDetailsService();
-         * }
-         * 
-         * @Override
-         * protected void configure(AuthenticationManagerBuilder auth) throws Exception
-         * {
-         * auth.userDetailsService(userDetailsService);
-         * }
-         * 
-         * ChatGPT termina
-         */
-
         @Autowired
         private UserDetailsService userDetailsService;
 
         @Autowired
         private AuthenticationSuccessRedirect AuthenticationSuccessRedirect;
-        
+
         @Autowired
         private CustomLoginFailureHandler loginFailureHandler;
 
@@ -64,22 +44,24 @@ public class SpringSecurity {
                 http.csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(
                                                 (authorize) -> authorize
+                                                                
                                                                 .requestMatchers("/register/**",
                                                                                 "/",
                                                                                 "/index",
-                                                                                "/users/**",
                                                                                 "/error",
-                                                                                "/loginpost")
+                                                                                "/loginpost",
+                                                                                "/login**")
                                                                 .permitAll()
                                                                 .requestMatchers("/admin/**")
-                                                                .hasAnyRole("SUPERADMIN", "ADMIN"))
+                                                                .hasAnyRole("SUPERADMIN", "ADMIN")
+                                                                .requestMatchers("/users/**").hasAnyRole("USER", "PREMIUM", "ADMIN", "SUPERADMIN"))
                                 .formLogin(form -> form
                                                 .loginPage("/login")
                                                 .loginProcessingUrl("/loginpost")
-                                                // .defaultSuccessUrl("/users/edit/{id}")
                                                 .successHandler(AuthenticationSuccessRedirect)
                                                 .failureHandler(loginFailureHandler)
                                                 .permitAll())
+
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                                 .permitAll());
@@ -88,9 +70,8 @@ public class SpringSecurity {
 
         @Bean
         public UserDetailsService userDetailsService() {
-                return new CustomUserDetailsService(null, null);
+                return new CustomUserDetailsService(null, null, null);
         }
-
 
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

@@ -31,7 +31,7 @@ public class AuthController {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    //private final CustomUserDetails customUserDetails;
+    // private final CustomUserDetails customUserDetails;
 
     public AuthController(UserService userService, CustomUserDetailsService customUserDetailsService) {
         this.userService = userService;
@@ -48,45 +48,11 @@ public class AuthController {
         return "login";
     }
 
-    @PostMapping("/loginpost")
-    public String checkLogin(@Valid @ModelAttribute("user") UserDto user,
-            BindingResult result,
-            Model model,
-            RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("userData", user);
-        return "redirect:/loginpostfinal";
-
-        
+    @GetMapping("/login?error")
+    public String loginError() {
+        return "error";
     }
 
-    /*
-     * @PostMapping("/loginpost")
-     * public String checkLogin(@Valid @ModelAttribute("user") UserDto user,
-     * BindingResult result,
-     * Model model,
-     * RedirectAttributes redirectAttributes) {
-     * System.out.println(user.getUsername());
-     * System.out.println(user.getPassword());
-     * 
-     * 
-     * System.out.println("hola jefe");
-     * UserDetails userDetails =
-     * customUserDetailsService.loadUserByUsernameAndPass(user.getUsername(),
-     * user.getPassword());
-     * // UserDetails userDetailsa =
-     * // customUserDetailsService.loadUserByUsername(user.getUsername());
-     * 
-     * // CustomUserDetailsService cuds = CustomUserDetailsService();
-     * 
-     * return "fino";
-     * }
-     */
-    /*
-     * @PostMapping("/loginp")
-     * public String loginPost() {
-     * return "users";
-     * }
-     */
     // handler method to handle user registration request
     @GetMapping("register")
     public String showRegistrationForm(Model model) {
@@ -141,12 +107,6 @@ public class AuthController {
         return Pattern.matches(mailPattern, mail);
     }
 
-    @GetMapping("/admin/users")
-    public String listRegisteredUsers(Model model) {
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
-    }
 
     /*
      * @RequestMapping("/error")

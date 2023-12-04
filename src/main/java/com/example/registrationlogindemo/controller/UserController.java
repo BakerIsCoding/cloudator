@@ -20,13 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
-
+    /* 
     public String password = "";
 
     public String getPassword() {
         return password;
     }
-
+    */
+    
     @Autowired
     private UserService userService;
 
@@ -52,6 +53,7 @@ public class UserController {
         return "redirect:/users";
     }
 
+    /* 
     @PostMapping("/testpassword")
     public void postMethodName(@RequestBody Map<String, String> requestBody) {
         if (requestBody.containsKey("password")) {
@@ -61,5 +63,6 @@ public class UserController {
             this.password = passwordFromRequest;
         }
     }
+    */
 
 }

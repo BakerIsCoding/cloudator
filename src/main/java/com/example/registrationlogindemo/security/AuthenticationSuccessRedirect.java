@@ -1,4 +1,4 @@
-package com.example.registrationlogindemo.config;
+package com.example.registrationlogindemo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -6,7 +6,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.entity.UserAccess;
+import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
+import com.example.registrationlogindemo.service.UserAccessService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,15 @@ public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandl
 
     @Autowired
     private UserRepository userRepository;
+    /* 
+    @Autowired
+    private RoleRepository;
+*/
+    @Autowired
+    private UserAccess userAccess;
+
+    @Autowired
+    private UserAccessService userAccessService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -34,10 +46,17 @@ public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandl
 
             if (finalUser != null) {
                 Long userId = finalUser.getId();
+
+
                 String redirectUrl = defaultRedirectUrl + String.valueOf(userId);
                 response.sendRedirect(response.encodeRedirectURL(redirectUrl));
-            } else {
-                // Manejo de usuario no encontrado
+
+
+                UserAccess userAccess = userAccessService.findById(finalUser.getId());
+                if (userAccess.getCounter() > 0) {
+                    userAccessService.resetFailedAttempts(userAccess);
+                }
+
             }
         }
     }

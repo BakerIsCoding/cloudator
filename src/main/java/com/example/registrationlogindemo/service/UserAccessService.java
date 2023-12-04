@@ -35,28 +35,6 @@ public class UserAccessService {
     }
 
     public UserAccess findById(Long id) {
-        System.out.println("id");
-        System.err.println(id);
         return repo.fetchUserAccess(id);
     }
-
-    
-     /* 
-    public boolean unlockWhenTimeExpired(User user) {
-        long lockTimeInMillis = user.getLockTime().getTime();
-        long currentTimeInMillis = System.currentTimeMillis();
-         
-        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
-            user.setAccountNonLocked(true);
-            user.setLockTime(null);
-            user.setFailedAttempt(0);
-             
-            repo.save(user);
-             
-            return true;
-        }
-         
-        return false;
-    }
-    */
 }

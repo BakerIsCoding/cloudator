@@ -3,9 +3,12 @@ package com.example.registrationlogindemo.security;
 import com.example.registrationlogindemo.controller.UserController;
 import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.entity.UserAccess;
 import com.example.registrationlogindemo.repository.UserRepository;
+import com.example.registrationlogindemo.service.UserAccessService;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,60 +26,38 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder; // Cambiado a la interfaz PasswordEncoder
+    private UserAccess userAccess;
+    private UserAccessService userAccessService;
 
-    public CustomUserDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public CustomUserDetailsService(UserRepository userRepository, UserAccess userAccess,
+            UserAccessService userAccessService) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder; // Utiliza la interfaz PasswordEncoder
+        this.userAccess = userAccess;
+        this.userAccessService = userAccessService;
     }
-
-    @Bean
-    public BCryptPasswordEncoder custompasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    /*
-     * public UserDetails loadUserByUsernameAndPass(String username, String
-     * password) throws UsernameNotFoundException {
-     * User dbUser = userRepository.fetchUser(username);
-     * String providedRawPassword = "aB123jndsakj$";
-     * 
-     * if (dbUser != null) {
-     * // Codifica la contraseña proporcionada antes de compararla
-     * 
-     * if (passwordEncoder.matches(password, dbUser.getPassword())) {
-     * System.out.println("entro2");
-     * return new org.springframework.security.core.userdetails.User(
-     * dbUser.getUsername(),
-     * dbUser.getPassword(),
-     * mapRolesToAuthorities(dbUser.getRoles()));
-     * } else {
-     * System.out.println("entro1");
-     * throw new UsernameNotFoundException("Contraseña incorrecta");
-     * }
-     * } else {
-     * System.out.println("Entro");
-     * throw new UsernameNotFoundException("Usuario no encontrado");
-     * 
-     * }
-     * }
-     */
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User dbUser = userRepository.fetchUser(username);
+    public UserDetails loadUserByUsername(String username) {
+        try {
+            User dbUser = userRepository.fetchUser(username);
 
-        // UserController userController = new UserController();
-        // String htmlPass = userController.getPassword();
-
-        if (dbUser != null) {
-            return new org.springframework.security.core.userdetails.User(
-                    dbUser.getUsername(),
-                    dbUser.getPassword(),
-                    mapRolesToAuthorities(dbUser.getRoles()));
-        } else {
-            System.out.println("Entro");
+            if (dbUser != null) {
+                userAccess = userAccessService.findById(dbUser.getId());
+                if (!userAccess.isIsblocked()) {
+                    return new org.springframework.security.core.userdetails.User(
+                            dbUser.getUsername(),
+                            dbUser.getPassword(),
+                            mapRolesToAuthorities(dbUser.getRoles()));
+                } else {
+                    throw new BadCredentialsException("La cuenta está bloqueada, contacta con un administrador");
+                }
+            } else {
+                throw new BadCredentialsException("Usuario y/o contraseña incorrectos");
+            }
+        } catch (Exception e) {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
+
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
