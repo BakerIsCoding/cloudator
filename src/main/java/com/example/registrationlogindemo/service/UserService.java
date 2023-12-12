@@ -17,7 +17,17 @@ public interface UserService {
 
     UserAccess findById(Integer id);
 
-    //Antiguo, revisar:
+    void updateUsername(Long userid, String username);
+
+    void updateEmail(Long userid, String email);
+
+    void updatePassword(Long userid, String password);
+
+    boolean blockUser(Long id);
+
+    boolean unBlockUser(Long id);
+
+    // Antiguo, revisar:
 
     User getUserById(Long id);
 
@@ -25,5 +35,4 @@ public interface UserService {
 
     User fetchUser(String user);
 
-    
 }

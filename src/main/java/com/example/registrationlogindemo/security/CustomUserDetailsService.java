@@ -4,6 +4,7 @@ import com.example.registrationlogindemo.controller.UserController;
 import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.entity.UserAccess;
+import com.example.registrationlogindemo.functions.LogWriter;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.service.UserAccessService;
 
@@ -28,12 +29,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
     private UserAccess userAccess;
     private UserAccessService userAccessService;
+    private LogWriter logWriter;
 
     public CustomUserDetailsService(UserRepository userRepository, UserAccess userAccess,
-            UserAccessService userAccessService) {
+            UserAccessService userAccessService, LogWriter logWriter) {
         this.userRepository = userRepository;
         this.userAccess = userAccess;
         this.userAccessService = userAccessService;
+        this.logWriter = logWriter;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                             dbUser.getPassword(),
                             mapRolesToAuthorities(dbUser.getRoles()));
                 } else {
+                    logWriter.writeLog("El usuario con id '" + dbUser.getId() + "' ha intentado iniciar sesión, pero la cuenta está bloqueada");
                     throw new BadCredentialsException("La cuenta está bloqueada, contacta con un administrador");
                 }
             } else {

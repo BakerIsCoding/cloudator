@@ -17,6 +17,8 @@ import com.example.registrationlogindemo.security.AuthenticationSuccessRedirect;
 import com.example.registrationlogindemo.security.CustomLoginFailureHandler;
 import com.example.registrationlogindemo.security.CustomUserDetailsService;
 
+import jakarta.validation.constraints.Null;
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -70,7 +72,7 @@ public class SpringSecurity {
 
         @Bean
         public UserDetailsService userDetailsService() {
-                return new CustomUserDetailsService(null, null, null);
+                return new CustomUserDetailsService(null, null, null, null);
         }
 
         @Autowired

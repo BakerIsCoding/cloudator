@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.entity.UserAccess;
+import com.example.registrationlogindemo.functions.LogWriter;
 import com.example.registrationlogindemo.repository.UserAccessRepository;
 import com.example.registrationlogindemo.service.UserAccessService;
 import com.example.registrationlogindemo.service.UserService;
@@ -26,10 +27,13 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     private UserAccessService userAccessService;
     private CustomUserDetails customUserDetails;
     private UserAccessRepository userAccessRepository;
+    private LogWriter logWriter;
 
-    public CustomLoginFailureHandler(UserAccessService userAccessService, CustomUserDetails customUserDetails) {
+    public CustomLoginFailureHandler(UserAccessService userAccessService, CustomUserDetails customUserDetails,
+            LogWriter logWriter) {
         this.userAccessService = userAccessService;
         this.customUserDetails = customUserDetails;
+        this.logWriter = logWriter;
     }
 
     @Override
@@ -43,13 +47,18 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             if (userAccess != null) {
                 if (customUserDetails.isAccountNonLocked()) {
                     if (userAccess.getCounter() < UserAccessService.MAX_FAILED_ATTEMPTS - 1) {
+                        Integer counterUpdated = userAccess.getCounter() + 1;
                         exception = new LockedException(
                                 "Usuario y/o contraseña incorrecta.");
                         userAccessService.increaseFailedAttempts(userAccess);
+                        logWriter.writeLog("El usuario con id '" + userAccess.getId()
+                                + "' ha intentado iniciar sesión, tiene '" + counterUpdated
+                                + "' intentos fallidos");
                     } else {
                         userAccessService.lock(userAccess);
                         exception = new LockedException(
                                 "Se ha superado el maximo de intentos y la cuenta ha sido bloqueada, contacta con un administrador.");
+                        logWriter.writeLog("El usuario con id '" + userAccess.getId() + "' ha sido bloqueado");
                     }
                 }
 
@@ -57,9 +66,10 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             super.setDefaultFailureUrl("/login?error");
             super.onAuthenticationFailure(request, response, exception);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             exception = new LockedException(
                     "Usuario y/o contraseña incorrecta.");
-            
+
             super.setDefaultFailureUrl("/login?error");
             super.onAuthenticationFailure(request, response, exception);
         }
