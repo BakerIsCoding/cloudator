@@ -135,7 +135,6 @@
                 <tr>
                     <th>Id</th>
                     <th>Usuario</th>
-                    <th>Contraseña</th>
                     <th>Email</th>
                     <th>Bloqueado</th>
                     <th>View</th>
@@ -145,9 +144,8 @@
                     <th>Desbloqueo</th>
                 </tr>
                 <tr th:each="user: ${users}">
-                    <td><a href="/users/${user.id}" th:text="${user.id}">Id</a></td>
+                    <td th:text="${user.id}">Id</td>
                     <td th:text="${user.username}">Nombre de usuario</td>
-                    <td th:text="${user.password}">Contraseña</td>
                     <td th:text="${user.email}">Email</td>
                     <td>
                         <label class="switch" th:if="${userAccess != null}">
@@ -159,7 +157,7 @@
                     <td><a th:href="${'/users/edit/' + user.id}">Edit</a></td>
                     <td><a th:href="${'/admin/users/delete/' + user.id}">Delete</a></td>
                     <td><a th:href="${'/admin/users/block/' + user.id}">Blocked</a></td>
-                    <td><a th:href="${'/admin/users/block/' + user.id}">Unblocked</a></td>
+                    <td><a th:href="${'/admin/users/unblock/' + user.id}">Unblocked</a></td>
                 </tr>
             </table>
         </div>

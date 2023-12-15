@@ -32,7 +32,10 @@ public class AdminController {
 
     @GetMapping("/admin/users")
     public String listRegisteredUsers(Model model) {
-        List<UserDto> users = userService.findAllUsers();
+        Integer page = 0;
+        Integer size = 10;
+        List<UserDto> users = userService.findFirstXUsers(page, size);
+
         model.addAttribute("users", users);
         return "/crud/menucrud";
     }
@@ -40,12 +43,12 @@ public class AdminController {
     // Borra usuario id
     @GetMapping("/admin/users/delete/{id}")
     public String delete(@PathVariable Long id) {
+        userService.deleteUser(id);
+        logWriter.writeLog("El usuario con id '" + id + "' ha sido eliminado por un administrador.");
         return "redirect:/admin/users";
     }
 
     // Desbloquear y bloquear usuario por id
-
-    // @Secured({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
 
     @GetMapping("/admin/users/block/{id}")
     public String block(@PathVariable Long id) {

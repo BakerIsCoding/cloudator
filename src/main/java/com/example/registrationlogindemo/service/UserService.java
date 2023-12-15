@@ -13,6 +13,8 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    List<UserDto> findFirstXUsers(Integer page, Integer size);
+
     List<UserDto> findAllUsers();
 
     UserAccess findById(Integer id);

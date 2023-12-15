@@ -12,6 +12,7 @@ import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.service.UserAccessService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
+
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        userRepository.deleteUser(id);
     }
 
     public User fetchUser(String user) {
@@ -134,8 +138,18 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserDto> findFirstXUsers(Integer page, Integer size) {
+        PageRequest pagination = PageRequest.of(page, size);
+        List<User> users = userRepository.findFirstXUsers(pagination);
+        
+        return users.stream().map((user) -> convertEntityToDto(user))
+                .collect(Collectors.toList());
+    }
+
     private UserDto convertEntityToDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
         return userDto;

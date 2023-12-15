@@ -15,4 +15,9 @@ public class Regex {
         String mailPattern = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
         return Pattern.matches(mailPattern, mail);
     }
+
+    public boolean isValidUsername(String username) {
+        String usernamePattern = "^(?:(?=.*[0-9])|(?=.*[a-z])|(?=.*[A-Z]))[^\s!@#$%+-?¿ªº&*(),.?:{}|<>]{1,32}$";
+        return Pattern.matches(usernamePattern, username);
+    }
 }
