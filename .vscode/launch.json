@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainCloudator",
+            "request": "launch",
+            "mainClass": "com.project.cloudator.MainCloudator",
+            "projectName": "registration-login-demo"
+        },
+        {
+            "type": "java",
             "name": "RegistrationLoginDemoApplication",
             "request": "launch",
             "mainClass": "com.example.registrationlogindemo.RegistrationLoginDemoApplication",
