@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 
-
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -130,7 +128,6 @@ public class UserServiceImpl implements UserService {
         userAccessRepository.save(userAccess);
 
     }
-    
 
     /**
      * Obtiene los datos de acceso de un usuario por su ID.
@@ -158,7 +155,8 @@ public class UserServiceImpl implements UserService {
      * Obtiene un usuario por su dirección de correo electrónico.
      *
      * @param email Dirección de correo electrónico.
-     * @return El usuario correspondiente a la dirección de correo electrónico especificada.
+     * @return El usuario correspondiente a la dirección de correo electrónico
+     *         especificada.
      */
     @Override
     public User findByEmail(String email) {
@@ -168,7 +166,8 @@ public class UserServiceImpl implements UserService {
     /**
      * Obtiene todos los usuarios registrados en el sistema.
      *
-     * @return Una lista de objetos UserDto que representan a los usuarios registrados.
+     * @return Una lista de objetos UserDto que representan a los usuarios
+     *         registrados.
      */
     @Override
     public List<UserDto> findAllUsers() {
@@ -182,13 +181,14 @@ public class UserServiceImpl implements UserService {
      *
      * @param page Número de página.
      * @param size Cantidad de usuarios a mostrar.
-     * @return Una lista de objetos UserDto que representan a los primeros X usuarios registrados.
+     * @return Una lista de objetos UserDto que representan a los primeros X
+     *         usuarios registrados.
      */
     @Override
     public List<UserDto> findFirstXUsers(Integer page, Integer size) {
         PageRequest pagination = PageRequest.of(page, size);
         List<User> users = userRepository.findFirstXUsers(pagination);
-        
+
         return users.stream().map((user) -> convertEntityToDto(user))
                 .collect(Collectors.toList());
     }
@@ -249,41 +249,44 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updatePassword(Long userId, String password) {
-        userRepository.updatePassword(userId, password);
+        String encodedPassword = passwordEncoder.encode(password);
+        userRepository.updatePassword(userId, encodedPassword);
     }
 
     /**
      * Bloquea un usuario por su ID.
      *
      * @param id ID del usuario a bloquear.
-     * @return true si el usuario se bloqueó correctamente, false si ocurrió un error.
+     * @return true si el usuario se bloqueó correctamente, false si ocurrió un
+     *         error.
      */
     @Override
     public boolean blockUser(Long id) {
-       // Obtiene el UserAccess por el ID del usuario.
-       UserAccess userAccess = userAccessService.findById(id);
+        // Obtiene el UserAccess por el ID del usuario.
+        UserAccess userAccess = userAccessService.findById(id);
 
-       if (userAccess != null) {
-           // Cambia el estado de bloqueo a true (Bloqueado).
-           userAccessService.lock(userAccess);
-           // Restablece los intentos fallidos.
-           userAccessRepository.updateCounter(id, 2);
+        if (userAccess != null) {
+            // Cambia el estado de bloqueo a true (Bloqueado).
+            userAccessService.lock(userAccess);
+            // Restablece los intentos fallidos.
+            userAccessRepository.updateCounter(id, 2);
 
-           // Guardar en la base de datos
-           return true;
-       } else {
-           logWriter.writeError("Ha ocurrido un error en 'UserServiceImpl.java' durante el bloqueo del usuario con id "
-                   + id + "ERROR: userAcces es NULL!");
-           // userAccess es NULL! ");
-           return false;
-       }
+            // Guardar en la base de datos
+            return true;
+        } else {
+            logWriter.writeError("Ha ocurrido un error en 'UserServiceImpl.java' durante el bloqueo del usuario con id "
+                    + id + "ERROR: userAcces es NULL!");
+            // userAccess es NULL! ");
+            return false;
+        }
     }
 
     /**
      * Desbloquea un usuario por su ID.
      *
      * @param id ID del usuario a desbloquear.
-     * @return true si el usuario se desbloqueó correctamente, false si ocurrió un error.
+     * @return true si el usuario se desbloqueó correctamente, false si ocurrió un
+     *         error.
      */
     @Override
     public boolean unBlockUser(Long id) {

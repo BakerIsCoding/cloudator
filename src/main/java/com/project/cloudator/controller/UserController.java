@@ -73,7 +73,7 @@ public class UserController {
     public String delete(@PathVariable Long id) {
         userService.deleteUser(id);
         logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
-        return "redirect:/logout";
+        return "redirect:/delete";
     }
 
     /**
@@ -143,13 +143,12 @@ public class UserController {
             BindingResult result,
             Model model, @PathVariable Long id) {
         if (!regex.isValidPassword(user.getPassword())) {
-            result.rejectValue("password", null, "La contraseña no cumple con los requisitos");
+            return "redirect:/users/edit/" + id + "?error2=1";
         }
-        // ERROR 2
-        String username = user.getPassword();
-        userService.updatePassword(id, username);
 
-        return "redirect:/users/edit/" + id;
+        String password = user.getPassword();
+        userService.updatePassword(id, password);
+
+        return "redirect:/users/edit/" + id + "?success2=1";
     }
-
 }

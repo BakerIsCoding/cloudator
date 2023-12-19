@@ -1,0 +1,210 @@
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 15:09:12] 
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 15:18:22] 
+[LOG][2023-12-19 15:21:29] El usuario con id '1' ha sido creado
+[LOG][2023-12-19 15:21:33] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 15:22:36] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:23:13] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 15:32:10] 
+[LOG][2023-12-19 15:32:39] El usuario con id '2' ha sido creado
+[LOG][2023-12-19 15:33:07] El usuario con id '2' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 15:47:16] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:47:19] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:47:24] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:48:03] El usuario con id '3' ha sido creado
+[LOG][2023-12-19 15:49:12] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 15:58:11] 
+[LOG][2023-12-19 15:58:28] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:59:22] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:59:54] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 15:59:58] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 16:00:17] El usuario con id '3' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:00:52] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:05:33] 
+[LOG][2023-12-19 16:06:33] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:12:00] 
+[LOG][2023-12-19 16:12:21] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 16:13:29] El usuario con id '4' ha sido creado
+[LOG][2023-12-19 16:13:41] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:13:46] El usuario con id '5' ha sido creado
+[LOG][2023-12-19 16:13:53] El usuario con id '5' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:15:47] El usuario con id '5' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:15:59] El usuario con id '5' ha intentado iniciar sesión, tiene '1' intentos fallidos
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:17:31] 
+[LOG][2023-12-19 16:17:44] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 16:17:53] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:18:33] El usuario con id '5' ha intentado iniciar sesión, tiene '2' intentos fallidos
+[LOG][2023-12-19 16:18:39] El usuario con id '5' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:18:39] El usuario con id '5' ha iniciado sesión, he reiniciado a '0' los intentos fallidos
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:19:38] 
+[LOG][2023-12-19 16:19:56] El usuario con id '5' ha intentado iniciar sesión, tiene '1' intentos fallidos
+[LOG][2023-12-19 16:20:05] El usuario con id '5' ha intentado iniciar sesión, tiene '2' intentos fallidos
+[LOG][2023-12-19 16:20:11] El usuario con id '5' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:20:11] El usuario con id '5' ha iniciado sesión, he reiniciado a '0' los intentos fallidos
+[LOG][2023-12-19 16:22:32] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+[LOG][2023-12-19 16:23:22] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:32:11] 
+[LOG][2023-12-19 16:32:32] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:38:46] 
+[LOG][2023-12-19 16:39:03] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:39:51] 
+[LOG][2023-12-19 16:40:01] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:42:49] 
+[LOG][2023-12-19 16:43:00] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:44:04] 
+[LOG][2023-12-19 16:44:22] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:44:26] 
+[LOG][2023-12-19 16:44:38] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:44:45] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:44:55] 
+[LOG][2023-12-19 16:45:05] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:45:19] 
+[LOG][2023-12-19 16:45:38] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:45:40] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:47:55] 
+[LOG][2023-12-19 16:48:05] El usuario con id '2' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:49:32] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:50:15] El usuario con id '4' ha intentado iniciar sesión, tiene '1' intentos fallidos
+[LOG][2023-12-19 16:50:25] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:50:25] El usuario con id '4' ha iniciado sesión, he reiniciado a '0' los intentos fallidos
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:52:39] 
+[LOG][2023-12-19 16:53:01] El usuario con id '4' ha intentado iniciar sesión, tiene '1' intentos fallidos
+[LOG][2023-12-19 16:53:10] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:53:10] El usuario con id '4' ha iniciado sesión, he reiniciado a '0' los intentos fallidos
+[LOG][2023-12-19 16:53:38] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'
+     _____  _       ____   _    _  _____         _______  ____   _____
+    / ____|| |     / __ \ | |  | ||  __ \    /\ |__   __|/ __ \ |  __ \
+   | |     | |    | |  | || |  | || |  | |  /  \   | |  | |  | || |__) |
+   | |     | |    | |  | || |  | || |  | | / /\ \  | |  | |  | ||  _  /
+   | |____ | |____| |__| || |__| || |__| |/ ____ \ | |  | |__| || | \ \
+    \_____||______|\____/  \____/ |_____//_/    \_\|_|   \____/ |_|  \_\
+
+Started at [2023-12-19 16:54:22] 
+[LOG][2023-12-19 16:54:40] El usuario con id '4' ha iniciado sesión, tiene el rol 'ROLE_USER'
+[LOG][2023-12-19 16:54:43] El usuario con id '4' ha eliminado su cuenta.
+[LOG][2023-12-19 17:04:04] El usuario con id '1' ha iniciado sesión, tiene el rol 'ROLE_SUPERADMIN'

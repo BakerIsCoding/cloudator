@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2023 a las 15:37:23
+-- Tiempo de generación: 19-12-2023 a las 15:17:58
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cloudatordb`
 --
-CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
-USE `cloudatordb`;
 
 -- --------------------------------------------------------
 
@@ -42,21 +40,11 @@ CREATE TABLE `files` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `hibernate_sequence`
---
-
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `roles`
 --
 
 CREATE TABLE `roles` (
-  `id` int(32) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -67,7 +55,7 @@ CREATE TABLE `roles` (
 --
 
 CREATE TABLE `user` (
-  `id` int(32) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `username` varchar(32) NOT NULL,
   `password` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
@@ -82,8 +70,8 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `users_roles` (
-  `user_id` int(32) NOT NULL,
-  `role_id` int(32) NOT NULL
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,20 +81,10 @@ CREATE TABLE `users_roles` (
 --
 
 CREATE TABLE `user_access` (
-  `id` int(32) NOT NULL,
-  `counter` smallint(1) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `counter` int(11) DEFAULT NULL,
   `isblocked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `user_seq`
---
-
-CREATE TABLE `user_seq` (
-  `next_val` int(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -125,7 +103,7 @@ ALTER TABLE `files`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UK_ofx66keruapi6vyqpv6f2or37` (`name`);
+  ADD KEY `id` (`id`);
 
 --
 -- Indices de la tabla `user`
@@ -140,8 +118,8 @@ ALTER TABLE `user`
 -- Indices de la tabla `users_roles`
 --
 ALTER TABLE `users_roles`
-  ADD KEY `FKj6m8fwv7oqv74fcehir1a9ffy` (`role_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `role_id` (`role_id`);
 
 --
 -- Indices de la tabla `user_access`
@@ -158,13 +136,13 @@ ALTER TABLE `user_access`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -181,14 +159,14 @@ ALTER TABLE `files`
 -- Filtros para la tabla `users_roles`
 --
 ALTER TABLE `users_roles`
-  ADD CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `FKj6m8fwv7oqv74fcehir1a9ffy` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+  ADD CONSTRAINT `users_roles_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_roles_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `user_access`
 --
 ALTER TABLE `user_access`
-  ADD CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_access_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -46,7 +46,7 @@
                             <div th:if="${param.success0}" class="text-success">
                                 <p>Nombre cambiado correctamente</p>
                             </div>
-                            
+
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
                         </div>
                     </div>
@@ -97,6 +97,19 @@
                             <span class="input-group-addon">(Mínimo 8 caracteres, incluyendo números, mayúsculas y
                                 minúsculas y un caracter especial)</span>
                             <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+                        </div>
+                    </div>
+                </form>
+                <!-- Formulario para el campo Delete -->
+                <form method="get" role="form" th:action="@{/users/delete/{id}(id=${user.id})}" th:object="${user}"
+                    onsubmit="return confirm('¿Estás seguro de que deseas eliminar la cuenta?')">
+                    <div class="card-header">
+                        <h2 class="text-center">Eliminar cuenta</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <button class="btn btn-danger" type="submit">Eliminar cuenta</button>
+                            <span class="input-group-addon">Una vez eliminada la cuenta no se podrá recuperar</span>
                         </div>
                     </div>
                 </form>

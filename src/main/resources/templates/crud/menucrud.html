@@ -67,62 +67,77 @@
     </style>
     <style>
         body {
-     background-color: #f9f9fa
- }
+            background-color: #f9f9fa
+        }
 
- .flex {
-     -webkit-box-flex: 1;
-     -ms-flex: 1 1 auto;
-     flex: 1 1 auto
- }
+        .flex {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto
+        }
 
- @media (max-width:991.98px) {
-     .padding {
-         padding: 1.5rem
-     }
- }
+        @media (max-width:991.98px) {
+            .padding {
+                padding: 1.5rem
+            }
+        }
 
- @media (max-width:767.98px) {
-     .padding {
-         padding: 1rem
-     }
- }
+        @media (max-width:767.98px) {
+            .padding {
+                padding: 1rem
+            }
+        }
 
- .padding {
-     padding: 5rem
- }
+        .padding {
+            padding: 5rem
+        }
 
- .container {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
- }
+        .container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
- .pagination,
- .jsgrid .jsgrid-pager {
-     display: flex;
-     padding-left: 0;
-     list-style: none;
-     border-radius: 0.25rem
- }
+        .pagination,
+        .jsgrid .jsgrid-pager {
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem
+        }
 
- 
- .page-link { 
-     color: black
- }
- 
- .pagination.pagination-flat .page-item{
-    margin: 0 .25rem;
-}
 
-.pagination-success .page-item.active .page-link {
-    background: #00c689;
-    border-color: #00c689;
-}
+        .page-link {
+            color: black
+        }
 
-</style>
+        .pagination.pagination-flat .page-item {
+            margin: 0 .25rem;
+        }
+
+        .pagination-success .page-item.active .page-link {
+            background: #00c689;
+            border-color: #00c689;
+        }
+
+        .confirmation-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .confirmation-dialog button {
+            margin: 0 5px;
+        }
+    </style>
 
 </head>
 
@@ -155,13 +170,43 @@
                     </td>
                     <td><a th:href="${'/users/' + user.id}">View</a></td>
                     <td><a th:href="${'/users/edit/' + user.id}">Edit</a></td>
-                    <td><a th:href="${'/admin/users/delete/' + user.id}">Delete</a></td>
+                    <td><a href="#" onclick="showConfirmationDialog('${user.id}')">Delete</a></td>
                     <td><a th:href="${'/admin/users/block/' + user.id}">Blocked</a></td>
                     <td><a th:href="${'/admin/users/unblock/' + user.id}">Unblocked</a></td>
                 </tr>
             </table>
         </div>
     </div>
+    <div id="confirmation-dialog" class="confirmation-dialog">
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+        <button onclick="confirmDeletion()">Eliminar</button>
+        <button onclick="cancelDeletion()">Cancelar</button>
+    </div>
+    <script th:inline="javascript">
+        function showConfirmationDialog(userId) {
+            // Muestra el cuadro de diálogo de confirmación
+            document.getElementById('confirmation-dialog').style.display = 'block';
+
+            // Guarda el ID del usuario en un campo oculto
+            document.getElementById('confirmation-user-id').value = userId;
+        }
+
+        function confirmDeletion() {
+            // Obtiene el ID del usuario desde el campo oculto
+            var userId = document.getElementById('confirmation-user-id').value;
+
+            // Construye la URL completa en JavaScript
+            var deleteUrl = "/admin/users/delete/" + userId;
+
+            // Redirige a la URL de eliminación con el ID del usuario
+            window.location.href = deleteUrl;
+        }
+
+        function cancelDeletion() {
+            // Oculta el cuadro de diálogo de confirmación
+            document.getElementById('confirmation-dialog').style.display = 'none';
+        };
+    </script>
     <div class="page-content page-container" id="page-content">
         <div class="padding">
             <div class="row justify-content-center">
@@ -169,7 +214,9 @@
                     <div class="card-body">
                         <nav class="text-center">
                             <ul class="pagination pagination-flat pagination-success">
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-left"></i><</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                            class="fa fa-angle-left"><</i></a>                              
+                                </li>
                                 <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
                                 <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
@@ -179,7 +226,8 @@
                                 <li class="page-item"><a class="page-link" href="#" data-abc="true">7</a></li>
                                 <li class="page-item"><a class="page-link" href="#" data-abc="true">8</a></li>
                                 <li class="page-item"><a class="page-link" href="#" data-abc="true">9</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-right">></i></a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                            class="fa fa-angle-right">></i></a></li>
                             </ul>
                         </nav>
                     </div>
@@ -187,7 +235,7 @@
             </div>
         </div>
     </div>
-    
+
 </body>
 
 </html>
