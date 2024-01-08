@@ -1,111 +1,86 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-<head>
-    <meta charset="UTF-8">
-    <title>Cloudator Project</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Cloudator Project</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-<br />
-<br />
-<br />
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div th:if="${param.error}" class="alert alert-danger">
-                <p class="text-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></p>
-            </div>
-            <div th:if="${param.logout}">
-                <div class="alert alert-success">Se ha cerrado session.</div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Login</h3>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" th:href="@{../static/images/favicon.png}" href="../../assets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Login</h3>
+                <div th:if="${param.error}">
+                  
+                  <div class="alert badge-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></div>
                 </div>
-                <div class="card-body">
-                    <form
-                            
-                            method="post"
-                            th:action="@{/loginpost}"
-                            th:object="${user}"
-                            class="form-horizontal"
-                            role="form"
-                    >
-                        <div class="mb-3">
-                            <label for="username" class="control-label">usuario</label>
-                            <input type="text"
-                                   id="username"
-                                   name="username"
-                                   class="form-control"
-                                   placeholder="Nombre de usuario"
-                            />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password" class="control-label">Contraseña</label>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" />
-                        </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <span> Nuevo usuario?
-                            <a th:href="@{/register}"> Registrate aqui!</a>
-                        </span>
-                        </div>
-                    </form>
+                  <div th:if="${param.logout}">
+                  <div class="alert alert-success">Se ha cerrado session.</div>
                 </div>
+                <form method="post" th:action="@{/loginpost}" th:object="${user}" class="form-horizontal" role="form">
+                  <div class="form-group">
+                      <label for="username" class="control-label">Username or email *</label>
+                      <input type="text" id="username" name="username" class="form-control p_input" placeholder="Nombre de usuario" />
+                  </div>
+              
+                  <div class="form-group">
+                      <label for="password" class="control-label">Password *</label>
+                      <input type="password" id="password" name="password" class="form-control p_input" placeholder="Contraseña" />
+                  </div>
+              
+                  <div class="form-group d-flex align-items-center justify-content-between">
+                      <div class="form-check">
+                          <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input"> Remember me
+                          </label>
+                      </div>
+                      <a href="#" class="forgot-pass">Forgot password</a>
+                  </div>
+              
+                  <div class="text-center">
+                      <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
+                  </div>
+              
+                  <p class="sign-upnoM text-center">Don't have an Account?<a th:href="@{/register}"> Sign Up</a></p>
+              </form>
+              
+              </div>
             </div>
+          </div>
+          <!-- content-wrapper ends -->
         </div>
+        <!-- row ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
     </div>
-</div>
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var form = document.getElementById("password");
-        console.log(password)
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
-
-            var password = document.getElementById("").value;
-            
-
-            // Realizar una solicitud POST al backend con el valor del campo de contraseña
-            fetch('/testpassword', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ password: password })
-            },
-            console.log(password))
-                .then(response => {
-                    if (!response.ok) {
-                        console.log("not god")
-                        throw new Error('Hubo un problema con la solicitud.');
-                        
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Manejar la respuesta del backend según sea necesario
-                    console.log('Respuesta del backend:', data);
-                })
-                .catch(error => {
-                    console.error('Error al enviar la solicitud:', error);
-                });
-        });
-    });
-</script> -->
-</body>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{../static/vendors/js/vendor.bundle.base.js}" src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script th:src="@{../static/js/off-canvas.js}" src="../../assets/js/off-canvas.js"></script>
+    <script th:src="@{../static/js/hoverable-collapse.js}" src="../../assets/js/hoverable-collapse.js"></script>
+    <script th:src="@{../static/js/misc.js}" src="../../assets/js/misc.js"></script>
+    <script th:src="@{../static/js/settings.js}" src="../../assets/js/settings.js"></script>
+    <script th:src="@{../static/js/todolist.js}" src="../../assets/js/todolist.js"></script>
+    <!-- endinject -->
+  </body>
 </html>

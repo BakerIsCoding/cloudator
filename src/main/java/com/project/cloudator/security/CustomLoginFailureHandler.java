@@ -50,7 +50,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             String username = request.getParameter("username");
             User user = userService.findByUsername(username);
             UserAccess userAccess = userAccessService.findById(user.getId());
-
             if (userAccess != null) {
                 if (customUserDetails.isAccountNonLocked()) {
                     if (userAccess.getCounter() < UserAccessService.MAX_FAILED_ATTEMPTS - 1) {
