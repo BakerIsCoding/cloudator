@@ -5,23 +5,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Corona Admin</title>
-    <base href="/">
     <!-- plugins:css -->
-    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" th:href="@{./assets/vendors/mdi/css/materialdesignicons.min.css}">
-    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" th:href="@{./assets/vendors/css/vendor.bundle.base.css}">
+    <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}" href="assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="assets/vendors/jvectormap/jquery-jvectormap.css" th:href="@{./assets/vendors/jvectormap/jquery-jvectormap.css}">
-    <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" th:href="@{./assets/vendors/flag-icon-css/css/flag-icon.min.css}">
-    <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.carousel.min.css" th:href="@{./assets/vendors/owl-carousel-2/owl.carousel.min.css}">
-    <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.theme.default.min.css" th:href="@{./assets/vendors/owl-carousel-2/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{../static/vendors/jvectormap/jquery-jvectormap.css}" href="assets/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/flag-icon-css/css/flag-icon.min.css}" href="assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/owl-carousel-2/owl.carousel.min.css}" href="assets/vendors/owl-carousel-2/owl.carousel.min.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/owl-carousel-2/owl.theme.default.min.css}" href="assets/vendors/owl-carousel-2/owl.theme.default.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="assets/css/style.css" th:src="@{./assets/css/style.css}">
+    <link rel="stylesheet" th:href="@{../static/css/style.css}" href="assets/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" th:src="@{./assets/images/favicon.png}" />
+    <link rel="shortcut icon" th:href="@{../static/images/favicon.png}" href="assets/images/favicon.png" />
   </head>
   <body>
     <div class="container-scroller">
@@ -46,15 +45,15 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" th:src="@{./assets/images/logo.svg}" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" th:src="@{./assets/images/logo-mini.svg}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item profile">
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" th:src="@{./assets/images/faces/face15.jpg}" alt="">
+                  <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -191,7 +190,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" th:src="@{./assets/images/logo-mini.svg}" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -261,7 +260,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="assets/images/faces/face4.jpg" th:src="@{./assets/images/faces/face4.jpg}" alt="image" class="rounded-circle profile-pic">
+                      <img src="assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
@@ -271,7 +270,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
-                      <img src="assets/images/faces/face2.jpg" th:src="@{./assets/images/faces/face2.jpg}" alt="image" class="rounded-circle profile-pic">
+                      <img src="assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                     </div>
                     <div class="preview-item-content">
                       <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>

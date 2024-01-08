@@ -1,114 +1,109 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-<head>
-    <meta charset="UTF-8">
-    <title>Cloudator Project</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-          <script>
-            function validarFormulario() {
-                var password = document.getElementById("password").value;
-                var confirmar = document.getElementById("confirmar").value;
-        
-                if (password !== confirmar) {
-                    document.getElementById("mensajeError").innerText = "Las contraseñas no coinciden.";
-                    return false; // Evita que el formulario se envíe si las contraseñas no coinciden
-                }
-        
-                // Si las contraseñas coinciden, puedes permitir que el formulario se envíe
-                document.forms[0].submit();
-            }
-        </script>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Cloudator Project</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
-<br />
-<br />
-<br />
-<div class="container">
-    <div class="row col-md-8 offset-md-2">
-        <div class="card">
-            <div th:if="${param.success}">
-                <div class="alert alert-info">Te has registrado correctamente!</div>
-            </div>
-            <div class="card-header">
-                <h2 class="text-center">Registro</h2>
-            </div>
-            <div class="card-body">
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}" href="../../assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" th:href="@{../static/images/favicon.png}" href="../../assets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Register</h3>
+                <div th:if="${param.success}">
+                  <div class="alert badge-success">Te has registrado correctamente!</div>
+                </div>
                 <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
-
-                    <div class="form-group mb-3">
-                        <label class="form-label">Nombre de usuario</label>
-                        <input class="form-control"
-                               id="username"
-                               name="username"
-                               placeholder="Introduce tu nombre de usuario"
-                               th:field="*{username}"
-                               type="text"
-                        />
-                        <p th:errors="*{username}" class="text-danger"
-                           th:if="${#fields.hasErrors('username')}">
-                        </p>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="form-label">Email</label>
-                        <input class="form-control"
-                               id="email"
-                               name="email"
-                               placeholder="Introduce un email"
-                               th:field="*{email}"
-                               type="email"
-                        />
-                        <p th:errors="*{email}" class="text-danger"
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input id="username"
+                           name="username"
+                           placeholder="Introduce tu nombre de usuario"
+                           th:field="*{username}"
+                           type="text" 
+                           class="form-control p_input">
+                    <p th:errors="*{username}" class="text-danger"
+                    th:if="${#fields.hasErrors('username')}">
+                    </p>
+                  </div>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input id="email"
+                    name="email"
+                    placeholder="Introduce un email"
+                    th:field="*{email}"
+                    type="email" class="form-control p_input">
+                    <p th:errors="*{email}" class="text-danger"
                            th:if="${#fields.hasErrors('email')}">
                         </p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input class="form-control"
-                               id="password"
-                               name="password"
-                               placeholder="introduce contraseña"
-                               th:field="*{password}"
-                               type="password"
-                        />
-                        <span class="input-group-addon">(Mínimo 8 caracteres, incluyendo números, 
-                            mayúsculas y minúsculas y un caracter especial" $ ; . _ - * .")</span>
-
-                        <p th:errors="*{password}" class="text-danger"
+                  </div>
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input id="password"
+                    name="password"
+                    placeholder="introduce contraseña"
+                    th:field="*{password}"
+                    type="password" class="form-control p_input">
+                    <p th:errors="*{password}" class="text-danger"
                            th:if="${#fields.hasErrors('password')}">
                         </p>
+                  </div>
+                  <div class="form-group d-flex align-items-center justify-content-between">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input"> Remember me </label>
                     </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label">Repite la contraseña</label>
-                        <input class="form-control" 
-                        id="confirmar" name="confirmar" 
-                        placeholder="vuelve a intruducir la contraseña" 
-                        type="password" 
-                        />
-                        <p id="mensajeError" class="text-danger"></p>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <button class="btn btn-primary" type="button" onclick="validarFormulario()">Registrate</button>
-
-                        <span>Ya estás registrado? <a href="/" th:href="@{/login}">Inicia sesión aquí</a></span>
-                    </div>
+                    <a href="#" class="forgot-pass">Forgot password</a>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Register</button>
+                  </div>
+                  <div class="d-flex">
+                    <button class="btn btn-facebook col me-2">
+                      <i class="mdi mdi-facebook"></i> Facebook </button>
+                    <button class="btn btn-google col">
+                      <i class="mdi mdi-google-plus"></i> Google plus </button>
+                  </div>
+                  <p class="sign-up text-center">Already have an Account?<a th:href="@{/login}"> Log in</a></p>
+                  <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p>
                 </form>
+              </div>
             </div>
+          </div>
+          <!-- content-wrapper ends -->
         </div>
+        <!-- row ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
     </div>
-</div>
-</body>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{../static/vendors/js/vendor.bundle.base.js}" src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script th:src="@{../static/js/off-canvas.js}" src="../../assets/js/off-canvas.js"></script>
+    <script th:src="@{../static/js/hoverable-collapse.js}" src="../../assets/js/hoverable-collapse.js"></script>
+    <script th:src="@{../static/js/misc.js}" src="../../assets/js/misc.js"></script>
+    <script th:src="@{../static/js/settings.js}" src="../../assets/js/settings.js"></script>
+    <script th:src="@{../static/js/todolist.js}" src="../../assets/js/todolist.js"></script>
+    <!-- endinject -->
+  </body>
 </html>
