@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Cloudator Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+          <script>
+            function validarFormulario() {
+                var password = document.getElementById("password").value;
+                var confirmar = document.getElementById("confirmar").value;
+        
+                if (password !== confirmar) {
+                    document.getElementById("mensajeError").innerText = "Las contraseñas no coinciden.";
+                    return false; // Evita que el formulario se envíe si las contraseñas no coinciden
+                }
+        
+                // Si las contraseñas coinciden, puedes permitir que el formulario se envíe
+                document.forms[0].submit();
+            }
+        </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Cloudator Project</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<br />
+<br />
+<br />
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Te has registrado correctamente!</div>
+            </div>
+            <div class="card-header">
+                <h2 class="text-center">Registro</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Nombre de usuario</label>
+                        <input class="form-control"
+                               id="username"
+                               name="username"
+                               placeholder="Introduce tu nombre de usuario"
+                               th:field="*{username}"
+                               type="text"
+                        />
+                        <p th:errors="*{username}" class="text-danger"
+                           th:if="${#fields.hasErrors('username')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Email</label>
+                        <input class="form-control"
+                               id="email"
+                               name="email"
+                               placeholder="Introduce un email"
+                               th:field="*{email}"
+                               type="email"
+                        />
+                        <p th:errors="*{email}" class="text-danger"
+                           th:if="${#fields.hasErrors('email')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input class="form-control"
+                               id="password"
+                               name="password"
+                               placeholder="introduce contraseña"
+                               th:field="*{password}"
+                               type="password"
+                        />
+                        <span class="input-group-addon">(Mínimo 8 caracteres, incluyendo números, 
+                            mayúsculas y minúsculas y un caracter especial" $ ; . _ - * .")</span>
+
+                        <p th:errors="*{password}" class="text-danger"
+                           th:if="${#fields.hasErrors('password')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Repite la contraseña</label>
+                        <input class="form-control" 
+                        id="confirmar" name="confirmar" 
+                        placeholder="vuelve a intruducir la contraseña" 
+                        type="password" 
+                        />
+                        <p id="mensajeError" class="text-danger"></p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <button class="btn btn-primary" type="button" onclick="validarFormulario()">Registrate</button>
+
+                        <span>Ya estás registrado? <a href="/" th:href="@{/login}">Inicia sesión aquí</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

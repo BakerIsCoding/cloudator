@@ -9,6 +9,13 @@
             "name": "MainCloudator",
             "request": "launch",
             "mainClass": "com.project.cloudator.MainCloudator",
+            "projectName": "cloudator"
+        },
+        {
+            "type": "java",
+            "name": "MainCloudator",
+            "request": "launch",
+            "mainClass": "com.project.cloudator.MainCloudator",
             "projectName": "registration-login-demo"
         },
         {
