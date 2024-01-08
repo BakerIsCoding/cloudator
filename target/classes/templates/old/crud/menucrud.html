@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en">
+
+    <title>Cloudator Project</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .switch {
+            --button-width: 3.5em;
+            --button-height: 2em;
+            --toggle-diameter: 1.5em;
+            --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+            --toggle-shadow-offset: 10px;
+            --toggle-wider: 3em;
+            --color-grey: #cccccc;
+            --color-green: #4296f4;
+        }
+
+        .slider {
+            display: inline-block;
+            width: var(--button-width);
+            height: var(--button-height);
+            background-color: var(--color-grey);
+            border-radius: calc(var(--button-height) / 2);
+            position: relative;
+            transition: 0.3s all ease-in-out;
+        }
+
+        .slider::after {
+            content: "";
+            display: inline-block;
+            width: var(--toggle-diameter);
+            height: var(--toggle-diameter);
+            background-color: #fff;
+            border-radius: calc(var(--toggle-diameter) / 2);
+            position: absolute;
+            top: var(--button-toggle-offset);
+            transform: translateX(var(--button-toggle-offset));
+            box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+            transition: 0.3s all ease-in-out;
+        }
+
+        .switch input[type="checkbox"]:checked+.slider {
+            background-color: var(--color-green);
+        }
+
+        .switch input[type="checkbox"]:checked+.slider::after {
+            transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+            box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+        }
+
+        .switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .switch input[type="checkbox"]:active+.slider::after {
+            width: var(--toggle-wider);
+        }
+
+        .switch input[type="checkbox"]:checked:active+.slider::after {
+            transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+        }
+    </style>
+    <style>
+        body {
+            background-color: #f9f9fa
+        }
+
+        .flex {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto
+        }
+
+        @media (max-width:991.98px) {
+            .padding {
+                padding: 1.5rem
+            }
+        }
+
+        @media (max-width:767.98px) {
+            .padding {
+                padding: 1rem
+            }
+        }
+
+        .padding {
+            padding: 5rem
+        }
+
+        .container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination,
+        .jsgrid .jsgrid-pager {
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem
+        }
+
+
+        .page-link {
+            color: black
+        }
+
+        .pagination.pagination-flat .page-item {
+            margin: 0 .25rem;
+        }
+
+        .pagination-success .page-item.active .page-link {
+            background: #00c689;
+            border-color: #00c689;
+        }
+
+        .confirmation-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .confirmation-dialog button {
+            margin: 0 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div th:if="${not #lists.isEmpty(users)}">
+            <h2>Lista de usuarios</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Bloqueado</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Bloqueo</th>
+                    <th>Desbloqueo</th>
+                </tr>
+                <tr th:each="user: ${users}">
+                    <td th:text="${user.id}">Id</td>
+                    <td th:text="${user.username}">Nombre de usuario</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td>
+                        <label class="switch" th:if="${userAccess != null}">
+                            <input type="checkbox" th:checked="${userAccess.isblocked}" disabled>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                    <td><a th:href="${'/users/' + user.id}">View</a></td>
+                    <td><a th:href="${'/users/edit/' + user.id}">Edit</a></td>
+                    <td><a href="#" onclick="showConfirmationDialog('${user.id}')">Delete</a></td>
+                    <td><a th:href="${'/admin/users/block/' + user.id}">Blocked</a></td>
+                    <td><a th:href="${'/admin/users/unblock/' + user.id}">Unblocked</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="confirmation-dialog" class="confirmation-dialog">
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+        <button onclick="confirmDeletion()">Eliminar</button>
+        <button onclick="cancelDeletion()">Cancelar</button>
+    </div>
+    <script th:inline="javascript">
+        function showConfirmationDialog(userId) {
+            // Muestra el cuadro de diálogo de confirmación
+            document.getElementById('confirmation-dialog').style.display = 'block';
+
+            // Guarda el ID del usuario en un campo oculto
+            document.getElementById('confirmation-user-id').value = userId;
+        }
+
+        function confirmDeletion() {
+            // Obtiene el ID del usuario desde el campo oculto
+            var userId = document.getElementById('confirmation-user-id').value;
+
+            // Construye la URL completa en JavaScript
+            var deleteUrl = "/admin/users/delete/" + userId;
+
+            // Redirige a la URL de eliminación con el ID del usuario
+            window.location.href = deleteUrl;
+        }
+
+        function cancelDeletion() {
+            // Oculta el cuadro de diálogo de confirmación
+            document.getElementById('confirmation-dialog').style.display = 'none';
+        };
+    </script>
+    <div class="page-content page-container" id="page-content">
+        <div class="padding">
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-sm-6 grid-margin stretch-card">
+                    <div class="card-body">
+                        <nav class="text-center">
+                            <ul class="pagination pagination-flat pagination-success">
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                            class="fa fa-angle-left"><</i></a>                              
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">5</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">6</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">7</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">8</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">9</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                            class="fa fa-angle-right">></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

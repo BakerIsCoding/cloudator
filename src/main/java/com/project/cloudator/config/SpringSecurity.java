@@ -11,11 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.project.cloudator.security.AuthenticationSuccessRedirect;
 import com.project.cloudator.security.CustomLoginFailureHandler;
 import com.project.cloudator.security.CustomUserDetailsService;
-
 
 /**
  * Clase de configuración para la seguridad de Spring.
@@ -54,11 +55,14 @@ public class SpringSecurity {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.csrf(csrf -> csrf.disable())
+                       
                                 .authorizeHttpRequests(
                                                 (authorize) -> authorize
-                                                                .requestMatchers("/register/**", "/", "/index",
-                                                                                "/error", "/loginpost", "/login**")
+                                                                .requestMatchers("/register/**", "/**", "/index",
+                                                                                "/error", "/loginpost", "/login**",
+                                                                                "/assets/**")
                                                                 .permitAll()
+                                                                .requestMatchers("/assets/**").permitAll()
                                                                 .requestMatchers("/admin/**")
                                                                 .hasAnyRole("SUPERADMIN", "ADMIN")
                                                                 .requestMatchers("/users/**")
@@ -72,6 +76,7 @@ public class SpringSecurity {
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                                 .permitAll());
+                                
                 return http.build();
         }
 
@@ -98,4 +103,14 @@ public class SpringSecurity {
                                 .userDetailsService(userDetailsService)
                                 .passwordEncoder(passwordEncoder());
         }
+
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+                @Override
+                public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                        registry.addResourceHandler("/assets/**")
+                                        .addResourceLocations("/assets/");
+                }
+        }
+
 }
