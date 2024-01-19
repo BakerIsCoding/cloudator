@@ -151,4 +151,9 @@ public class UserController {
 
         return "redirect:/users/edit/" + id + "?success2=1";
     }
+
+    @GetMapping("/status")
+    public String status() {
+        return "status";
+    }
 }

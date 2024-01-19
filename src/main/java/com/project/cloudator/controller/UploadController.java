@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UploadController {
     //destination folder to upload the files
-	private static String UPLOAD_FOLDER = "C://uploadtest//";
+	private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
 
 	@RequestMapping("/upload")
 	public ModelAndView showUpload() {
@@ -27,19 +27,21 @@ public class UploadController {
 	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
 		if (file.isEmpty()) {
-			return new ModelAndView("status", "message", "Please select a file and try again");
+			return new ModelAndView("status", "message", "Selecciona un archivo válido");
 		}
 
 		try {
-			// read and write the file to the selected location-
+			//Lee el archivo
 			byte[] bytes = file.getBytes();
+			//Crea el path del archivo
 			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
+			//Escribe el archivo en el path
 			Files.write(path, bytes);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 
-		return new ModelAndView("status", "message", "File Uploaded sucessfully");
+		return new ModelAndView("status", "message", "Archivo subido correctamente");
 	}
 }
