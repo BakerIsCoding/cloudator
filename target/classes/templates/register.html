@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Corona Admin</title>
+    <title>Cloudator register</title>
     <!-- plugins:css -->
     <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}" href="../../assets/vendors/css/vendor.bundle.base.css">
@@ -12,6 +12,12 @@
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
+    <style>
+      .login-bg {
+      background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
+      background-size: cover;
+    }
+   </style>
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
@@ -25,13 +31,13 @@
           <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
             <div class="card col-lg-4 mx-auto">
               <div class="card-body px-5 py-5">
-                <h3 class="card-title text-left mb-3">Register</h3>
+                <h3 class="card-title text-left mb-3">Nuevo usuario</h3>
                 <div th:if="${param.success}">
                   <div class="alert badge-success">Te has registrado correctamente!</div>
                 </div>
                 <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
                   <div class="form-group">
-                    <label>Username</label>
+                    <label>Nombre de Usuario</label>
                     <input id="username"
                            name="username"
                            placeholder="Introduce tu nombre de usuario"
@@ -54,7 +60,7 @@
                         </p>
                   </div>
                   <div class="form-group">
-                    <label>Password</label>
+                    <label>Contraseña</label>
                     <input id="password"
                     name="password"
                     placeholder="introduce contraseña"
@@ -65,23 +71,19 @@
                         </p>
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between">
+                    <!--    BOTON RECORDARME IMPLEMENTAR EN EL FUTURO
                     <div class="form-check">
                       <label class="form-check-label">
                         <input type="checkbox" class="form-check-input"> Remember me </label>
                     </div>
-                    <a href="#" class="forgot-pass">Forgot password</a>
+                    -->
+                    <a href="#" class="forgot-pass">Has olvidado la contraseña?</a>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block enter-btn">Register</button>
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Registrate</button>
                   </div>
-                  <div class="d-flex">
-                    <button class="btn btn-facebook col me-2">
-                      <i class="mdi mdi-facebook"></i> Facebook </button>
-                    <button class="btn btn-google col">
-                      <i class="mdi mdi-google-plus"></i> Google plus </button>
-                  </div>
-                  <p class="sign-up text-center">Already have an Account?<a th:href="@{/login}"> Log in</a></p>
-                  <p class="terms">By creating an account you are accepting our<a href="#"> Terms & Conditions</a></p>
+                  <p class="sign-up text-center">Ya tienes una cuenta?<a th:href="@{/login}"> Inicia sesión aqui! </a></p>
+                  <p class="terms">*Creando una cuenta estas aceptando nuestros<a href="#"> Terminos y condiciones</a></p>
                 </form>
               </div>
             </div>
@@ -104,6 +106,7 @@
     <script th:src="@{../static/js/misc.js}" src="../../assets/js/misc.js"></script>
     <script th:src="@{../static/js/settings.js}" src="../../assets/js/settings.js"></script>
     <script th:src="@{../static/js/todolist.js}" src="../../assets/js/todolist.js"></script>
+    <script th:src="@{../static/js/eventColorRegister.js}"></script>
     <!-- endinject -->
   </body>
 </html>

@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UploadController {
-    //destination folder to upload the files
+	// destination folder to upload the files
 	private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
 
 	@RequestMapping("/upload")
@@ -31,11 +31,11 @@ public class UploadController {
 		}
 
 		try {
-			//Lee el archivo
+			// Lee el archivo
 			byte[] bytes = file.getBytes();
-			//Crea el path del archivo
+			// Crea el path del archivo
 			Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
-			//Escribe el archivo en el path
+			// Escribe el archivo en el path
 			Files.write(path, bytes);
 
 		} catch (IOException e) {

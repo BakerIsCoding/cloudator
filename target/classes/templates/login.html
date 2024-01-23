@@ -1,86 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Corona Admin</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}" href="../../assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
-    <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
-    <!-- End layout styles -->
-    <link rel="shortcut icon" th:href="@{../static/images/favicon.png}" href="../../assets/images/favicon.png" />
-  </head>
-  <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="row w-100 m-0">
-          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
-            <div class="card col-lg-4 mx-auto">
-              <div class="card-body px-5 py-5">
-                <h3 class="card-title text-left mb-3">Login</h3>
-                <div th:if="${param.error}">
-                  
-                  <div class="alert badge-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></div>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cloudator Login</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" th:href="@{../static/vendors/mdi/css/materialdesignicons.min.css}"
+    href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" th:href="@{../static/vendors/css/vendor.bundle.base.css}"
+    href="../../assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <style>
+    .login-bg {
+      background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
+      background-size: cover;
+    }
+
+    .forgot-pass {
+      text-decoration: none;
+      color: blue;
+      font-size: 13px;
+    }
+
+    .forgot-pass:hover {
+      text-decoration: underline;
+    }
+
+    .sign-upnoM {
+      margin-top: 20px;
+    }
+
+    .sign-upnoM a {
+      text-decoration: none;
+      color: blue;
+      font-size: 13px;
+    }
+
+    .sign-upnoM a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" th:href="@{../static/images/favicon.png}"/>
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="row w-100 m-0">
+        <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+          <div class="card col-lg-4 mx-auto">
+            <div class="card-body px-5 py-5">
+              <h3 class="card-title text-left mb-3">Inicia sesión</h3>
+              <div th:if="${param.error}">
+
+                <div class="alert badge-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></div>
+              </div>
+              <div th:if="${param.logout}">
+                <div class="alert alert-success">Se ha cerrado sesión.</div>
+              </div>
+              <form method="post" th:action="@{/loginpost}" th:object="${user}" class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="username" class="control-label">Usuario</label>
+                  <input type="text" id="username" name="username" class="form-control p_input"
+                    placeholder="Nombre de usuario" />
                 </div>
-                  <div th:if="${param.logout}">
-                  <div class="alert alert-success">Se ha cerrado session.</div>
+
+                <div class="form-group">
+                  <label for="password" class="control-label">Contraseña</label>
+                  <input type="password" id="password" name="password" class="form-control p_input"
+                    placeholder="Contraseña" />
                 </div>
-                <form method="post" th:action="@{/loginpost}" th:object="${user}" class="form-horizontal" role="form">
-                  <div class="form-group">
-                      <label for="username" class="control-label">Username or email *</label>
-                      <input type="text" id="username" name="username" class="form-control p_input" placeholder="Nombre de usuario" />
-                  </div>
-              
-                  <div class="form-group">
-                      <label for="password" class="control-label">Password *</label>
-                      <input type="password" id="password" name="password" class="form-control p_input" placeholder="Contraseña" />
-                  </div>
-              
-                  <div class="form-group d-flex align-items-center justify-content-between">
+
+                <div class="form-group d-flex align-items-center justify-content-between">
+                  <!--    BOTON RECORDARME IMPLEMENTAR EN EL FUTURO
                       <div class="form-check">
                           <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input"> Remember me
+                              <input type="checkbox" class="form-check-input"> Recuerdame
                           </label>
                       </div>
-                      <a href="#" class="forgot-pass">Forgot password</a>
-                  </div>
-              
-                  <div class="text-center">
-                      <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
-                  </div>
-              
-                  <p class="sign-upnoM text-center">Don't have an Account?<a th:href="@{/register}"> Sign Up</a></p>
+                    -->
+                  <a href="#" class="forgot-pass">Has olvidado la contraseña?</a>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary btn-block enter-btn">Inicia sesión</button>
+                </div>
+
+                <p class="sign-upnoM text-center">No tienes cuenta?<a th:href="@{/register}"> Registrate!</a></p>
               </form>
-              
-              </div>
+
             </div>
           </div>
-          <!-- content-wrapper ends -->
         </div>
-        <!-- row ends -->
+        <!-- content-wrapper ends -->
       </div>
-      <!-- page-body-wrapper ends -->
+      <!-- row ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script th:src="@{../static/vendors/js/vendor.bundle.base.js}" src="../../assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script th:src="@{../static/js/off-canvas.js}" src="../../assets/js/off-canvas.js"></script>
-    <script th:src="@{../static/js/hoverable-collapse.js}" src="../../assets/js/hoverable-collapse.js"></script>
-    <script th:src="@{../static/js/misc.js}" src="../../assets/js/misc.js"></script>
-    <script th:src="@{../static/js/settings.js}" src="../../assets/js/settings.js"></script>
-    <script th:src="@{../static/js/todolist.js}" src="../../assets/js/todolist.js"></script>
-    <!-- endinject -->
-  </body>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script th:src="@{../static/vendors/js/vendor.bundle.base.js}"
+    src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script th:src="@{../static/js/off-canvas.js}" src="../../assets/js/off-canvas.js"></script>
+  <script th:src="@{../static/js/hoverable-collapse.js}" src="../../assets/js/hoverable-collapse.js"></script>
+  <script th:src="@{../static/js/misc.js}" src="../../assets/js/misc.js"></script>
+  <script th:src="@{../static/js/settings.js}" src="../../assets/js/settings.js"></script>
+  <script th:src="@{../static/js/todolist.js}" src="../../assets/js/todolist.js"></script>
+  <script th:src="@{../static/js/eventColorLogin.js}"></script>
+  <!-- endinject -->
+  
+</body>
+
 </html>

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainFile",
+            "request": "launch",
+            "mainClass": "MainFile",
+            "projectName": "cloudator"
+        },
+        {
+            "type": "java",
             "name": "MainCloudator",
             "request": "launch",
             "mainClass": "com.project.cloudator.MainCloudator",
