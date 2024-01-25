@@ -48,6 +48,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             AuthenticationException exception) throws IOException, ServletException {
         try {
             String username = request.getParameter("username");
+
             User user = userService.findByUsername(username);
             UserAccess userAccess = userAccessService.findById(user.getId());
             if (userAccess != null) {

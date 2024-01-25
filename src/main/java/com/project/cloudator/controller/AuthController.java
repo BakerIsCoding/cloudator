@@ -1,6 +1,5 @@
 package com.project.cloudator.controller;
 
-
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import com.project.cloudator.entity.User;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
 import com.project.cloudator.service.UserService;
-
 
 @Controller
 public class AuthController {
@@ -109,7 +107,6 @@ public class AuthController {
             // Manejo de errores, mostrando mensajes específicos en el formulario.
             return "register";
         }
-
         userService.saveUser(user);
         User userDb = userService.fetchUser(user.getUsername());
         redirectAttributes.addAttribute("success", true);

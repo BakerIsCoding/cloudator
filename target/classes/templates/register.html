@@ -13,11 +13,72 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <style>
+      
       .login-bg {
       background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
       background-size: cover;
     }
+    .password-container {
+        position: relative;
+    }
+
+    .info-button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        position: absolute;
+        top: 0;
+        left: calc(100% + 10px);
+        margin-left: 10px;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        border-radius: 10px;
+        opacity: 0;
+        width: 200px;
+        visibility: hidden;
+        transition: opacity 0.3s;
+    }
+    .mdi.mdi-information-outline {
+    color: #0d6efd;
+    font-size: 24px;
+  }
+  .forgot-pass {
+    color: #0d6efd;
+  }
    </style>
+   <script>
+    function validarFormulario() {
+        var password = document.getElementById("password").value;
+        var confirmar = document.getElementById("confirmar").value;
+
+        if (password !== confirmar) {
+            document.getElementById("mensajeError").innerText = "Las contraseñas no coinciden.";
+            return false; // Evita que el formulario se envíe si las contraseñas no coinciden
+        }
+
+        // Si las contraseñas coinciden, puedes permitir que el formulario se envíe
+        document.forms[0].submit();
+    }
+    function mostrarMensaje() {
+        var tooltip = document.getElementById("tooltip");
+        tooltip.style.opacity = 1;
+        tooltip.style.visibility = "visible";
+    }
+
+    function ocultarMensaje() {
+        var tooltip = document.getElementById("tooltip");
+        tooltip.style.opacity = 0;
+        tooltip.style.visibility = "hidden";
+    }
+</script>
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" th:href="@{../static/css/style.css}" href="../../assets/css/style.css">
@@ -61,14 +122,26 @@
                   </div>
                   <div class="form-group">
                     <label>Contraseña</label>
-                    <input id="password"
-                    name="password"
-                    placeholder="introduce contraseña"
-                    th:field="*{password}"
+                    <div class="password-container">
+                        <input id="password"
+                               name="password"
+                               placeholder="Introduce contraseña"
+                               th:field="*{password}"
+                               type="password"
+                               class="form-control p_input">
+                        <button type="button" class="info-button mdi mdi-information-outline" onmouseover="mostrarMensaje()" onmouseout="ocultarMensaje()"></button>
+                        <div id="tooltip" class="tooltip">(Mínimo 8 caracteres, incluyendo números, 
+                          mayúsculas y minúsculas y un caracter especial "$ ; . _ - * .")</div>
+                    </div>
+                    <p th:errors="*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+                </div>
+                  <div class="form-group">
+                    <label>Confirma la contraseña</label>
+                    <input id="confirmar"
+                    name="confirmar"
+                    placeholder="vuelve a introducir la contraseña"
                     type="password" class="form-control p_input">
-                    <p th:errors="*{password}" class="text-danger"
-                           th:if="${#fields.hasErrors('password')}">
-                        </p>
+                    <p id="mensajeError" class="text-danger"></p>
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between">
                     <!--    BOTON RECORDARME IMPLEMENTAR EN EL FUTURO
@@ -80,7 +153,7 @@
                     <a href="#" class="forgot-pass">Has olvidado la contraseña?</a>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block enter-btn">Registrate</button>
+                    <button type="button" class="btn btn-primary btn-block enter-btn" onclick="validarFormulario()">Registrate</button>
                   </div>
                   <p class="sign-up text-center">Ya tienes una cuenta?<a th:href="@{/login}"> Inicia sesión aqui! </a></p>
                   <p class="terms">*Creando una cuenta estas aceptando nuestros<a href="#"> Terminos y condiciones</a></p>
