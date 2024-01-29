@@ -33,11 +33,12 @@ public class AuthController {
      * Returns the index.
      * 
      * @return The name of the index view.
+     * 
+     *         @GetMapping("/")
+     *         public String home() {
+     *         return "index";
+     *         }
      */
-    @GetMapping("index")
-    public String home() {
-        return "index";
-    }
 
     /**
      * Returns the login form.

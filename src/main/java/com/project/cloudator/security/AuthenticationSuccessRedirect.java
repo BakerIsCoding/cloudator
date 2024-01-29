@@ -23,11 +23,11 @@ import java.io.IOException;
 @Component
 public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandler {
 
-    private final String defaultRedirectUrl = "/users/edit/";
+    private final String defaultRedirectUrl = "/index/users/";
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private LogWriter logWriter;
 
@@ -50,7 +50,6 @@ public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandl
         Object principal = authentication.getPrincipal();
         if (principal instanceof org.springframework.security.core.userdetails.User) {
             org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) principal;
-            System.out.println("User: " + user.getUsername());
             String userName = user.getUsername();
             User finalUser = userRepository.fetchUser(userName);
 

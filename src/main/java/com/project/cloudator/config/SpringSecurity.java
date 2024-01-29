@@ -16,7 +16,6 @@ import com.project.cloudator.security.AuthenticationSuccessRedirect;
 import com.project.cloudator.security.CustomLoginFailureHandler;
 import com.project.cloudator.security.CustomUserDetailsService;
 
-
 /**
  * Clase de configuración para la seguridad de Spring.
  */
@@ -56,13 +55,14 @@ public class SpringSecurity {
                 http.csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(
                                                 (authorize) -> authorize
-                                                                .requestMatchers("/register/**", "/**", "/index",
-                                                                                "/error", "/loginpost", "/login**", "/static/**")
+                                                                .requestMatchers("/register/**", "/error", "/loginpost",
+                                                                                "/login**", "/static/**", "/")
                                                                 .permitAll()
                                                                 .requestMatchers("/admin/**")
                                                                 .hasAnyRole("SUPERADMIN", "ADMIN")
-                                                                .requestMatchers("/users/**")
-                                                                .hasAnyRole("USER", "PREMIUM", "ADMIN", "SUPERADMIN"))
+                                                                .requestMatchers("/index/users/**")
+                                                                .hasAnyRole("USER", "PREMIUM", "ADMIN", "SUPERADMIN")
+                                                                .anyRequest().authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login")
                                                 .loginProcessingUrl("/loginpost")

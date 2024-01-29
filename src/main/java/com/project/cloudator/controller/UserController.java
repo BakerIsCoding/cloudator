@@ -40,27 +40,21 @@ public class UserController {
     @GetMapping("/users/{id}")
     public String showUser(@PathVariable Long id, Model model) {
         model.addAttribute("users", userService.getUserById(id));
-        User user = userService.getUserById(id);
-        System.out.println(user.getId());
         return "/crud/menucrud";
     }
 
-    /**
-     * Permite editar los detalles de un usuario.
-     *
-     * @param user   El objeto UserDto con los datos del usuario a editar.
-     * @param result El objeto BindingResult para manejar los errores de validación.
-     * @param model  El modelo para almacenar los datos del usuario.
-     * @param id     El ID del usuario a editar.
-     * @return La vista para editar los detalles del usuario.
-     */
-    @GetMapping("/users/edit/{id}")
-    public String edit(@Valid @ModelAttribute("user") UserDto user,
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
+
+    @GetMapping("/index/users/{id}")
+    public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
             Model model, @PathVariable Long id) {
 
         model.addAttribute("users", userService.getUserById(id));
-        return "/crud/edituser";
+        return "index";
     }
 
     /**
