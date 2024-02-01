@@ -37,10 +37,10 @@ public class UserController {
      * @param model El modelo para almacenar los datos del usuario.
      * @return La vista para mostrar los detalles del usuario.
      */
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/edit/{id}")
     public String showUser(@PathVariable Long id, Model model) {
         model.addAttribute("users", userService.getUserById(id));
-        return "/crud/menucrud";
+        return "/settings";
     }
 
     @GetMapping("/")
