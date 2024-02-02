@@ -53,11 +53,12 @@ public class SpringSecurity {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.csrf(csrf -> csrf.disable())
-                                .authorizeHttpRequests(
+                                .authorizeHttpRequests( // SE DEBE ELIMINAR EL "/**" Y PONER "/"
                                                 (authorize) -> authorize
                                                                 .requestMatchers("/register/**", "/error", "/loginpost",
-                                                                                "/login**", "/static/**", "/")
+                                                                                "/login**", "/static/**", "/**")
                                                                 .permitAll()
+
                                                                 .requestMatchers("/admin/**")
                                                                 .hasAnyRole("SUPERADMIN", "ADMIN")
                                                                 .requestMatchers("/index/users/**")

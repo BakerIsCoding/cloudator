@@ -24,4 +24,24 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+    public String getDisplayName() {
+        switch (name) {
+            case "ROLE_SUPERADMIN":
+                return "Super Administrador";
+
+            case "ROLE_ADMIN":
+                return "Administrador";
+
+            case "ROLE_PREMIUM":
+                return "Premium";
+
+            case "ROLE_USER":
+                return "Gratuito";
+
+            default:
+                return name;
+        }
+
+    }
 }

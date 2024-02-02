@@ -23,7 +23,6 @@
   <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 </head>
 
 <body>
@@ -70,14 +69,14 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Espacio de Almacenamiento</h4>
-                  <canvas id="lineChart" style="height:250px"></canvas>
+                  <canvas id="doughnutChart" style="height:250px"></canvas>
                   <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                   <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                     <div class="text-md-center text-xl-left">
                       <h6 class="mb-1">Espacio Ocupado</h6>
                     </div>
                     <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                      <h6 class="font-weight-bold mb-0">1,5Gb</h6>
+                      <h6 class="font-weight-bold mb-0">1,5Gb</h6>  <!-- AÑADIR VARIABLE -->
                     </div>
                   </div>
                   <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -86,7 +85,16 @@
                     </div>
                     <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                       style="margin-left: 30px !important;">
-                      <h6 class="font-weight-bold mb-0">8,5Gb</h6>
+                      <h6 class="font-weight-bold mb-0">8,5Gb</h6>  <!-- AÑADIR VARIABLE -->
+                    </div>
+                  </div>
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    <div class="text-md-center text-xl-left">
+                      <h6 class="mb-1">Espacio Total</h6>
+                    </div>
+                    <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
+                      style="margin-left: 30px !important;">
+                      <h6 class="font-weight-bold mb-0">10Gb</h6>   <!-- AÑADIR VARIABLE -->
                     </div>
                   </div>
                 </div>
@@ -216,55 +224,43 @@
   <script th:src="@{../../../static/vendors/chart.js/Chart.min.js}"></script>
   <script>
     var data = {
-      labels: ["Red", "Blue", "Yellow", "Green", "Corona", "Orange"],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
-    var options = {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      },
-      legend: {
-        display: false
-      },
-      elements: {
-        point: {
-          radius: 0
-        }
-      }
-
-    };
-    if ($("#lineChart").length) {
-      var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
-      var lineChart = new Chart(lineChartCanvas, {
-        type: 'line',
-        data: data,
-        options: options
-      });
+    labels: ["Espacio Ocupado", "Espacio Libre"],
+    datasets: [{
+      data: [1.5, 8.5],   // Datos de espacio ocupado y libre AÑADIR VARIABLES.
+      backgroundColor: [
+        'rgba(255, 0, 0)',  // Color para "Espacio Ocupado"
+        'rgba(0, 255, 127)'   // Color para "Espacio Libre"
+      ],
+      borderColor: [
+        'rgba(255, 0, 0)',
+        'rgba(0, 255, 127)'
+      ],
+      borderWidth: 1
+    }]
+  };
+  // Calcular la suma de los valores
+  var sumaValores = data.datasets[0].data.reduce(function (a, b) {
+    return a + b;
+  }, 0);
+  
+  var options = {
+  cutoutPercentage: 70,
+  legend: {
+    display: true,
+    position: 'bottom',
+    labels: {
+      fontColor: 'white'
     }
+  }}
+  
+  if ($("#doughnutChart").length) {
+    var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
+    var doughnutChart = new Chart(doughnutChartCanvas, {
+      type: 'doughnut',
+      data: data,
+      options: options
+    });
+  }
   </script>
   <script th:src="@{../../../static/vendors/progressbar.js/progressbar.min.js}"></script>
   <script th:src="@{../../../static/vendors/jvectormap/jquery-jvectormap.min.js}"></script>

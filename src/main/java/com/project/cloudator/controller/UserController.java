@@ -39,7 +39,9 @@ public class UserController {
      */
     @GetMapping("/users/edit/{id}")
     public String showUser(@PathVariable Long id, Model model) {
-        model.addAttribute("users", userService.getUserById(id));
+        User user = userService.getUserById(id);
+        System.out.println(user.getId());
+        model.addAttribute("user", user);
         return "/settings";
     }
 
