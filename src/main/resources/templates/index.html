@@ -21,6 +21,7 @@
   <!-- endinject -->
   <!-- Layout styles -->
   <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
+  <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
 </head>
@@ -43,19 +44,16 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card corona-gradient-card">
                 <div class="card-body py-0 px-0 px-sm-3">
-                  <div class="row align-items-center">
-                    <div class="col-4 col-sm-3 col-xl-2">
-                      <img src="assets/images/dashboard/Group126@2x.png" class="gradient-corona-img img-fluid" alt="">
-                    </div>
-                    <div class="col-5 col-sm-7 col-xl-8 p-0">
+                  <div class="contenedor">
+                    <div class="col-5 col-sm-7 col-xl-8 p-0 padding-10">
                       <h4 class="mb-1 mb-sm-0">Necessitas mas espacio? Quieres elegir con quien compartir tus archivos?
                       </h4>
                       <p class="mb-0 font-weight-normal d-none d-sm-block">Hazte Premium aqui, solo te llevara 5
                         minutos!</p>
                     </div>
-                    <div class="col-3 col-sm-2 col-xl-2 ps-0 text-center">
+                    <div class="col-3 col-sm-2 col-xl-2 ps-0 text-end">
                       <span>
-                        <a href="https://www.bootstrapdash.com/product/corona-admin-template/" target="_blank"
+                        <a href="!!!!!!!!!!!!REDIRIGIR A CAMBIO DE PLAN .HTML" target="_blank"
                           class="btn btn-outline-light btn-rounded get-started-btn">Cambiar plan</a>
                       </span>
                     </div>
@@ -68,24 +66,24 @@
             <div class="col-md-4 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Espacio de Almacenamiento</h4>
+                  <h4 class="card-title text-center">Espacio de Almacenamiento</h4>
                   <canvas id="doughnutChart" style="height:250px"></canvas>
                   <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
-                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3 lineaBottom">
                     <div class="text-md-center text-xl-left">
                       <h6 class="mb-1">Espacio Ocupado</h6>
                     </div>
                     <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                      <h6 class="font-weight-bold mb-0">1,5Gb</h6>  <!-- AÑADIR VARIABLE -->
+                      <h6 class="font-weight-normal mb-0">1,5Gb</h6>  <!-- AÑADIR VARIABLE -->
                     </div>
                   </div>
-                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                  <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3 lineaBottom">
                     <div class="text-md-center text-xl-left">
                       <h6 class="mb-1">Espacio Libre</h6>
                     </div>
                     <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                       style="margin-left: 30px !important;">
-                      <h6 class="font-weight-bold mb-0">8,5Gb</h6>  <!-- AÑADIR VARIABLE -->
+                      <h6 class="font-weight-normal mb-0">8,5Gb</h6>  <!-- AÑADIR VARIABLE -->
                     </div>
                   </div>
                   <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
@@ -94,7 +92,7 @@
                     </div>
                     <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                       style="margin-left: 30px !important;">
-                      <h6 class="font-weight-bold mb-0">10Gb</h6>   <!-- AÑADIR VARIABLE -->
+                      <h6 class="font-weight-normal mb-0">10Gb</h6>   <!-- AÑADIR VARIABLE -->
                     </div>
                   </div>
                 </div>
@@ -104,8 +102,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-row justify-content-between">
-                    <h4 class="card-title mb-1">Open Projects</h4>
-                    <p class="text-muted mb-1">Your data status</p>
+                    <h4 class="card-title mb-1 text-center">Open Projects</h4>
                   </div>
                   <div class="row">
                     <div class="col-12">

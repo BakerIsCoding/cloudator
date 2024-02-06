@@ -13,14 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.User;
+import com.project.cloudator.entity.UserInfo;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
+import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
 
 @Controller
 public class AuthController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Autowired
     private LogWriter logwriter;
@@ -108,7 +113,20 @@ public class AuthController {
             // Manejo de errores, mostrando mensajes específicos en el formulario.
             return "register";
         }
+
         userService.saveUser(user);
+        User idUserExisting = userService.findByUsername(user.getUsername());
+        // Creamos instancia UserInfo con todo nulo
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(idUserExisting.getId());
+        userInfo.setName(null);
+        userInfo.setSurname(null);
+        userInfo.setBirthday(null);
+        userInfo.setAddress(null);
+        userInfo.setFoto(null);
+
+        userInfoService.save(userInfo);
+
         User userDb = userService.fetchUser(user.getUsername());
         redirectAttributes.addAttribute("success", true);
         logwriter.writeLog("El usuario con id '" + userDb.getId() + "' ha sido creado");

@@ -21,6 +21,7 @@
   <!-- endinject -->
   <!-- Layout styles -->
   <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
+  <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
 </head>
@@ -39,103 +40,102 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          <div class="row">
-            <div class="col-12 grid-margin stretch-card">
-              <div class="card corona-gradient-card">
-                <div class="card-body py-0 px-0 px-sm-3">
-                  <div class="row align-items-center">
-                    <div class="col-4 col-sm-3 col-xl-2">
-                      <img src="assets/images/dashboard/Group126@2x.png" class="gradient-corona-img img-fluid" alt="">
-                    </div>
-                    <div class="col-5 col-sm-7 col-xl-8 p-0">
-                      <h4 class="mb-1 mb-sm-0">Necessitas mas espacio? Quieres elegir con quien compartir tus archivos?
-                      </h4>
-                      <p class="mb-0 font-weight-normal d-none d-sm-block">Hazte Premium aqui, solo te llevara 5
-                        minutos!</p>
-                    </div>
-                    <div class="col-3 col-sm-2 col-xl-2 ps-0 text-center">
-                      <span>
-                        <a href="https://www.bootstrapdash.com/product/corona-admin-template/" target="_blank"
-                          class="btn btn-outline-light btn-rounded get-started-btn">Cambiar plan</a>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="row locationDiv">
+            <div class="border rounded card">
+              <p>Indice > Ajustes</p>
             </div>
           </div>
           <div class="row">
-            
+
             <!--TEST CARDS-->
-
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="card mb-4">
-                  <div class="card-body text-center">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                      class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3" th:text="${user.username}">N/A</h5>
-                    <p class="text-muted mb-1">CONTRASEÑA AQUI CREO XDD</p>
-                    <!--<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>-->
-                    <div class="d-flex justify-content-center mb-2">
-                      <button type="button" class="btn btn-primary">Editar</button>
+            <div class="">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="card mb-4">
+                    <div class="border rounded card-body text-center settingsMinSize">
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                        class="rounded-circle img-fluid" style="width: 150px;">
+                      <h5 class="my-3" th:text="${user.username}">N/A</h5>
+                      <p class="text-muted mb-1">CONTRASEÑA AQUI CREO XDD</p>
+                      <!--<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>-->
+                      <div class="d-flex justify-content-center mb-2">
+                        <button type="button" class="btn btn-primary">Editar</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-8">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <p class="mb-0">Nombre Completo</p>
+                <div class="col-lg-8">
+                  <div class="card mb-4">
+                    <div class="border rounded card-body settingsMinSize">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Nombre</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:text="${userinfo.getPName()}">N/A</p>
+                        </div>
                       </div>
-                      <div class="col-sm-9">
-                        <p class="text-muted mb-0">N/A</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Apellido</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:text="${userinfo.getPSurname()}">N/A</p>
+                        </div>
                       </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <p class="mb-0">Correo Electronico</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Correo Electronico</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:text="${user.email}">N/A</p>
+                        </div>
                       </div>
-                      <div class="col-sm-9">
-                        <p class="text-muted mb-0" th:text="${user.email}" >N/A</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Dirección</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:text="${userinfo.getPAddress()}">N/A</p>
+                        </div>
                       </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <p class="mb-0">Dirección</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Fecha de nacimiento</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:text="${userinfo.getPBirthday()}">N/A</p>
+                        </div>
                       </div>
-                      <div class="col-sm-9">
-                        <p class="text-muted mb-0">N/A</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Tipo de Usuario</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <p class="text-muted mb-0" th:each="role : ${user.roles}" th:text="${role.getDisplayName()}">
+                            N/A</p>
+                        </div>
                       </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <p class="mb-0">Fecha de nacimiento</p>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <button type="button" class="btn btn-primary btn-icon-text">
+                            <i class="mdi mdi-file-check btn-icon-prepend"></i> Editar </button>
+                        </div>
                       </div>
-                      <div class="col-sm-9">
-                        <p class="text-muted mb-0">N/A</p>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <p class="mb-0">Tipo de Usuario</p>
-                      </div>
-                      <div class="col-sm-9">
-                        <p class="text-muted mb-0" th:each="role : ${user.roles}" th:text="${role.getDisplayName()}">N/A</p>
-                      </div>
+
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
 
           <!--END TEST CARDS-->
 

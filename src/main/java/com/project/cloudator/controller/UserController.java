@@ -11,8 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.User;
+import com.project.cloudator.entity.UserInfo;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
+import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
 
 import jakarta.validation.Valid;
@@ -28,6 +30,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
     private LogWriter logWriter;
 
     /**
@@ -39,9 +44,14 @@ public class UserController {
      */
     @GetMapping("/users/edit/{id}")
     public String showUser(@PathVariable Long id, Model model) {
+        // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(id);
-        System.out.println(user.getId());
         model.addAttribute("user", user);
+
+        // Se añade el objeto userInfo a thymeleaf
+        UserInfo userinfo = userInfoService.getUserInfoById(id);
+        model.addAttribute("userinfo", userinfo);
+
         return "/settings";
     }
 

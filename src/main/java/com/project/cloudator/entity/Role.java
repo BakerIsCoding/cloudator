@@ -37,7 +37,7 @@ public class Role {
                 return "Premium";
 
             case "ROLE_USER":
-                return "Gratuito";
+                return "Estándar";
 
             default:
                 return name;

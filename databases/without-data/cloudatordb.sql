@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-12-2023 a las 15:17:58
+-- Tiempo de generación: 05-02-2024 a las 17:14:44
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cloudatordb`
 --
+CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `cloudatordb`;
 
 -- --------------------------------------------------------
 
@@ -86,6 +88,21 @@ CREATE TABLE `user_access` (
   `isblocked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_info`
+--
+
+CREATE TABLE `user_info` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `surname` varchar(32) NOT NULL,
+  `birthday` date NOT NULL,
+  `address` varchar(32) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -129,6 +146,12 @@ ALTER TABLE `user_access`
   ADD KEY `id` (`id`);
 
 --
+-- Indices de la tabla `user_info`
+--
+ALTER TABLE `user_info`
+  ADD KEY `id` (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -167,6 +190,12 @@ ALTER TABLE `users_roles`
 --
 ALTER TABLE `user_access`
   ADD CONSTRAINT `user_access_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `user_info`
+--
+ALTER TABLE `user_info`
+  ADD CONSTRAINT `user_info_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

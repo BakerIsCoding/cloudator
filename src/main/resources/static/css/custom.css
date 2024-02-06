@@ -1,0 +1,36 @@
+/*  Nuestros CSS  */
+
+.padding-10 {
+    padding: 10px !important;
+}
+
+.lineaBottom {
+    border-bottom:1px solid #2c2e33 !important
+}
+
+
+.locationDiv{
+    padding-left: 5px;
+}
+
+.locationDiv > div{
+    margin-left: 10px!important;
+    margin-bottom: 10px!important;
+    padding-left: 5px;
+}
+
+.locationDiv > div > p{
+    margin: 0px!important;
+}
+
+.settingsMinSize{
+    min-height: 405px;
+    max-height: 405px;
+}
+
+.contenedor {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}

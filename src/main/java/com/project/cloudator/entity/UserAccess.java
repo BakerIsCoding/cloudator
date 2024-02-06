@@ -23,7 +23,7 @@ public class UserAccess {
     private Integer counter = 0;
 
     @Column(name = "isblocked")
-    private boolean isblocked = false; 
+    private boolean isblocked = false;
 
     public boolean isAccountNonLocked() {
         return !this.isblocked; // Lógica para determinar si la cuenta está bloqueada o no
