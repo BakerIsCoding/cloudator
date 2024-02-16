@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2024 a las 17:14:44
+-- Tiempo de generación: 13-02-2024 a las 16:07:45
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -96,10 +96,10 @@ CREATE TABLE `user_access` (
 
 CREATE TABLE `user_info` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  `surname` varchar(32) NOT NULL,
-  `birthday` date NOT NULL,
-  `address` varchar(32) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `surname` varchar(32) DEFAULT NULL,
+  `birthday` varchar(255) DEFAULT NULL,
+  `address` varchar(32) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

@@ -55,8 +55,10 @@ public class SpringSecurity {
                 http.csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests( // SE DEBE ELIMINAR EL "/**" Y PONER "/"
                                                 (authorize) -> authorize
-                                                                .requestMatchers("/register/**", "/error", "/loginpost",
-                                                                                "/login**", "/static/**", "/**")
+                                                                .requestMatchers("/register/**", "/error/**",
+                                                                                "/loginpost",
+                                                                                "/login**", "/static/**", "/**",
+                                                                                "/settingsoptional/post")
                                                                 .permitAll()
 
                                                                 .requestMatchers("/admin/**")

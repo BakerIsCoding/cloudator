@@ -1,9 +1,13 @@
 package com.project.cloudator.entity;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,7 +36,7 @@ public class UserInfo {
     private String surname;
 
     @Column(name = "birthday", nullable = true)
-    private Date birthday;
+    private String birthday;
 
     @Column(name = "address", nullable = true, length = 32)
     private String address;
@@ -58,8 +62,9 @@ public class UserInfo {
 
     public String getPBirthday() {
         if (birthday != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            return dateFormat.format(birthday);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return this.getBirthday().formatted(formatter);
+
         } else {
             return "N/A";
         }

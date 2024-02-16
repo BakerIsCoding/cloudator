@@ -59,7 +59,6 @@
             <div class="card-body px-5 py-5">
               <h3 class="card-title text-left mb-3">Inicia sesión</h3>
               <div th:if="${param.error}">
-
                 <div class="alert badge-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></div>
               </div>
               <div th:if="${param.logout}">

@@ -23,7 +23,7 @@ import java.io.IOException;
 @Component
 public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandler {
 
-    private final String defaultRedirectUrl = "/index/users/";
+    private final String defaultRedirectUrl = "/users/";
 
     @Autowired
     private UserRepository userRepository;

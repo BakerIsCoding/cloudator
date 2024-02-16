@@ -1,87 +1,29 @@
 <nav th:fragment="html_sidebar" class="sidebar sidebar-offcanvas" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" href="index.html"><img th:src="@{../../../static/images/logo.svg}"
+        <a class="sidebar-brand brand-logo" th:href="@{/users/{id}(id=${id})}"><img th:src="@{../../../static/images/logo.svg}"
                 alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" href="index.html"><img th:src="@{../../../static/images/logo-mini.svg}"
+        <a class="sidebar-brand brand-logo-mini" th:href="@{/users/{id}(id=${id})}"><img th:src="@{../../../static/images/logo-mini.svg}"
                 alt="logo" /></a>
     </div>
     <ul class="nav">
-        <li class="nav-item profile">
-            <!--
-        <div class="profile-desc">
-          <div class="profile-pic">
-            <div class="count-indicator">
-              <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
-              <span class="count bg-success"></span>
-            </div>
-          </div>
-          <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-          <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-            <a href="#" class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-dark rounded-circle">
-                  <i class="mdi mdi-settings text-primary"></i>
-                </div>
-              </div>
-              <div class="preview-item-content">
-                <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-dark rounded-circle">
-                  <i class="mdi mdi-onepassword  text-info"></i>
-                </div>
-              </div>
-              <div class="preview-item-content">
-                <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-dark rounded-circle">
-                  <i class="mdi mdi-calendar-today text-success"></i>
-                </div>
-              </div>
-              <div class="preview-item-content">
-                <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-              </div>
-            </a>
-          </div>
-        </div>
-      </li>
-                        APROVECHAR PARA EL LOGIN-->
-
         <li class="nav-item nav-category">
             <span class="nav-link">Menu</span>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" th:href="@{/users/{id}(id=${id})}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-speedometer"></i>
+                    <i class="mdi mdi-home"></i>
                 </span>
-                <span class="menu-title">Dashboard</span>
+                <span class="menu-title">Inicio</span>
             </a>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
+            <a class="nav-link" th:href="@{/users/files/{id}(id=${id})}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-laptop"></i>
+                    <i class="mdi mdi-folder-multiple-outline"></i>
                 </span>
-                <span class="menu-title">Basic UI Elements</span>
-                <i class="menu-arrow"></i>
+                <span class="menu-title">Mis Archivos</span>
             </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                    </li>
-                </ul>
-            </div>
         </li>
         <li class="nav-item menu-items">
             <a class="nav-link" href="pages/forms/basic_elements.html">
@@ -143,4 +85,19 @@
             </a>
         </li>
     </ul>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  // Selecciona todos los elementos que contengan la clase 'active'
+  document.querySelectorAll('.nav-item.menu-items.active').forEach(function(el) {
+    el.classList.remove('active'); // Remueve la clase 'active'
+  });
+  /*document.querySelectorAll('.nav-item.menu-items').forEach(function(el) {
+    if (el.querySelector('a').href === window.location.href) {
+      el.classList.add('active'); // Agrega la clase 'active'
+    }
+  });*/
+});
+</script>
 </nav>
