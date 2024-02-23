@@ -7,30 +7,30 @@
     var footer = $('.footer');
     var sidebar = $('.sidebar');
 
-    //Add active class to nav-link based on url dynamically
-    //Active class can be hard coded directly in html file also as required
+    // Agrega la clase activa a nav-link basado en la URL de manera dinámica
+    // La clase activa también puede ser codificada directamente en el archivo HTML según sea necesario
 
     function addActiveClass(element) {
-      if (current === "") {
-        //for root url
-        if (element.attr('href').indexOf("index.html") !== -1) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
+      var href = element.attr('href');
+
+      // Para la url root (index.html)
+      if (current === "" && href.endsWith("index.html")) {
+        element.parents('.nav-item').last().addClass('active');
+        if (element.parents('.sub-menu').length) {
+          element.closest('.collapse').addClass('show');
+          element.addClass('active');
         }
-      } else {
-        //for other url
-        if (element.attr('href').indexOf(current) !== -1) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-          if (element.parents('.submenu-item').length) {
-            element.addClass('active');
-          }
+      }
+
+      // Para otras url
+      else if (href.endsWith(current)) {
+        element.parents('.nav-item').last().addClass('active');
+        if (element.parents('.sub-menu').length) {
+          element.closest('.collapse').addClass('show');
+          element.addClass('active');
+        }
+        if (element.parents('.submenu-item').length) {
+          element.addClass('active');
         }
       }
     }
@@ -46,18 +46,18 @@
       addActiveClass($this);
     })
 
-    //Close other submenu in sidebar on opening any
+    // Cierra otros submenús en la barra lateral al abrir alguno
 
     sidebar.on('show.bs.collapse', '.collapse', function() {
       sidebar.find('.collapse.show').collapse('hide');
     });
 
 
-    //Change sidebar and content-wrapper height
+    // Cambia la altura de la barra lateral y del contenedor de contenido
     applyStyles();
 
     function applyStyles() {
-      //Applying perfect scrollbar
+      // Aplicando perfect scrollbar
       if (!body.hasClass("rtl")) {
         if ($('.settings-panel .tab-content .tab-pane.scroll-wrapper').length) {
           const settingsPanelScroll = new PerfectScrollbar('.settings-panel .tab-content .tab-pane.scroll-wrapper');
@@ -79,10 +79,10 @@
       }
     });
 
-    //checkbox and radios
+    //checkbox y radios
     $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
 
-    //fullscreen
+    //pantalla completa
     $("#fullscreen-button").on("click", function toggleFullScreen() {
       if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
         if (document.documentElement.requestFullScreen) {
@@ -105,19 +105,6 @@
           document.msExitFullscreen();
         }
       }
-    })
-    if ($.cookie('corona-free-banner')!="true") {
-      document.querySelector('#proBanner').classList.add('d-flex');
-    }
-    else {
-      document.querySelector('#proBanner').classList.add('d-none');
-    }
-    document.querySelector('#bannerClose').addEventListener('click',function() {
-      document.querySelector('#proBanner').classList.add('d-none');
-      document.querySelector('#proBanner').classList.remove('d-flex');
-      var date = new Date();
-      date.setTime(date.getTime() + 24 * 60 * 60 * 1000); 
-      $.cookie('corona-free-banner', "true", { expires: date });
     });
   });
 })(jQuery);

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileController {
 	// destination folder to upload the files
 	private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
-	private static final String STORAGE_SERVER_URL = "http://10.1.105.42/upload/file";
+	private static final String STORAGE_SERVER_URL = "https://1937-91-126-76-58.ngrok-free.app/upload/file";
 
+
+	@GetMapping("/upload")
+	public String showViewUpload() {
+		return "upload";
+	}
 	@RequestMapping("/upload")
 	public ModelAndView showUpload() {
 		return new ModelAndView("upload");

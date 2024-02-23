@@ -58,7 +58,7 @@ public class SpringSecurity {
                                                                 .requestMatchers("/register/**", "/error/**",
                                                                                 "/loginpost",
                                                                                 "/login**", "/static/**", "/**",
-                                                                                "/settingsoptional/post")
+                                                                                "/settingsoptional/post", "/upload/**")
                                                                 .permitAll()
 
                                                                 .requestMatchers("/admin/**")

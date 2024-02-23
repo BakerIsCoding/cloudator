@@ -38,6 +38,11 @@ public class UserController {
 
     @GetMapping("/")
     public String home() {
+        return "landing";
+    }
+
+    @GetMapping("/1")
+    public String tempTemplate() {
         return "index";
     }
 

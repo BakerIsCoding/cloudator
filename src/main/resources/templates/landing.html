@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Deerhost Template">
+    <meta name="keywords" content="Deerhost, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DEERHOST | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/static/css/landing/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/flaticon.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/static/css/landing/style.css}" type="text/css">
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas__menu__overlay"></div>
+    <div class="offcanvas__menu__wrapper">
+        <div class="canvas__close">
+            <span class="fa fa-times-circle-o"></span>
+        </div>
+        <div class="offcanvas__logo">
+            <a href="#"><img src="img/logo.png" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__auth">
+            <ul>
+                <li><a th:href="@{/login}"><span class="icon_chat_alt"></span>Login</a></li>
+                <li><a th:href="@{/register}"><span class="fa fa-user"></span>Register</a></li>
+            </ul>
+        </div>
+        <div class="offcanvas__info">
+            <ul>
+                <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="header__info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__info-left">
+                            <ul>
+                                <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__info-right">
+                            <ul>
+                                <li><a href="#"><span class="icon_chat_alt"></span> Login</a></li>
+                                <li><a href="#"><span class="fa fa-user"></span> Register</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open">
+                <span class="fa fa-bars"></span>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero-section">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <h5>Starting At Only $ 2.8/month</h5>
+                            <h2>Welcome to the best<br /> hosting company</h2>
+                            <a href="#" class="primary-btn">Get started now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="hero__img">
+                            <img th:src="@{/static/images/landing/hero-right.png}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+    <!-- Js Plugins -->
+    <script th:src="@{/static/js/landing/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/static/js/landing/bootstrap.min.js}"></script>
+    <script th:src="@{/static/js/landing/jquery.slicknav.js}"></script>
+    <script th:src="@{/static/js/landing/owl.carousel.min.js}"></script>
+    <script th:src="@{/static/js/landing/main.js}"></script>
+
+</body>
+
+</html>
