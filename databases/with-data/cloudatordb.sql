@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-02-2024 a las 16:07:00
+-- Tiempo de generación: 22-02-2024 a las 15:39:26
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -30,14 +30,19 @@ USE `cloudatordb`;
 --
 
 CREATE TABLE `files` (
+  `id` bigint(20) NOT NULL,
   `filename` varchar(128) NOT NULL,
-  `filetype` varchar(16) NOT NULL,
+  `filetype` varchar(128) NOT NULL,
   `fileroute` varchar(512) NOT NULL,
   `filedate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `filesize` decimal(10,0) NOT NULL,
+  `filesize` float(10,0) NOT NULL,
   `owner` varchar(32) NOT NULL,
   `ispublic` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `files`
+--
 
 -- --------------------------------------------------------
 
@@ -149,6 +154,7 @@ INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`)
 -- Indices de la tabla `files`
 --
 ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `existingfile` (`filename`,`owner`),
   ADD KEY `owner` (`owner`),
   ADD KEY `filename` (`filename`);
@@ -194,6 +200,12 @@ ALTER TABLE `user_info`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `files`
+--
+ALTER TABLE `files`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -204,7 +216,7 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `user`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+COMMIT;
 --
 -- Restricciones para tablas volcadas
 --
@@ -212,6 +224,7 @@ ALTER TABLE `user`
 --
 -- Filtros para la tabla `files`
 --
+
 ALTER TABLE `files`
   ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`filename`) REFERENCES `files` (`owner`) ON DELETE CASCADE ON UPDATE CASCADE;

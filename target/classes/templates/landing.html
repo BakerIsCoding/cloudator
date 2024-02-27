@@ -1,58 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Deerhost Template">
     <meta name="keywords" content="Deerhost, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DEERHOST | Template</title>
+    <title>Landing Cloudator</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap"
         rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" th:href="@{/static/css/landing/bootstrap.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/font-awesome.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/elegant-icons.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/flaticon.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/owl.carousel.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/slicknav.min.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/static/css/landing/style.css}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
+    <style>
+        /* Customize your styles here */
+        .primary-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            background-color: #0056b3;
+        }
+        .login-bg {
+            background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
+            background-size: cover;
+        }
+        .sign-upnoM a {
+            text-decoration: none;
+            color: blue;
+            font-size: 16px;
+        }
+
+        /* Additional styles can be added as needed */
+    </style>
 </head>
-
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas__menu__overlay"></div>
-    <div class="offcanvas__menu__wrapper">
-        <div class="canvas__close">
-            <span class="fa fa-times-circle-o"></span>
-        </div>
-        <div class="offcanvas__logo">
-            <a href="#"><img src="img/logo.png" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <ul>
-                <li><a th:href="@{/login}"><span class="icon_chat_alt"></span>Login</a></li>
-                <li><a th:href="@{/register}"><span class="fa fa-user"></span>Register</a></li>
-            </ul>
-        </div>
-        <div class="offcanvas__info">
-            <ul>
-                <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
+    <div class="login-bg">
+        
 
     <!-- Header Section Begin -->
     <header class="header-section">
@@ -60,18 +57,14 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <div class="header__info-left">
-                            <ul>
-                                <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
-                            </ul>
+                        <div class="header__info-left fa fa-envelope sign-upnoM text-center">
+                            <a href="mailto:info@cloudator.es" >info@cloudator.es</a>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__info-right">
-                            <ul>
-                                <li><a href="#"><span class="icon_chat_alt"></span> Login</a></li>
-                                <li><a href="#"><span class="fa fa-user"></span> Register</a></li>
-                            </ul>
+                            <a th:href="@{/login}" class="btn btn-primary"><span class="icon_chat_alt"></span> Inicia Sesión</a>
+                            <a th:href="@{/register}" class="btn btn-primary"><span class="fa fa-user"></span> Registrate</a>
                         </div>
                     </div>
                 </div>
@@ -81,12 +74,9 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <!--<a href="./login.html"><img src="" alt=""></a>  LOGO -->
                     </div>
                 </div>
-            </div>
-            <div class="canvas__open">
-                <span class="fa fa-bars"></span>
             </div>
         </div>
     </header>
@@ -94,36 +84,67 @@
 
     <!-- Hero Section Begin -->
     <section class="hero-section">
-        <div class="hero__slider owl-carousel">
-            <div class="hero__item set-bg"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <h5>Starting At Only $ 2.8/month</h5>
-                            <h2>Welcome to the best<br /> hosting company</h2>
-                            <a href="#" class="primary-btn">Get started now</a>
-                        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="hero__text">
+                        <h5>Cloudator</h5>
+                        <h2>Bienvenidos a la mejor <br> pagina de Hosting del mundo</h2>
+                        <a th:href="@{/login}" class="btn btn-primary btn-rounded">Empecemos!</a>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="hero__img">
-                            <img th:src="@{/static/images/landing/hero-right.png}" alt="">
-                        </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero__img">
+                        <!--<img src="/static/images/landing/hero-right.png" alt=""> IMAGEN PRINCIPAL -->
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Features Section Begin -->
+    <section id="features">
+        <div class="container">
+            <h2>Características destacadas:</h2>
+            <ul>
+                <li>Almacenamiento en la nube con redundancia</li>
+                <li>Acceso desde cualquier dispositivo</li>
+                <li>Seguridad avanzada con cifrado</li>
+                <li>Escalabilidad según tus necesidades</li>
+            </ul>
         </div>
     </section>
+    <!-- Features Section End -->
 
+    <!-- Pricing Section Begin -->
+    <section id="pricing">
+        <div class="container">
+            <h2>Planes de precios:</h2>
+            <p>Ofrecemos planes flexibles para adaptarnos a tu negocio:</p>
+            <ul>
+                <li>Plan Básico: 5 GB de almacenamiento - Gratis</li>
+                <li>Plan Premium: 100 GB de almacenamiento - $9.99/mes</li>
+                <li>Plan Empresarial: Almacenamiento ilimitado - Contáctanos</li>
+            </ul>
+        </div>
+    </section>
+    <!-- Pricing Section End -->
+
+    <!-- Footer Begin -->
+    <footer>
+        <div class="container">
+            <p>Síguenos en redes sociales: <a href="#">Facebook</a> | <a href="#">Twitter</a></p>
+        </div>
+    </footer>
+</div>
+    <!-- Footer End -->
 
     <!-- Js Plugins -->
-    <script th:src="@{/static/js/landing/jquery-3.3.1.min.js}"></script>
-    <script th:src="@{/static/js/landing/bootstrap.min.js}"></script>
-    <script th:src="@{/static/js/landing/jquery.slicknav.js}"></script>
-    <script th:src="@{/static/js/landing/owl.carousel.min.js}"></script>
-    <script th:src="@{/static/js/landing/main.js}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="/static/js/main.js"></script>
 </body>
-
 </html>

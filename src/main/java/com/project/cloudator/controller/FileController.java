@@ -26,13 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FileController {
 	// destination folder to upload the files
 	private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
-	private static final String STORAGE_SERVER_URL = "https://1937-91-126-76-58.ngrok-free.app/upload/file";
-
+	private static final String STORAGE_SERVER_URL = "https://4a8f-91-126-76-58.ngrok-free.app/upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
 		return "upload";
 	}
+
 	@RequestMapping("/upload")
 	public ModelAndView showUpload() {
 		return new ModelAndView("upload");
@@ -63,6 +63,7 @@ public class FileController {
 					return file.getOriginalFilename();
 				}
 			});
+			body.add("owner", "3");
 
 			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 

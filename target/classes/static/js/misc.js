@@ -8,21 +8,18 @@
     // La clase activa también puede ser codificada directamente en el archivo HTML según sea necesario
 
     function addActiveClass(element) {
-      console.log(current);
+      var current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
       if (current == "users") {
-        //for root url
-        if (element.attr('href').indexOf("index.html") !== -1) {
+        //para la página de principal
+        if (element.attr('href').indexOf("users") !== -1 && !$('.nav-item.active').length){
           element.parents('.nav-item').last().addClass('active');
-          console.log("if1");
           if (element.parents('.sub-menu').length) {
             element.closest('.collapse').addClass('show');
             element.addClass('active');
-            console.log("if");
           }
         }
       } else {
-        //for other url
-        console.log("else");
+        //para las demás páginas
         if (element.attr('href').indexOf(current) !== -1) {
           element.parents('.nav-item').last().addClass('active');
           if (element.parents('.sub-menu').length) {
@@ -36,18 +33,18 @@
       }
     }
     
-    var current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
+    
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
       addActiveClass($this);
     })
-/*
+
     $('.horizontal-menu .nav li a').each(function() {
       var $this = $(this);
       addActiveClass($this);
     })
-*/
-    //Close other submenu in sidebar on opening any
+
+    //Cierra otros elementos de menú cuando se abre uno
 
     sidebar.on('show.bs.collapse', '.collapse', function() {
       sidebar.find('.collapse.show').collapse('hide');
