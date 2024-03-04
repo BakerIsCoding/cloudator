@@ -86,7 +86,7 @@ public class AuthController {
      * @return The name of the view.
      */
 
-    @PostMapping("/register/save")
+    @PostMapping("/post/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
             Model model,
@@ -95,23 +95,16 @@ public class AuthController {
         User userExisting = userService.findByUsername(user.getUsername());
 
         if (mailExisting != null) {
-            result.rejectValue("email", null, "Ya existe un usuario con este email");
+            return "redirect:/register?errormail=1";
         }
-
         if (userExisting != null) {
-            result.rejectValue("username", null, "Ya existe un usuario con este nombre");
+            return "redirect:/register?errorusername=1";
         }
-
         if (!regex.isValidPassword(user.getPassword())) {
-            result.rejectValue("password", null, "La contraseña no cumple con los requisitos");
+            return "redirect:/register?errorpassword=1";
         }
         if (!regex.isValidMail(user.getEmail())) {
-            result.rejectValue("email", null, "Este no es un mail valido");
-        }
-
-        if (result.hasErrors()) {
-            // Manejo de errores, mostrando mensajes específicos en el formulario.
-            return "register";
+            return "redirect:/register?errorvalidmail=1";
         }
 
         userService.saveUser(user);

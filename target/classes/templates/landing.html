@@ -7,44 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Landing Cloudator</title>
+<!-- plugins:css -->
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
+<link rel="stylesheet" th:href="@{../../../static/vendors/mdi/css/materialdesignicons.min.css}">
+<link rel="stylesheet" th:href="@{../../../static/vendors/css/vendor.bundle.base.css}">
+<!-- endinject -->
+<!-- Plugin css for this page -->
+<link rel="stylesheet" th:href="@{../../../static/vendors/jvectormap/jquery-jvectormap.css}">
+<link rel="stylesheet" th:href="@{../../../static/vendors/flag-icon-css/css/flag-icon.min.css}">
+<link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.theme.default.min.css}">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <style>
-        /* Customize your styles here */
-        .primary-btn {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .primary-btn:hover {
-            background-color: #0056b3;
-        }
-        .login-bg {
-            background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
-            background-size: cover;
-        }
-        .sign-upnoM a {
-            text-decoration: none;
-            color: blue;
-            font-size: 16px;
-        }
-
-        /* Additional styles can be added as needed */
-    </style>
+    
+    <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
+    <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
+    <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}"/>
 </head>
 <body>
     <!-- Page Preloder -->
@@ -57,10 +35,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <div class="header__info-left fa fa-envelope sign-upnoM text-center">
+                        <div class="mdi mdi-email header__info-left fa fa-envelope sign-upnoM text-center">
                             <a href="mailto:info@cloudator.es" >info@cloudator.es</a>
                         </div>
                     </div>
+                    <br>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__info-right">
                             <a th:href="@{/login}" class="btn btn-primary"><span class="icon_chat_alt"></span> Inicia Sesión</a>
@@ -108,7 +87,7 @@
         <div class="container">
             <h2>Características destacadas:</h2>
             <ul>
-                <li>Almacenamiento en la nube con redundancia</li>
+                <li>Almacenamiento en la nube para particulares o empresas</li>
                 <li>Acceso desde cualquier dispositivo</li>
                 <li>Seguridad avanzada con cifrado</li>
                 <li>Escalabilidad según tus necesidades</li>
@@ -121,10 +100,10 @@
     <section id="pricing">
         <div class="container">
             <h2>Planes de precios:</h2>
-            <p>Ofrecemos planes flexibles para adaptarnos a tu negocio:</p>
+            <p>Ofrecemos planes flexibles para adaptarnos a tí:</p>
             <ul>
-                <li>Plan Básico: 5 GB de almacenamiento - Gratis</li>
-                <li>Plan Premium: 100 GB de almacenamiento - $9.99/mes</li>
+                <li>Plan Básico: 10 GB de almacenamiento publico - Gratis</li>
+                <li>Plan Premium: 100 GB de almacenamiento privado- 5€/mes</li>
                 <li>Plan Empresarial: Almacenamiento ilimitado - Contáctanos</li>
             </ul>
         </div>
@@ -134,17 +113,13 @@
     <!-- Footer Begin -->
     <footer>
         <div class="container">
-            <p>Síguenos en redes sociales: <a href="#">Facebook</a> | <a href="#">Twitter</a></p>
+            <p>Síguenos en redes sociales: <a class="sign-upnoM" href="#">Facebook</a> | <a class="sign-upnoM" href="#">Twitter</a></p>
         </div>
     </footer>
 </div>
     <!-- Footer End -->
 
     <!-- Js Plugins -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="/static/js/main.js"></script>
+
 </body>
 </html>

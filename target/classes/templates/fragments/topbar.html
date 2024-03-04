@@ -6,13 +6,13 @@
       <ul class="navbar-nav w-100">
         <li class="nav-item w-100">
           <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-            <input type="text" class="form-control" placeholder="Buscar...">
+            <input type="text" class="serchBox" placeholder="Buscar...">
           </form>
         </li>
       </ul>
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">+ Sube tu archivo</a>
+          <a class="nav-link btn btn-success create-new-button" aria-expanded="false" th:href="@{/users/upload/}" >+ Sube tu archivo</a>
         </li>
         <li class="nav-item nav-settings d-none d-lg-block">
           <a class="nav-link" href="#">
@@ -122,7 +122,7 @@
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
             <h6 class="p-3 mb-0">Perfil</h6>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item preview-item" th:href="@{/users/edit/{id}(id=${id})}">
+            <a class="dropdown-item preview-item" th:href="@{/users/edit/}">
               <div class="preview-thumbnail">
                 <div class="preview-icon bg-dark rounded-circle">
                   <i class="mdi mdi-settings text-success"></i>

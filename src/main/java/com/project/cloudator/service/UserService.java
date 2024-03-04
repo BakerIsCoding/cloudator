@@ -35,4 +35,6 @@ public interface UserService {
 
     User fetchUser(String user);
 
+    Long getUserIdByUsername(String username);
+
 }

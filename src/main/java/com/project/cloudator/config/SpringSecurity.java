@@ -55,20 +55,19 @@ public class SpringSecurity {
                 http.csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests( // SE DEBE ELIMINAR EL "/**" Y PONER "/"
                                                 (authorize) -> authorize
-                                                                .requestMatchers("/register/**", "/error/**",
-                                                                                "/loginpost",
-                                                                                "/login**", "/static/**", "/**",
-                                                                                "/settingsoptional/post", "/upload/**")
+                                                                .requestMatchers("/register", "/error/**",
+                                                                                "/login", "/static/**",
+                                                                                "/","/post/**")
                                                                 .permitAll()
 
                                                                 .requestMatchers("/admin/**")
                                                                 .hasAnyRole("SUPERADMIN", "ADMIN")
-                                                                .requestMatchers("/index/users/**")
+                                                                .requestMatchers("/users/**")
                                                                 .hasAnyRole("USER", "PREMIUM", "ADMIN", "SUPERADMIN")
                                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login")
-                                                .loginProcessingUrl("/loginpost")
+                                                .loginProcessingUrl("/post/login")
                                                 .successHandler(AuthenticationSuccessRedirect)
                                                 .failureHandler(loginFailureHandler)
                                                 .permitAll())

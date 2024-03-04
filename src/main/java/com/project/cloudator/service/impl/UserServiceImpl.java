@@ -72,6 +72,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.fetchUser(user);
     }
 
+    public Long getUserIdByUsername(String username){
+        User user = userRepository.fetchUser(username);
+        return user.getId();
+    }
+
     /**
      * Guarda un nuevo usuario en la base de datos.
      *

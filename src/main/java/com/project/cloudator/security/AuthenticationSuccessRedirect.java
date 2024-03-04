@@ -66,7 +66,7 @@ public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandl
                                 "El usuario con id '" + userId + "' ha iniciado sesión, tiene el rol '" + role + "'");
 
                         if (role.equals("ROLE_USER") || role.equals("ROLE_PREMIUM")) {
-                            String redirectUrl = defaultRedirectUrl + userId;
+                            String redirectUrl = defaultRedirectUrl;
                             response.sendRedirect(response.encodeRedirectURL(redirectUrl));
                         } else if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SUPERADMIN")) {
                             String redirectUrl = "/admin/users";

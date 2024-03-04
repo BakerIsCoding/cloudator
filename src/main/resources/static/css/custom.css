@@ -56,3 +56,48 @@
     margin-left: 10px;
     margin-bottom: 20px;
 }
+.serchBox {
+    color: #FFFFFF;
+    display: block;
+    width: 100%;
+    padding: 0.56rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+}
+.primary-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+.login-bg {
+    background: url(/static/images/auth/fondo_1.jpg) no-repeat center center;
+    background-size: cover;
+}
+.sign-upnoM a {
+    text-decoration: none;
+    color: blue;
+    font-size: 16px;
+}
+.forgot-pass {
+    text-decoration: none;
+    color: blue;
+    font-size: 13px;
+}
+
+.forgot-pass:hover {
+    text-decoration: underline;
+}
+.sign-upnoM {
+    margin-top: 20px;
+}
+.sign-upnoM a:hover {
+    text-decoration: underline;
+}

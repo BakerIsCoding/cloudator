@@ -1,6 +1,7 @@
 package com.project.cloudator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.User;
@@ -46,12 +52,19 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/")
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
-            Model model, @PathVariable Long id) {
+            Model model) {
+        
+        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
 
-        model.addAttribute("users", userService.getUserById(id));
+        
+        model.addAttribute("users", userService.getUserById(userServerId));
+        System.out.println(userServerId);
         return "index";
     }
 
@@ -156,63 +169,73 @@ public class UserController {
      * @param model El modelo para almacenar los datos del usuario.
      * @return La vista para mostrar los detalles del usuario.
      */
-    @GetMapping("/users/edit/{id}")
-    public String showUser(@PathVariable Long id, Model model) {
+    @GetMapping("/users/edit/")
+    public String showUser(Model model, Authentication authentication) {
+        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
         // Se añade el objeto user a thymeleaf
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
 
         // Se añade el objeto userInfo a thymeleaf
-        UserInfo userinfo = userInfoService.getUserInfoById(id);
+        UserInfo userinfo = userInfoService.getUserInfoById(userServerId);
         model.addAttribute("userinfo", userinfo);
 
         return "/settings";
     }
 
-    @GetMapping("/users/files/{id}")
-    public String showFiles(@PathVariable Long id, Model model) {
+    @GetMapping("/users/files/")
+    public String showFiles(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
         // Se añade el objeto user a thymeleaf
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
 
         return "/files";
     }
 
-    @PostMapping("/settingsuser/post")
+    @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
             BindingResult result) {
 
         Long userId = userr.getId();
-        String userIdString = userId.toString();
+        //String userIdString = userId.toString();
 
         try {
             if (!regex.isValidPassword(userr.getPassword())) {
-                return "redirect:/users/edit/" + userIdString + "?error2=1";
+                return "redirect:/users/edit?error2=1";
             }
             userService.updateUsername(userId, userr.getUsername());
             userService.updateEmail(userId, userr.getEmail());
             userService.updatePassword(userId, userr.getPassword());
 
-            return "redirect:/users/edit/" + userIdString + "?success=1";
+            return "redirect:/users/edit?success=1";
         } catch (Exception e) {
 
             e.printStackTrace();
             System.out.println(e.getMessage());
-            return "redirect:/users/edit/" + userIdString + "?error=1";
+            return "redirect:/users/edit?error=1";
         }
 
     }
 
-    @PostMapping("/settingsoptional/post")
+    @PostMapping("/post/settingsoptional")
     public String postOptional(@Valid @ModelAttribute("userinfo") UserInfo userinfo,
             BindingResult result) {
 
         String userId = userinfo.getId().toString();
         try {
             userInfoService.save(userinfo);
-            return "redirect:/users/edit/" + userId + "?success=1";
+            return "redirect:/users/edit?success=1";
         } catch (Exception e) {
-            return "redirect:/users/edit/" + userId + "?error=1";
+            return "redirect:/users/edit?error=1";
         }
 
     }

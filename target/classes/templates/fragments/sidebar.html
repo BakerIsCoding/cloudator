@@ -1,13 +1,13 @@
 <nav th:fragment="html_sidebar" class="sidebar sidebar-offcanvas" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" th:href="@{/users/{id}(id=${id})}"><img th:src="@{../../../static/images/logo.svg}"
+        <a class="sidebar-brand brand-logo" th:href="@{/users/}"><img th:src="@{../../../static/images/logo.svg}"
                 alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" th:href="@{/users/{id}(id=${id})}"><img th:src="@{../../../static/images/logo-mini.svg}"
+        <a class="sidebar-brand brand-logo-mini" th:href="@{/users/}"><img th:src="@{../../../static/images/logo-mini.svg}"
                 alt="logo" /></a>
     </div>
     <ul class="nav">
         <li class="nav-item menu-items">
-            <a class="nav-link" th:href="@{/users/{id}(id=${id})}">
+            <a class="nav-link" th:href="@{/users/}">
                 <span class="menu-icon">
                     <i class="mdi mdi-home"></i>
                 </span>
@@ -15,7 +15,7 @@
             </a>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" th:href="@{/users/files/{id}(id=${id})}">
+            <a class="nav-link" th:href="@{/users/files/}">
                 <span class="menu-icon">
                     <i class="mdi mdi-folder-multiple-outline"></i>
                 </span>

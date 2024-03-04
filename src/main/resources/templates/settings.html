@@ -88,14 +88,14 @@
                           </div>
                         </div>
                       </div>
-                      <form id="uploadForm" th:action="@{/settingsuser/post}" method="POST"
+                      <form id="uploadForm" th:action="@{/post/settingsuser}" method="POST"
                         enctype="multipart/form-data" style="display: none;">
                         <input type="file" id="imageInput" name="image" accept="image/jpeg, image/png">
                       </form>
                       <!-- END IMAGE -->
                       
 
-                      <form class="" th:action="@{/settingsuser/post}" th:object="${user}" method="post">
+                      <form class="" th:action="@{/post/settingsuser}" th:object="${user}" method="post">
                         <input type="hidden" name="id" th:value="${user.id}" />
                         <div>
 
@@ -139,7 +139,7 @@
                 </div>
 
                 <!-- El DISEÑO SE PONE ABAJO POR CULPA DEL FORM -->
-                <form class="col-lg-8" th:action="@{/settingsoptional/post}" th:object="${userinfo}" method="post">
+                <form class="col-lg-8" th:action="@{/post/settingsoptional}" th:object="${userinfo}" method="post">
                   <div>
                     <div class="card mb-4">
                       <div class="border rounded card-body settingsMinSize">
