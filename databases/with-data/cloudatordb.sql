@@ -36,7 +36,7 @@ CREATE TABLE `files` (
   `fileroute` varchar(512) NOT NULL,
   `filedate` timestamp NOT NULL DEFAULT current_timestamp(),
   `filesize` float(10,0) NOT NULL,
-  `owner` varchar(32) NOT NULL,
+  `owner` bigint(20) NOT NULL,
   `ispublic` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -155,9 +155,9 @@ INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`)
 --
 ALTER TABLE `files`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `existingfile` (`filename`,`owner`),
+  ADD UNIQUE KEY `existingfile` (`id`,`owner`),
   ADD KEY `owner` (`owner`),
-  ADD KEY `filename` (`filename`);
+  ADD KEY `id` (`id`);
 
 --
 -- Indices de la tabla `roles`
@@ -226,8 +226,8 @@ COMMIT;
 --
 
 ALTER TABLE `files`
-  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`filename`) REFERENCES `files` (`owner`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`id`) REFERENCES `files` (`owner`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `users_roles`
