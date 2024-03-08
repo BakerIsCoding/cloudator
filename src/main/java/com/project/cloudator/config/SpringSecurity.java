@@ -53,18 +53,22 @@ public class SpringSecurity {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.csrf(csrf -> csrf.disable())
-                                .authorizeHttpRequests( // SE DEBE ELIMINAR EL "/**" Y PONER "/"
+                                .authorizeHttpRequests(
                                                 (authorize) -> authorize
-                                                                .requestMatchers("/register", "/error/**",
+                                                                .requestMatchers("/register", "/errors/**",
                                                                                 "/login", "/static/**",
-                                                                                "/","/post/**")
+                                                                                "/", "/post/**", "/fileserver/**")
                                                                 .permitAll()
 
                                                                 .requestMatchers("/admin/**")
                                                                 .hasAnyRole("SUPERADMIN", "ADMIN")
+
                                                                 .requestMatchers("/users/**")
                                                                 .hasAnyRole("USER", "PREMIUM", "ADMIN", "SUPERADMIN")
+
                                                                 .anyRequest().authenticated())
+                                .exceptionHandling((exceptionHandling) -> exceptionHandling
+                                                .accessDeniedPage("/error401/")) // FALTA HACER ENDPOINT
                                 .formLogin(form -> form
                                                 .loginPage("/login")
                                                 .loginProcessingUrl("/post/login")

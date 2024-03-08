@@ -6,9 +6,9 @@ public class Encryptor {
 
     private AES256TextEncryptor textEncryptor;
 
-    public Encryptor(String secretKey) {
+    public Encryptor(String secretKeyEncryptor) {
         textEncryptor = new AES256TextEncryptor();
-        textEncryptor.setPassword(secretKey);
+        textEncryptor.setPassword(secretKeyEncryptor);
     }
 
     public String encrypt(String data) {

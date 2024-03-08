@@ -47,11 +47,6 @@ public class UserController {
         return "landing";
     }
 
-    @GetMapping("/1")
-    public String tempTemplate() {
-        return "index";
-    }
-
     @GetMapping("/users/")
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
@@ -210,18 +205,18 @@ public class UserController {
 
         try {
             if (!regex.isValidPassword(userr.getPassword())) {
-                return "redirect:/users/edit?error2=1";
+                return "redirect:/users/edit/?error2=1";
             }
             userService.updateUsername(userId, userr.getUsername());
             userService.updateEmail(userId, userr.getEmail());
             userService.updatePassword(userId, userr.getPassword());
 
-            return "redirect:/users/edit?success=1";
+            return "redirect:/users/edit/?success=1";
         } catch (Exception e) {
 
             e.printStackTrace();
             System.out.println(e.getMessage());
-            return "redirect:/users/edit?error=1";
+            return "redirect:/users/edit/?error=1";
         }
 
     }
@@ -233,11 +228,25 @@ public class UserController {
         String userId = userinfo.getId().toString();
         try {
             userInfoService.save(userinfo);
-            return "redirect:/users/edit?success=1";
+            return "redirect:/users/edit/?success=1";
         } catch (Exception e) {
-            return "redirect:/users/edit?error=1";
+            return "redirect:/users/edit/?error=1";
         }
 
+    }
+
+    @GetMapping("/users/plan/")
+    public String showPlan(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
+        // Se añade el objeto user a thymeleaf
+        User user = userService.getUserById(userServerId);
+        model.addAttribute("user", user);
+
+        return "/plan";
     }
 
 }

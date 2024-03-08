@@ -9,26 +9,26 @@
 
     function addActiveClass(element) {
       var current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
-      if (current == "users") {
-        //para la página de principal
-        if (element.attr('href').indexOf("users") !== -1 && !$('.nav-item.active').length){
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
+      if (current == "users" || current == "admin") {
+        // para las páginas principales "users" o "admin"
+        if (element.attr('href').indexOf(current) !== -1 && !$('.nav-item.active').length) {
+            element.parents('.nav-item').last().addClass('active');
+            if (element.parents('.sub-menu').length) {
+                element.closest('.collapse').addClass('show');
+                element.addClass('active');
+            }
         }
       } else {
-        //para las demás páginas
+        // para las demás páginas
         if (element.attr('href').indexOf(current) !== -1) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-          if (element.parents('.submenu-item').length) {
-            element.addClass('active');
-          }
+            element.parents('.nav-item').last().addClass('active');
+            if (element.parents('.sub-menu').length) {
+                element.closest('.collapse').addClass('show');
+                element.addClass('active');
+            }
+              if (element.parents('.submenu-item').length) {
+                element.addClass('active');
+              }
         }
       }
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <!-- Required meta tags -->
@@ -27,10 +27,11 @@
 </head>
 
 <body>
+    
     <div class="container-scroller">
         <!--LEFT SIDEBAR -->
         <div th:replace="~{fragments/sidebar :: html_sidebar}"></div>
-
+    
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
 
@@ -55,7 +56,7 @@
                                         </div>
                                         <div class="col-3 col-sm-2 col-xl-2 ps-0 text-end">
                                             <span>
-                                                <a href="!!!!!!!!!!!!REDIRIGIR A CAMBIO DE PLAN .HTML" target="_blank"
+                                                <a th:href="@{/users/plan/}"
                                                     class="btn btn-outline-light btn-rounded get-started-btn">Cambiar
                                                     plan</a>
                                             </span>

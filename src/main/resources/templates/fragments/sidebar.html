@@ -2,8 +2,8 @@
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
         <a class="sidebar-brand brand-logo" th:href="@{/users/}"><img th:src="@{../../../static/images/logo.svg}"
                 alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" th:href="@{/users/}"><img th:src="@{../../../static/images/logo-mini.svg}"
-                alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini" th:href="@{/users/}"><img
+                th:src="@{../../../static/images/logo-mini.svg}" alt="logo" /></a>
     </div>
     <ul class="nav">
         <li class="nav-item menu-items">
@@ -23,37 +23,33 @@
             </a>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
+            <a class="nav-link" th:href="@{/users/plan/}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-playlist-play"></i>
+                    <i class="mdi mdi-calendar-clock"></i>
                 </span>
-                <span class="menu-title">Form Elements</span>
+                <span class="menu-title">Mi Plan</span>
             </a>
         </li>
         <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/tables/basic-table.html">
+            <a class="nav-link" th:href="@{/users/upload/}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-table-large"></i>
+                    <i class="mdi mdi-cloud-download"></i>
                 </span>
-                <span class="menu-title">Tables</span>
+                <span class="menu-title">Subir Archivos</span>
             </a>
         </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/charts/chartjs.html">
+        <!--Verificar si el usuario tiene el rol "SUPERADMIN" o "ADMIN"
+        
+        <th:block th:if="${hasRole('SUPERADMIN') or hasRole('ADMIN')}"> -->
+        <li class="nav-item menu-items" sec:authorize="hasRole('ROLE_ADMIN')">
+            <a class="nav-link" th:href="@{/admin/panel}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-chart-bar"></i>
+                    <i class="mdi mdi-crown"></i>
                 </span>
-                <span class="menu-title">Charts</span>
+                <span class="menu-title">Panel Administrador</span>
             </a>
         </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="pages/icons/mdi.html">
-                <span class="menu-icon">
-                    <i class="mdi mdi-contacts"></i>
-                </span>
-                <span class="menu-title">Icons</span>
-            </a>
-        </li>
+
         <li class="nav-item menu-items">
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <span class="menu-icon">
@@ -71,15 +67,6 @@
                     <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
                 </ul>
             </div>
-        </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link"
-                href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
-                <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
-                </span>
-                <span class="menu-title">Documentation</span>
-            </a>
         </li>
     </ul>
     <script th:src="@{../../../static/js/jquery-3.7.1.min.js}"></script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2024 a las 15:39:26
+-- Tiempo de generación: 08-03-2024 a las 17:41:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cloudatordb`
 --
-CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `cloudatordb`;
 
 -- --------------------------------------------------------
@@ -35,14 +35,10 @@ CREATE TABLE `files` (
   `filetype` varchar(128) NOT NULL,
   `fileroute` varchar(512) NOT NULL,
   `filedate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `filesize` float(10,0) NOT NULL,
-  `owner` varchar(32) NOT NULL,
+  `filesize` bigint(20) NOT NULL,
+  `owner` bigint(20) NOT NULL,
   `ispublic` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `files`
---
 
 -- --------------------------------------------------------
 
@@ -54,16 +50,6 @@ CREATE TABLE `roles` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `roles`
---
-
-INSERT INTO `roles` (`id`, `name`) VALUES
-(1, 'ROLE_SUPERADMIN'),
-(2, 'ROLE_ADMIN'),
-(3, 'ROLE_PREMIUM'),
-(4, 'ROLE_USER');
 
 -- --------------------------------------------------------
 
@@ -80,13 +66,6 @@ CREATE TABLE `user` (
   `version` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
--- Volcado de datos para la tabla `user`
---
-
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`, `version`) VALUES
-(2, 'admingod', '$2a$10$pYv4bDY/B4uey5BfVM26JOLu2/BGqZ5xZGEEWuwb.UMZ0ld9vemJq', 'admingod@gmail.com', '2024-02-08 14:21:31', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -97,13 +76,6 @@ CREATE TABLE `users_roles` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `users_roles`
---
-
-INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
-(2, 4);
 
 -- --------------------------------------------------------
 
@@ -116,13 +88,6 @@ CREATE TABLE `user_access` (
   `counter` int(11) DEFAULT NULL,
   `isblocked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Volcado de datos para la tabla `user_access`
---
-
-INSERT INTO `user_access` (`id`, `counter`, `isblocked`) VALUES
-(2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -140,13 +105,6 @@ CREATE TABLE `user_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `user_info`
---
-
-INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`) VALUES
-(2, 'EDUARDO', 'FORRO', '2024-03-02', 'Forro', NULL);
-
---
 -- Índices para tablas volcadas
 --
 
@@ -155,9 +113,12 @@ INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`)
 --
 ALTER TABLE `files`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `existingfile` (`filename`,`owner`),
+  ADD UNIQUE KEY `existingfile` (`id`,`owner`),
+  ADD UNIQUE KEY `filename_3` (`filename`,`owner`),
   ADD KEY `owner` (`owner`),
-  ADD KEY `filename` (`filename`);
+  ADD KEY `id` (`id`),
+  ADD KEY `filename` (`filename`),
+  ADD KEY `filename_2` (`filename`);
 
 --
 -- Indices de la tabla `roles`
@@ -203,20 +164,20 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT de la tabla `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -224,10 +185,8 @@ COMMIT;
 --
 -- Filtros para la tabla `files`
 --
-
 ALTER TABLE `files`
-  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `files_ibfk_2` FOREIGN KEY (`filename`) REFERENCES `files` (`owner`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `files_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `users_roles`
