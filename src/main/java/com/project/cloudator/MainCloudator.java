@@ -3,7 +3,6 @@ package com.project.cloudator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 import com.project.cloudator.functions.LogWriter;
 
 /**
@@ -30,5 +29,4 @@ public class MainCloudator {
 		// logwriter.startWriter("");
 		SpringApplication.run(MainCloudator.class, args);
 	}
-
 }

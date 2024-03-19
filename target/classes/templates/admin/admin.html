@@ -24,8 +24,32 @@
     <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
     <!-- End layout styles -->
     <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
-</head>
+    <style>
+      .tooltip {
+    visibility: hidden;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-container:hover .tooltip {
+    visibility: visible;
+}
+    </style>
+</head>
 <body>
     <div class="container-scroller">
         <!--LEFT SIDEBAR -->
@@ -50,8 +74,84 @@
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Administrador</h4>
-
+                                    <h4 class="card-title">Lista Usuarios</h4>
+                                    <div th:if="${not #lists.isEmpty(users)}">
+                                        <table class="table table-striped">
+                                            <tr class="tituloBlanco text-center th">
+                                                <th>Id</th>
+                                                <th>Usuario</th>
+                                                <th>Email</th>
+                                                <th>Bloqueado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            <tr class="text-center td" th:each="user: ${users}">
+                                                <td th:text="${user.id}">Id</td>
+                                                <td th:text="${user.username}">Nombre de usuario</td>
+                                                <td th:text="${user.email}">Email</td>
+                                                <td>
+                                                    <label class="switch" th:if="${userAccess != null}">
+                                                        <span th:class="${userAccess.isblocked ? 'icon-red mdi mdi-close-circle icon-md' : 'icon-green mdi mdi-check-circle icon-md'}"></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                  <div class="tooltip-container">
+                                                      <a th:href="${'/admin/edit/' + user.id}" class="mdi mdi-lead-pencil icon-md"></a>
+                                                      <span class="tooltip">Editar usuario</span>
+                                                  </div>
+                                                  <span class="espacio"></span>
+                                                  <div class="tooltip-container">
+                                                      <a th:href="${'/admin/users/unblock/' + user.id}" class="icon-green mdi mdi-lock-open-outline icon-md" data-bs-toggle="modal" data-bs-target="#desbloquearModal"></a>
+                                                      <span class="tooltip">Desbloquear usuario</span>
+                                                  </div>
+                                                  <span class="espacio"></span>
+                                                  <div class="tooltip-container">
+                                                      <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md" data-bs-toggle="modal" data-bs-target="#bloquearModal"></a>
+                                                      <span class="tooltip">Bloquear usuario</span>
+                                                  </div>
+                                                  <span class="espacio"></span>
+                                                  <div class="tooltip-container">
+                                                      <a th:href="${'/admin/users/delete/' + user.id}" class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal" data-bs-target="#eliminarModal"></a>
+                                                      <span class="tooltip">Eliminar usuario</span>
+                                                  </div>
+                                              </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!--
+                                    <div id="confirmation-dialog" class="confirmation-dialog">
+                                        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                                        <button onclick="confirmDeletion()">Eliminar</button>
+                                        <button onclick="cancelDeletion()">Cancelar</button>
+                                    </div>
+                                    -->
+                                    <div class="page-content page-container" id="page-content">
+                                        <div class="padding">
+                                            <div style="padding-left: inherit">
+                                                <div class="col-md-4 col-sm-6 grid-margin stretch-card">
+                                                    <div class="card-body">
+                                                        <nav class="text-center">
+                                                            <ul class="pagination pagination-flat pagination-success">
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                                                            class="fa fa-angle-left"><</i></a>                              
+                                                                </li>
+                                                                <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">5</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">6</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">7</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">8</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true">9</a></li>
+                                                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                                                            class="fa fa-angle-right">></i></a></li>
+                                                            </ul>
+                                                        </nav>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,6 +168,74 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+
+  <!-- Icon Modal -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="exclamation-triangle-fill" fill="yellow" viewBox="0 0 16 16">
+      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+  </svg>
+
+  <!-- Modals -->
+  <!-- Modal Eliminar -->
+  <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header fondo-blue">
+            <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+          <h4 class="modal-title" id="exampleModalLabel">Atencion!</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fondo-grey">
+          Vas a eliminar este usuario, ¿Estás seguro?
+        </div>
+        <div class="modal-footer fondo-grey">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Bloquear -->
+  <div class="modal fade" id="bloquearModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header fondo-blue">
+            <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+          <h4 class="modal-title" id="exampleModalLabel">Atencion!</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fondo-grey">
+          Vas a bloquear este usuario, ¿Estás seguro?
+        </div>
+        <div class="modal-footer fondo-grey">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Bloquear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Desbloquear -->
+  <div class="modal fade" id="desbloquearModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header fondo-blue">
+            <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+          <h4 class="modal-title" id="exampleModalLabel">Atencion!</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fondo-grey">
+          Vas a desbloquear este usuario, ¿Estás seguro?
+        </div>
+        <div class="modal-footer fondo-grey">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Desbloquear</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- container-scroller -->
     <!-- plugins:js -->
@@ -91,6 +259,7 @@
     <script th:src="@{../../../static/js/dashboard.js}"></script>
     <script th:src="@{../../../static/js/sort.js}"></script>
     <!-- End custom js for this page -->
+    <script th:src="@{../../../static/js/panelAdmin.js}"></script>
 </body>
 
 </html>

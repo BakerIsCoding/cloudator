@@ -16,12 +16,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.cloudator.dto.UserDto;
+import com.project.cloudator.entity.Role;
 import com.project.cloudator.entity.User;
 import com.project.cloudator.entity.UserInfo;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
+import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
+import com.project.cloudator.repository.RoleRepository;
+import com.project.cloudator.repository.UserAccessRepository;
+import com.project.cloudator.repository.UserInfoRepository;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +39,13 @@ public class UserController {
     private Regex regex;
 
     @Autowired
+    private RoleRepository RoleRepository;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -51,13 +62,12 @@ public class UserController {
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
             Model model) {
-        
+
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
 
-        
         model.addAttribute("users", userService.getUserById(userServerId));
         System.out.println(userServerId);
         return "index";
@@ -198,10 +208,12 @@ public class UserController {
 
     @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
-            BindingResult result) {
+            BindingResult result, Model model) {
 
         Long userId = userr.getId();
-        //String userIdString = userId.toString();
+        // String userIdString = userId.toString();
+        Role role = RoleRepository.fetchRoleById(userId);
+        model.addAttribute("role", role);
 
         try {
             if (!regex.isValidPassword(userr.getPassword())) {
@@ -211,7 +223,13 @@ public class UserController {
             userService.updateEmail(userId, userr.getEmail());
             userService.updatePassword(userId, userr.getPassword());
 
-            return "redirect:/users/edit/?success=1";
+            if (userr.getRoles() != null) {
+                return "redirect:/admin/edit/userId ?success=2=1";
+
+            } else {
+                return "redirect:/users/edit/?success=1";
+            }
+
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -223,13 +241,24 @@ public class UserController {
 
     @PostMapping("/post/settingsoptional")
     public String postOptional(@Valid @ModelAttribute("userinfo") UserInfo userinfo,
-            BindingResult result) {
+            BindingResult result, Model model) {
+
+        Role role = RoleRepository.fetchRoleById(userinfo.getId());
+        model.addAttribute("role", role);
 
         String userId = userinfo.getId().toString();
+
         try {
             userInfoService.save(userinfo);
-            return "redirect:/users/edit/?success=1";
+
+            if (role.getName().equals("ROLE_ADMIN") || role.getName().equals("ROLE_SUPERADMIN")) {
+                return "redirect:/admin/edit/userId?success=2=1";
+
+            } else {
+                return "redirect:/users/edit/?success=1";
+            }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return "redirect:/users/edit/?error=1";
         }
 

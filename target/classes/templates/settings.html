@@ -50,6 +50,11 @@
               Actualizado correctamente.
             </div>
           </div>
+          <div th:if="${param.success2}">
+            <div class="alert alert-success">
+              Un administrador a actualizado correctamente.
+            </div>
+          </div>
           <div th:if="${param.error}">
             <div class="alert alert-danger">
               Ha ocurrido un error al actualizar los datos, inténtalo de nuevo más tarde.

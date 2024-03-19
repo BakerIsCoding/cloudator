@@ -11987,7 +11987,7 @@ textarea.is-invalid.tt-hint {
   pointer-events: auto;
   background-color: #000000;
   background-clip: padding-box;
-  border: 1px solid #2c2e33;
+  border: 2px solid #9e9fa2;
   border-radius: 0.3rem;
   outline: 0; }
 
@@ -12009,8 +12009,8 @@ textarea.is-invalid.tt-hint {
   flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1rem;
-  border-bottom: 1px solid #2c2e33;
+  padding: 7px 7px;
+  border-bottom: 1px solid #aeb0b5;
   border-top-left-radius: calc(0.3rem - 1px);
   border-top-right-radius: calc(0.3rem - 1px); }
   .modal-header .btn-close {
@@ -12033,7 +12033,6 @@ textarea.is-invalid.tt-hint {
   align-items: center;
   justify-content: flex-end;
   padding: 0.6875rem;
-  border-top: 1px solid #2c2e33;
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px); }
   .modal-footer > * {

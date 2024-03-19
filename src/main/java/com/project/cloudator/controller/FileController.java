@@ -57,7 +57,7 @@ public class FileController {
 	@Autowired
 	private UserService userService;
 	// destination folder to upload the files
-	private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
+	// private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
 	private static final String STORAGE_SERVER_URL = "https://d533-91-126-76-58.ngrok-free.app/upload/file";
 
 	@GetMapping("/upload")
@@ -152,8 +152,8 @@ public class FileController {
 
 		try {
 			byte[] bytes = image.getBytes();
-			Path path = Paths.get(UPLOAD_FOLDER + image.getOriginalFilename());
-			Files.write(path, bytes);
+			// Path path = Paths.get(UPLOAD_FOLDER + image.getOriginalFilename());
+			// Files.write(path, bytes);
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.MULTIPART_FORM_DATA);

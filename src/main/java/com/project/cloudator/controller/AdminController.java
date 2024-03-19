@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
 import com.project.cloudator.dto.UserDto;
+import com.project.cloudator.entity.Role;
 import com.project.cloudator.entity.User;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.service.UserService;
+import com.project.cloudator.repository.RoleRepository;
+import com.project.cloudator.repository.UserAccessRepository;
+import com.project.cloudator.repository.UserRepository;
+import com.project.cloudator.service.UserAccessService;
+import com.project.cloudator.service.UserInfoService;
+import com.project.cloudator.entity.UserAccess;
+import com.project.cloudator.entity.UserInfo;
 
 @Controller
 public class AdminController {
@@ -24,10 +31,19 @@ public class AdminController {
     // private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
     private LogWriter logWriter;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserAccessRepository repo;
+
+    @Autowired
+    private RoleRepository RoleService;
 
     /**
      * Obtiene una lista de usuarios registrados.
@@ -42,7 +58,8 @@ public class AdminController {
 
     @GetMapping("/admin/panel")
     public String adminPanel(Model model) {
-        org.springframework.security.core.Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.Authentication authentication2 = SecurityContextHolder.getContext()
+                .getAuthentication();
         UserDetails userDetails = (UserDetails) authentication2.getPrincipal();
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
@@ -50,13 +67,16 @@ public class AdminController {
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
-        /*
-         * Integer page = 0;
-         * Integer size = 10;
-         * List<UserDto> users = userService.findFirstXUsers(page, size);
-         * 
-         * model.addAttribute("users", users);
-         */
+
+        UserAccess userAccess = repo.fetchUserAccess(userServerId);
+
+        Integer page = 0;
+        Integer size = 10;
+        List<UserDto> users = userService.findFirstXUsers(page, size);
+
+        model.addAttribute("users", users);
+        model.addAttribute("userAccess", userAccess);
+
         return "/admin/admin";
     }
 
@@ -102,4 +122,23 @@ public class AdminController {
         }
         return "redirect:/admin";
     }
+
+    @GetMapping("/admin/edit/{id}")
+    public String showUser(Model model, @PathVariable Long id) {
+
+        // Se añade el objeto user a thymeleaf
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+
+        // Se añade el objeto userInfo a thymeleaf
+        UserInfo userinfo = userInfoService.getUserInfoById(id);
+        model.addAttribute("userinfo", userinfo);
+
+        // Se añade el objeto userInfo a thymeleaf
+        Role role = RoleService.findByName("ROLE_ADMIN");
+        model.addAttribute("role", role);
+
+        return "/settings";
+    }
+
 }
