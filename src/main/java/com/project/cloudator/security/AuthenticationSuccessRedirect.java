@@ -69,7 +69,7 @@ public class AuthenticationSuccessRedirect implements AuthenticationSuccessHandl
                             String redirectUrl = defaultRedirectUrl;
                             response.sendRedirect(response.encodeRedirectURL(redirectUrl));
                         } else if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SUPERADMIN")) {
-                            String redirectUrl = "/admin/";
+                            String redirectUrl = "/admin/panel";
                             response.sendRedirect(response.encodeRedirectURL(redirectUrl));
                         } else {
                             logWriter.writeError("No se que rol es " + role);

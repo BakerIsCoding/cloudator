@@ -39,5 +39,8 @@ public class File {
     private Long owner;
 
     @Column(nullable = false)
+    private String url;
+
+    @Column(nullable = false)
     private Boolean ispublic;
 }

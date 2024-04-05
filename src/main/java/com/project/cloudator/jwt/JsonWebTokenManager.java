@@ -66,6 +66,7 @@ public class JsonWebTokenManager {
             String decryptedFileSize = securityService.decryptData(jwt.getClaim("filesize").asString());
             String decryptedOwner = securityService.decryptData(jwt.getClaim("owner").asString());
             String decryptedIsPublic = securityService.decryptData(jwt.getClaim("ispublic").asString());
+            String decryptedUrl = securityService.decryptData(jwt.getClaim("url").asString());
 
             arrayItems.add(decryptedFileName);
             arrayItems.add(decryptedFileType);
@@ -74,6 +75,7 @@ public class JsonWebTokenManager {
             arrayItems.add(decryptedFileSize);
             arrayItems.add(decryptedOwner);
             arrayItems.add(decryptedIsPublic);
+            arrayItems.add(decryptedUrl);
 
             return arrayItems;
         } catch (JWTVerificationException exception) {

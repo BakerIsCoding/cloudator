@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2024 a las 17:47:07
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 04-04-2024 a las 16:48:43
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cloudatordb`
 --
-CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `cloudatordb`;
 
 -- --------------------------------------------------------
 
@@ -37,17 +35,18 @@ CREATE TABLE `files` (
   `filedate` timestamp NOT NULL DEFAULT current_timestamp(),
   `filesize` bigint(20) NOT NULL,
   `owner` bigint(20) NOT NULL,
-  `ispublic` tinyint(1) NOT NULL
+  `ispublic` tinyint(1) NOT NULL,
+  `url` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `files`
 --
 
-INSERT INTO `files` (`id`, `filename`, `filetype`, `fileroute`, `filedate`, `filesize`, `owner`, `ispublic`) VALUES
-(16, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-03-08 16:30:40', 57277, 3, 1),
-(18, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:19', 57277, 2, 1),
-(19, 'cloudatordb (11).sql', 'application/x-sql', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:31', 6426, 2, 1);
+INSERT INTO `files` (`id`, `filename`, `filetype`, `fileroute`, `filedate`, `filesize`, `owner`, `ispublic`, `url`) VALUES
+(16, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-03-08 16:30:40', 57277, 3, 1, ''),
+(18, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:19', 57277, 2, 1, ''),
+(19, 'cloudatordb (11).sql', 'application/x-sql', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:31', 6426, 2, 1, '');
 
 -- --------------------------------------------------------
 

@@ -75,6 +75,21 @@ public class SpringSecurity {
                                                 .successHandler(AuthenticationSuccessRedirect)
                                                 .failureHandler(loginFailureHandler)
                                                 .permitAll())
+
+                                // Agrega una configuración para recordar el nombre de usuario si el checkbox
+                                // está marcado
+                                .rememberMe(rememberMe -> rememberMe
+                                                .rememberMeParameter("rememberMe") // Nombre del parámetro del checkbox
+                                                                                   // en tu formulario
+
+                                                .userDetailsService(userDetailsService()) // Aquí debes proporcionar tu
+                                                                                          // servicio de detalles de
+                                                                                          // usuario
+
+                                                .tokenValiditySeconds(3600) // Duración de la cookie de recordar sesión
+                                                .key("w7Uv#Q@&!2f3L$R*6gZ9s")) // Clave secreta para firmar los tokens
+                                                                               // de recordar sesión
+
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                                 .permitAll());

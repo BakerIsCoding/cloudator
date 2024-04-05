@@ -28,9 +28,13 @@ import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserInfoRepository;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -53,6 +57,12 @@ public class UserController {
     @Autowired
     private LogWriter logWriter;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
+
     @GetMapping("/")
     public String home() {
         return "landing";
@@ -61,7 +71,7 @@ public class UserController {
     @GetMapping("/users/")
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
-            Model model) {
+            Model model, @RequestParam(value = "rememberMe", required = false) boolean rememberMe) {
 
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
@@ -70,6 +80,23 @@ public class UserController {
 
         model.addAttribute("users", userService.getUserById(userServerId));
         System.out.println(userServerId);
+        if (rememberMe) {
+            // Si se marca el checkbox "Recordar usuario", guarda el nombre de usuario en
+            // una cookie segura
+            Cookie cookie = new Cookie("rememberedUsername", username);
+            cookie.setMaxAge(30 * 24 * 60 * 60); // La cookie expira en 30 días
+            cookie.setPath("/");
+            cookie.setSecure(true); // Para HTTPS
+            response.addCookie(cookie);
+        } else {
+            // Si no se marca, asegúrate de borrar la cookie
+            Cookie cookie = new Cookie("rememberedUsername", null);
+            cookie.setMaxAge(0); // Caduca inmediatamente
+            cookie.setPath("/");
+            cookie.setSecure(true); // Para HTTPS
+            response.addCookie(cookie);
+        }
+
         return "index";
     }
 
@@ -276,6 +303,20 @@ public class UserController {
         model.addAttribute("user", user);
 
         return "/plan";
+    }
+
+    @GetMapping("/users/search/")
+    public String showSearch(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
+        // Se añade el objeto user a thymeleaf
+        User user = userService.getUserById(userServerId);
+        model.addAttribute("user", user);
+
+        return "/search";
     }
 
 }

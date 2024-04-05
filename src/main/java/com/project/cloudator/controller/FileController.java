@@ -58,7 +58,10 @@ public class FileController {
 	private UserService userService;
 	// destination folder to upload the files
 	// private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
-	private static final String STORAGE_SERVER_URL = "https://d533-91-126-76-58.ngrok-free.app/upload/file";
+	// private static final String STORAGE_SERVER_URL =
+	// "https://host.cloudator.live/upload/file"; //DESCOMENTAR CUANDO FUNCIONE EN
+	// EL SERVIDOR.
+	private static final String STORAGE_SERVER_URL = "https://158e-31-4-247-43.ngrok-free.app/upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
@@ -114,6 +117,7 @@ public class FileController {
 
 			try {
 				ArrayList<String> arrayItems = jwtManager.decodeJwt(serverResponse);
+				System.out.println(serverResponse);
 
 				String fileDateString = arrayItems.get(3);
 				DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
@@ -121,6 +125,7 @@ public class FileController {
 
 				Long fileSizeLong = Long.parseLong(arrayItems.get(4));
 				Long owner = Long.parseLong(arrayItems.get(5));
+				String url = arrayItems.get(7);
 
 				File fileEntity = new File();
 
@@ -132,6 +137,7 @@ public class FileController {
 				System.out.println("owner: '" + owner + "'");
 				fileEntity.setOwner(owner);
 				fileEntity.setIspublic(Boolean.parseBoolean(arrayItems.get(6)));
+				fileEntity.setUrl(url);
 
 				fileService.saveFileOnDb(fileEntity);
 			} catch (Exception e) {

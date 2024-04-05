@@ -5,8 +5,9 @@
       </button>
       <ul class="navbar-nav w-100">
         <li class="nav-item w-100">
-          <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-            <input type="text" class="serchBox" placeholder="Buscar...">
+          <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search" onsubmit="return redirectToSearch()">
+            <input type="text" class="serchBox" id="searchInput" placeholder="Buscar..." >
+            
           </form>
         </li>
       </ul>
@@ -152,4 +153,5 @@
         <span class="mdi mdi-format-line-spacing"></span>
       </button>
     </div>
+    <script th:src="@{../../../static/js/search.js}"></script>
   </nav>

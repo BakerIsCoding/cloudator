@@ -24,31 +24,6 @@
     <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
     <!-- End layout styles -->
     <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
-    <style>
-      .tooltip {
-    visibility: hidden;
-    width: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.tooltip-container {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip-container:hover .tooltip {
-    visibility: visible;
-}
-    </style>
 </head>
 <body>
     <div class="container-scroller">
@@ -94,36 +69,32 @@
                                                     </label>
                                                 </td>
                                                 <td>
-                                                  <div class="tooltip-container">
-                                                      <a th:href="${'/admin/edit/' + user.id}" class="mdi mdi-lead-pencil icon-md"></a>
-                                                      <span class="tooltip">Editar usuario</span>
+                                                  <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))" onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                                                    <a th:href="${'/admin/edit/' + user.id}" class="mdi mdi-lead-pencil icon-md"></a>
+                                                    <span class="tooltip">Editar usuario</span>
                                                   </div>
                                                   <span class="espacio"></span>
-                                                  <div class="tooltip-container">
-                                                      <a th:href="${'/admin/users/unblock/' + user.id}" class="icon-green mdi mdi-lock-open-outline icon-md" data-bs-toggle="modal" data-bs-target="#desbloquearModal"></a>
-                                                      <span class="tooltip">Desbloquear usuario</span>
+                                                
+                                                  <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))" onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                                                    <a th:href="${'/admin/users/unblock/' + user.id}" class="icon-green mdi mdi-lock-open-outline icon-md" data-bs-toggle="modal" data-bs-target="#desbloquearModal"></a>
+                                                    <span class="tooltip">Desbloquear usuario</span>
                                                   </div>
                                                   <span class="espacio"></span>
-                                                  <div class="tooltip-container">
-                                                      <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md" data-bs-toggle="modal" data-bs-target="#bloquearModal"></a>
-                                                      <span class="tooltip">Bloquear usuario</span>
+                                                
+                                                  <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))" onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                                                    <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md" data-bs-toggle="modal" data-bs-target="#bloquearModal"></a>
+                                                    <span class="tooltip">Bloquear usuario</span>
                                                   </div>
                                                   <span class="espacio"></span>
-                                                  <div class="tooltip-container">
-                                                      <a th:href="${'/admin/users/delete/' + user.id}" class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal" data-bs-target="#eliminarModal"></a>
-                                                      <span class="tooltip">Eliminar usuario</span>
+                                                
+                                                  <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))" onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                                                    <a th:href="${'/admin/users/delete/' + user.id}" class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal" data-bs-target="#eliminarModal"></a>
+                                                    <span class="tooltip">Eliminar usuario</span>
                                                   </div>
-                                              </td>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
-                                    <!--
-                                    <div id="confirmation-dialog" class="confirmation-dialog">
-                                        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-                                        <button onclick="confirmDeletion()">Eliminar</button>
-                                        <button onclick="cancelDeletion()">Cancelar</button>
-                                    </div>
-                                    -->
                                     <div class="page-content page-container" id="page-content">
                                         <div class="padding">
                                             <div style="padding-left: inherit">
@@ -191,7 +162,7 @@
         </div>
         <div class="modal-footer fondo-grey">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Eliminar</button>
+          <button type="button" class="btn btn-primary" id="eliminarUsuarioBtn" th:data-id="${user.id}" >Eliminar</button>
         </div>
       </div>
     </div>
@@ -258,8 +229,38 @@
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
     <script th:src="@{../../../static/js/sort.js}"></script>
+    <script th:src="@{../static/js/tooltips.js}"></script>
     <!-- End custom js for this page -->
-    <script th:src="@{../../../static/js/panelAdmin.js}"></script>
+    <script>
+      document.getElementById('eliminarUsuarioBtn').addEventListener('click', function() {
+        var userId = this.getAttribute('data-id');
+        
+        if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+          eliminarUsuario(userId);
+        }
+      });
+    
+      function eliminarUsuario(userId) {
+        fetch('/admin/users/delete/' + userId, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al eliminar el usuario');
+          }
+          // Manejar la respuesta, redireccionar o realizar otras acciones si es necesario
+          // Por ejemplo, puedes recargar la página después de eliminar el usuario
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al eliminar el usuario');
+        });
+      }
+    </script>
 </body>
 
 </html>

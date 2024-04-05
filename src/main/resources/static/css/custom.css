@@ -78,7 +78,7 @@
     background-color: #0056b3;
 }
 .login-bg {
-    background: url(/static/images/auth/fondo_1.jpg) no-repeat center center;
+    background: url(/static/images/auth/fondo_1_comprimido.jpg) no-repeat center center;
     background-size: cover;
 }
 .sign-upnoM a {
@@ -309,4 +309,68 @@ body {
 .fondo-grey {
     background-color: #2c2e33;
     color: white;
+}
+/* Register CCS */
+.password-container {
+    position: relative;
+}
+
+.info-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.tooltipRegister {
+    position: absolute;
+    top: -30px;
+    left: calc(100% + 10px);
+    font-size: 14px;
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+    opacity: 0;
+    width: 200px;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.mdi.mdi-information-outline {
+    color: #0d6efd;
+    font-size: 24px;
+}
+
+.forgot-pass {
+    color: #0d6efd;
+}
+
+/* Panel Admin CSS*/
+.tooltip {
+    position: absolute;
+    top: -45px;
+    left: -50px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+    opacity: 0;
+    width: 130px;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    text-align: center;
+  }
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
 }

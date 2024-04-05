@@ -13,63 +13,11 @@
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <style>
-    .login-bg {
-      background: url(../static/images/auth/fondo_1.jpg) no-repeat center center;
-      background-size: cover;
-    }
+  <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
+  <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}"/>
 
-    .password-container {
-      position: relative;
-    }
-
-    .info-button {
-      position: absolute;
-      right: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .tooltip {
-      position: absolute;
-      top: 0;
-      left: calc(100% + 10px);
-      margin-left: 10px;
-      padding: 10px;
-      background-color: #333;
-      color: #fff;
-      border-radius: 10px;
-      opacity: 0;
-      width: 200px;
-      visibility: hidden;
-      transition: opacity 0.3s;
-    }
-
-    .mdi.mdi-information-outline {
-      color: #0d6efd;
-      font-size: 24px;
-    }
-
-    .forgot-pass {
-      color: #0d6efd;
-    }
-  </style>
-  <script>
-    function mostrarMensaje() {
-      var tooltip = document.getElementById("tooltip");
-      tooltip.style.opacity = 1;
-      tooltip.style.visibility = "visible";
-    }
-
-    function ocultarMensaje() {
-      var tooltip = document.getElementById("tooltip");
-      tooltip.style.opacity = 0;
-      tooltip.style.visibility = "hidden";
-    }
-  </script>
   <!-- endinject -->
   <!-- Layout styles -->
   <link rel="stylesheet" th:href="@{../static/css/style.css}">
@@ -118,12 +66,12 @@
                   <label>Contraseña</label>
                   <div class="password-container">
                     <input id="password" name="password" placeholder="Introduce contraseña" th:field="*{password}"
-                      type="password" class="form-control p_input" required>
-                    <button type="button" class="info-button mdi mdi-information-outline" onmouseover="mostrarMensaje()"
-                      onmouseout="ocultarMensaje()"></button>
-                    <div id="tooltip" class="tooltip">(Mínimo 8 caracteres, incluyendo números,
-                      mayúsculas y minúsculas y un caracter especial "$ ; . _ - * .")</div>
-                  </div>
+                           type="password" class="form-control p_input" required>
+                    <button type="button" class="info-button mdi mdi-information-outline" 
+                            onmouseover="mostrarMensaje(this.parentElement.querySelector('.tooltipRegister'))" 
+                            onmouseout="ocultarMensaje(this.parentElement.querySelector('.tooltipRegister'))"></button>
+                    <div class="tooltipRegister">(Mínimo 8 caracteres, incluyendo números, mayúsculas y minúsculas y un caracter especial "$ ; . _ - * .")</div>
+                </div>
                   <div th:if="${param.errorpassword}">
                     <div class="alert alert-danger">
                       La contraseña no cumple con los requisitos.
@@ -177,6 +125,7 @@
   <script th:src="@{../static/js/settings.js}"></script>
   <script th:src="@{../static/js/todolist.js}"></script>
   <script th:src="@{../static/js/eventColorRegister.js}"></script>
+  <script th:src="@{../static/js/tooltips.js}"></script>
   <!-- endinject -->
 </body>
 

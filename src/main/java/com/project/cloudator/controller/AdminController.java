@@ -51,11 +51,6 @@ public class AdminController {
      * @param model Modelo para almacenar los usuarios.
      * @return La vista para mostrar la lista de usuarios registrados.
      */
-    @GetMapping("/admin/")
-    public String indexAdmin() {
-        return "/index";
-    }
-
     @GetMapping("/admin/panel")
     public String adminPanel(Model model) {
         org.springframework.security.core.Authentication authentication2 = SecurityContextHolder.getContext()

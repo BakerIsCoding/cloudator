@@ -80,7 +80,7 @@
                 <div class="col-lg-4">
                   <div class="card mb-4">
                     <div class="border rounded card-body text-center settingsMinSize">
-                      
+
                       <!-- IMAGE -->
                       <div class="position-relative" style="cursor: pointer;">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
@@ -98,7 +98,7 @@
                         <input type="file" id="imageInput" name="image" accept="image/jpeg, image/png">
                       </form>
                       <!-- END IMAGE -->
-                      
+
 
                       <form class="" th:action="@{/post/settingsuser}" th:object="${user}" method="post">
                         <input type="hidden" name="id" th:value="${user.id}" />
@@ -127,16 +127,16 @@
                           </div>
                           <div class="d-flex justify-content-center mb-2">
                             <button type="button" onclick="toggleUserEdit()" id="editUserInfo"
-                              class="btn btn-primary btn-icon-text">
-                              <i class="mdi mdi-account"></i> Editar </button>
+                              class="btn btn-primary btn-icon-text me-2" style="width: 49%;">
+                              <i class="mdi mdi-account"></i> Editar
+                            </button>
+                            <button type="submit" onclick="saveUserChanges()" id="saveUserChanges"
+                              class="btn btn-success btn-icon-text ms-2" style="width: 49%;" disabled>
+                              <i class="mdi mdi-content-save-all"></i> Guardar
+                            </button>
                           </div>
-                          <div class="col-sm-3">
-                            <button type="submit" onclick="saveUserChanges()" style="display: none;"
-                              id="saveUserChanges" class="btn btn-success btn-icon-text">
-                              <i class="mdi mdi-content-save-all"></i> Guardar </button>
-                          </div>
-                        </div>
 
+                        </div>
                       </form>
                     </div>
 
@@ -147,13 +147,13 @@
                 <form class="col-lg-8" th:action="@{/post/settingsoptional}" th:object="${userinfo}" method="post">
                   <div>
                     <div class="card mb-4">
-                      <div class="border rounded card-body settingsMinSize">
+                      <div class="border rounded card-body settingsMinSize d-flex flex-column">
                         <div class="row">
                           <input type="hidden" name="id" th:value="${userinfo.id}" />
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                             <p class="mb-0">Nombre</p>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-10">
 
                             <input id="name" name="name" type="text"
                               class="form-control input-disabled-settings text-muted mb-0 editable-input user-info-input"
@@ -162,10 +162,10 @@
                         </div>
                         <hr>
                         <div class="row">
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                             <p class="mb-0">Apellido</p>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-10">
                             <input id="surname" name="surname" type="text"
                               class="form-control input-disabled-settings text-muted mb-0 editable-input user-info-input"
                               th:value="${userinfo.getPSurname()}" disabled>
@@ -173,10 +173,10 @@
                         </div>
                         <hr>
                         <div class="row">
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                             <p class="mb-0">Dirección</p>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-10">
                             <input type="text" id="address" name="address"
                               class="form-control input-disabled-settings text-muted mb-0 editable-input user-info-input"
                               th:value="${userinfo.getPAddress()}" disabled>
@@ -184,10 +184,10 @@
                         </div>
                         <hr>
                         <div class="row">
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                             <p class="mb-0">Fecha de nacimiento</p>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-10">
                             <input type="date" id="birthday" name="birthday"
                               class="form-control input-disabled-settings text-muted mb-0 editable-input user-info-input"
                               th:value="${userinfo.getPBirthday()}" disabled>
@@ -195,10 +195,10 @@
                         </div>
                         <hr>
                         <div class="row">
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                             <p class="mb-0">Tipo de Usuario</p>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-10">
 
                             <input type="text" class="form-control input-disabled-settings text-muted mb-0"
                               th:each="role : ${user.roles}" th:value="${role.getDisplayName()}" disabled>
@@ -206,24 +206,23 @@
                           </div>
                         </div>
                         <hr>
-                        <div class="row">
-                          <div class="col-sm-3">
+                        <div class="row mt-auto">
+                          <div class="col d-flex justify-content-between">
                             <button type="button" onclick="toggleEdit()" id="editOptionalInfo"
-                              class="btn btn-primary btn-icon-text">
-                              <i class="mdi mdi-account"></i> Editar </button>
-                          </div>
-                          <div class="col-sm-3">
-                            <button type="submit" onclick="saveChanges()" style="display: none;" id="saveChanges"
-                              class="btn btn-success btn-icon-text">
-                              <i class="mdi mdi-content-save-all"></i> Guardar </button>
-                          </div>
-
-                          <div class="col-sm-3">
-                            <button type="button" onclick="deleteAccount()" id="deleteAccount"
-                              class="btn btn-danger btn-icon-text">
-                              <i class="mdi mdi-close btn-icon-prepend"></i> Eliminar Cuenta </button>
+                              class="btn btn-primary btn-icon-text mx-1 my-1" style="flex: 1 1 auto;">
+                              <i class="mdi mdi-account"></i> Editar
+                            </button>
+                            <button type="submit" id="saveChanges"
+                              class="btn btn-success btn-icon-text mx-1 my-1" style="flex: 1 1 auto;" disabled>
+                              <i class="mdi mdi-content-save-all"></i> Guardar
+                            </button>
+                            <button type="button" data-toggle="modal" data-target="#deleteaccountmodal" id="deleteAccount"
+                              class="btn btn-danger btn-icon-text mx-1 my-1" style="flex: 0 1 auto;">
+                              <i class="mdi mdi-close btn-icon-prepend"></i> Eliminar Cuenta
+                            </button>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   </div>
@@ -235,8 +234,25 @@
         </div>
       </div>
       <!-- content-wrapper ends -->
-
-
+      <!-- MODALS -->
+      <!-- Modal -->
+      <div class="modal fade" id="deleteaccountmodal" tabindex="-1" aria-labelledby="deleteaccountmodalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteaccountmodalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- partial -->
     </div>
     <!-- main-panel ends -->
@@ -264,17 +280,19 @@
         }
       });
 
-      // Cambia el display de los botones basado en el estado de edición
+      // Cambia el estado habilitado del botón de guardar basado en el estado de edición
+      saveButton.disabled = !saveButton.disabled;
+
+      // Cambia el texto y la clase del botón de editar basado en el estado de edición
       if (isEditing) {
-        saveButton.style.display = 'none';
         editButton.innerHTML = '<i class="mdi mdi-account"></i> Editar';
-        editButton.className = 'btn btn-primary btn-icon-text'; // Clase original
+        editButton.className = 'btn btn-primary btn-icon-text w-50'; // Clase original
       } else {
-        saveButton.style.display = 'block'; // O 'inline-block'
         editButton.innerHTML = '<i class="mdi mdi-close"></i> Cancelar';
-        editButton.className = 'btn btn-danger btn-icon-text'; // Cambia la clase a 'new'
+        editButton.className = 'btn btn-danger btn-icon-text w-50'; // Cambia la clase a 'danger'
       }
     }
+
 
     document.querySelector('form').addEventListener('submit', function () {
       const inputs = document.querySelectorAll('.editable-input.user-input');
@@ -286,7 +304,6 @@
 
 
     function toggleEdit() {
-      // Selecciona solo inputs que tengan ambas clases 'editable-input' y 'text-muted mb-0'
       const inputs = document.querySelectorAll('.text-muted.mb-0.editable-input.user-info-input');
       const editButton = document.getElementById('editOptionalInfo');
       const saveButton = document.getElementById('saveChanges');
@@ -304,50 +321,51 @@
         }
       });
 
-      // Cambia el display de los botones basado en el estado de edición
+      // Cambia el estado disabled de los botones basado en el estado de edición
+      saveButton.disabled = !saveButton.disabled;
+
       if (isEditing) {
-        saveButton.style.display = 'none';
         editButton.innerHTML = '<i class="mdi mdi-account"></i> Editar';
-        editButton.className = 'btn btn-primary btn-icon-text'; // Clase original
+        editButton.className = 'btn btn-primary btn-icon-text mx-1 my-1'; // Clase original
       } else {
-        saveButton.style.display = 'block'; // O 'inline-block'
         editButton.innerHTML = '<i class="mdi mdi-close"></i> Cancelar';
-        editButton.className = 'btn btn-danger btn-icon-text'; // Cambia la clase a 'new'
+        editButton.className = 'btn btn-danger btn-icon-text mx-1 my-1'; // Cambia la clase a 'danger'
       }
     }
+
 
     function saveChanges() {
       console.log('Saving changes...');
     }
 
-    function deleteAccount() {
+    function deleteAnAccount() {
       console.log('Deleting account...');
     }
 
 
     document.addEventListener('DOMContentLoaded', function () {
-    const profileImageContainer = document.querySelector('.position-relative');
-    const overlay = profileImageContainer.querySelector('.overlay');
-    const imageInput = document.getElementById('imageInput');
-    const uploadForm = document.getElementById('uploadForm');
+      const profileImageContainer = document.querySelector('.position-relative');
+      const overlay = profileImageContainer.querySelector('.overlay');
+      const imageInput = document.getElementById('imageInput');
+      const uploadForm = document.getElementById('uploadForm');
 
-    profileImageContainer.addEventListener('mouseover', function() {
+      profileImageContainer.addEventListener('mouseover', function () {
         overlay.style.opacity = '1';
-    });
+      });
 
-    profileImageContainer.addEventListener('mouseout', function() {
+      profileImageContainer.addEventListener('mouseout', function () {
         overlay.style.opacity = '0';
-    });
+      });
 
-    profileImageContainer.addEventListener('click', function() {
+      profileImageContainer.addEventListener('click', function () {
         imageInput.click();
-    });
+      });
 
-    imageInput.addEventListener('change', function() {
+      imageInput.addEventListener('change', function () {
         // Envia el formulario de la imagen
         uploadForm.submit();
+      });
     });
-});
 
   </script>
 
