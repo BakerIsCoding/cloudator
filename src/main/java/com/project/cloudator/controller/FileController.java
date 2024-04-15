@@ -61,7 +61,7 @@ public class FileController {
 	// private static final String STORAGE_SERVER_URL =
 	// "https://host.cloudator.live/upload/file"; //DESCOMENTAR CUANDO FUNCIONE EN
 	// EL SERVIDOR.
-	private static final String STORAGE_SERVER_URL = "https://158e-31-4-247-43.ngrok-free.app/upload/file";
+	private static final String STORAGE_SERVER_URL = "https://173e-90-167-94-37.ngrok-free.app/upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
@@ -82,7 +82,7 @@ public class FileController {
 		Long userServerId = userService.getUserIdByUsername(username);
 
 		if (file.isEmpty()) {
-			return new ModelAndView("status", "message", "Selecciona un archivo válido");
+			return new ModelAndView("upload", "message", "Ha ocurrido un error: Selecciona un archivo válido");
 		}
 
 		try {
@@ -141,12 +141,18 @@ public class FileController {
 
 				fileService.saveFileOnDb(fileEntity);
 			} catch (Exception e) {
-				System.out.println("Error al parsear la fecha" + e.getMessage());
+
+				System.out.println(
+						"Error en filecontroller, mensaje:" + e.getMessage() + "\nStack: ");
+				e.printStackTrace();
+				return new ModelAndView("upload", "message",
+						"Ha ocurrido un error: Error al procesar el archivo, " + e.getMessage());
+
 			}
 
 			return modelAndView;
 		} catch (IOException e) {
-			return new ModelAndView("status", "message", "Error al procesar el archivo");
+			return new ModelAndView("upload", "message", "Ha ocurrido un error: Error al procesar el archivo");
 		}
 	}
 

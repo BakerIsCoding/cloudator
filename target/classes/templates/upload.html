@@ -24,6 +24,72 @@
     <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
     <!-- End layout styles -->
     <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
+    <style>
+        .input {
+            max-width: 190px;
+            display: none;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .labelFile {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            height: 190px;
+            border: 2px dashed #fff;
+            align-items: center;
+            text-align: center;
+            padding: 5px;
+            color: #222735;
+            cursor: pointer;
+        }
+
+        button {
+            border: none;
+            display: flex;
+            padding: 0.75rem 1.5rem;
+            background-color: #0090e7;
+            color: #ffffff;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            vertical-align: middle;
+            align-items: center;
+            border-radius: 0.5rem;
+            user-select: none;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+            transition: all .6s ease;
+        }
+
+
+
+        button:hover {
+            box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+        }
+
+        button:focus,
+        button:active {
+            opacity: .85;
+            box-shadow: none;
+        }
+
+        button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .labelFile.hover {
+            background-color: #0090e7;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,17 +111,74 @@
                             <p>Indice > Subida de archivos</p>
                         </div>
                     </div>
+
+                    <div class="alert alert"
+                        th:classappend="${message != null and message.contains('Ha ocurrido un error') ? 'badge-danger' : 'badge-success'}">
+                        <span th:text="${message}"></span>
+                        <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></span>
+                    </div>
+
                     <!--TEST CARDS-->
                     <div class="row ">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Upload</h4>
-
                                     <form method="POST" action="/post/upload" enctype="multipart/form-data">
-                                        <input type="file" name="file" /><br />
+
+                                        <label for="file" class="labelFile"><span><svg xml:space="preserve"
+                                                    viewBox="0 0 184.69 184.69"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    xmlns="http://www.w3.org/2000/svg" id="Capa_1" version="1.1"
+                                                    width="60px" height="60px">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path
+                                                                    d="M149.968,50.186c-8.017-14.308-23.796-22.515-40.717-19.813
+                                                    C102.609,16.43,88.713,7.576,73.087,7.576c-22.117,0-40.112,17.994-40.112,40.115c0,0.913,0.036,1.854,0.118,2.834
+                                                    C14.004,54.875,0,72.11,0,91.959c0,23.456,19.082,42.535,42.538,42.535h33.623v-7.025H42.538
+                                                    c-19.583,0-35.509-15.929-35.509-35.509c0-17.526,13.084-32.621,30.442-35.105c0.931-0.132,1.768-0.633,2.326-1.392
+                                                    c0.555-0.755,0.795-1.704,0.644-2.63c-0.297-1.904-0.447-3.582-0.447-5.139c0-18.249,14.852-33.094,33.094-33.094
+                                                    c13.703,0,25.789,8.26,30.803,21.04c0.63,1.621,2.351,2.534,4.058,2.14c15.425-3.568,29.919,3.883,36.604,17.168
+                                                    c0.508,1.027,1.503,1.736,2.641,1.897c17.368,2.473,30.481,17.569,30.481,35.112c0,19.58-15.937,35.509-35.52,35.509H97.391
+                                                    v7.025h44.761c23.459,0,42.538-19.079,42.538-42.535C184.69,71.545,169.884,53.901,149.968,50.186z"
+                                                                    style="fill:#FFFFFF;"></path>
+                                                            </g>
+                                                            <g>
+                                                                <path d="M108.586,90.201c1.406-1.403,1.406-3.672,0-5.075L88.541,65.078
+                                                    c-0.701-0.698-1.614-1.045-2.534-1.045l-0.064,0.011c-0.018,0-0.036-0.011-0.054-0.011c-0.931,0-1.85,0.361-2.534,1.045
+                                                    L63.31,85.127c-1.403,1.403-1.403,3.672,0,5.075c1.403,1.406,3.672,1.406,5.075,0L82.296,76.29v97.227
+                                                    c0,1.99,1.603,3.597,3.593,3.597c1.979,0,3.59-1.607,3.59-3.597V76.165l14.033,14.036
+                                                    C104.91,91.608,107.183,91.608,108.586,90.201z"
+                                                                    style="fill:#FFFFFF;"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <p class="text-white">Arrastra y suelta el archivo aquí o haz clic para
+                                                seleccionar tu archivo</p>
+                                            <p id="fileName" class="text-white"></p>
+                                        </label>
+                                        <input class="input" name="file" id="file" type="file" />
                                         <input type="hidden" name="id" />
-                                        <br /> <input type="submit" value="Enviar" />
+                                        <br />
+                                        <button type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
+                                                    stroke="#fffffff" stroke-width="2"></path>
+                                                <path d="M17 15V18M17 21V18M17 18H14M17 18H20" stroke="#fffffff"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                </path>
+                                            </svg>
+                                            Subir fichero
+                                        </button>
+
+
+
                                     </form>
 
                                 </div>
@@ -97,6 +220,46 @@
     <script th:src="@{../../../static/js/dashboard.js}"></script>
     <script th:src="@{../../../static/js/sort.js}"></script>
     <!-- End custom js for this page -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var label = document.querySelector('.labelFile');
+            var fileInput = document.getElementById('file');
+            var fileNameDisplay = document.getElementById('fileName');
+
+            // Función para actualizar el nombre del archivo seleccionado
+            function updateFileName() {
+                if (fileInput.files.length > 0) {
+                    var fileName = fileInput.files[0].name;
+                    fileNameDisplay.textContent = "Se ha seleccionado el archivo: " + fileName;
+                }
+            }
+
+            // Eventos para cambiar el estilo de la etiqueta al arrastrar un archivo
+            label.addEventListener('dragover', function (e) {
+                e.preventDefault(); // Permitir el evento drop
+                label.classList.add('hover');
+            });
+
+            label.addEventListener('dragleave', function (e) {
+                label.classList.remove('hover');
+            });
+
+            // Evento al soltar el archivo
+            label.addEventListener('drop', function (e) {
+                e.preventDefault(); // Prevenir el comportamiento predeterminado del navegador
+                var file = e.dataTransfer.files[0]; // Obtener el archivo arrastrado
+                fileInput.files = e.dataTransfer.files; // Actualizar el input de archivo
+                updateFileName(); // Actualizar el nombre del archivo mostrado
+                label.classList.remove('hover'); // Remover la clase de hover cuando se suelta el archivo
+            });
+
+            // Evento para manejar cambios en el input de tipo file
+            fileInput.addEventListener('change', function () {
+                updateFileName();
+            });
+        });
+    </script>
+
 </body>
 
 </html>

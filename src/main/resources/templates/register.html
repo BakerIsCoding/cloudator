@@ -16,7 +16,7 @@
   <link rel="stylesheet" th:href="@{../../../static/css/style.css}">
   <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
   <!-- End layout styles -->
-  <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}"/>
+  <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
 
   <!-- endinject -->
   <!-- Layout styles -->
@@ -51,27 +51,28 @@
                   <label>Email</label>
                   <input id="email" name="email" placeholder="Introduce un email" th:field="*{email}" type="email"
                     class="form-control p_input" required>
-                    <div th:if="${param.errormail}">
-                      <div class="alert alert-danger">
-                        Ya existe un usuario con este email.
-                      </div>
+                  <div th:if="${param.errormail}">
+                    <div class="alert alert-danger">
+                      Ya existe un usuario con este email.
                     </div>
-                    <div th:if="${param.errorvalidmail}">
-                      <div class="alert alert-danger">
-                        Este no es un mail valido.
-                      </div>
+                  </div>
+                  <div th:if="${param.errorvalidmail}">
+                    <div class="alert alert-danger">
+                      Este no es un mail valido.
                     </div>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>Contraseña</label>
                   <div class="password-container">
                     <input id="password" name="password" placeholder="Introduce contraseña" th:field="*{password}"
-                           type="password" class="form-control p_input" required>
-                    <button type="button" class="info-button mdi mdi-information-outline" 
-                            onmouseover="mostrarMensaje(this.parentElement.querySelector('.tooltipRegister'))" 
-                            onmouseout="ocultarMensaje(this.parentElement.querySelector('.tooltipRegister'))"></button>
-                    <div class="tooltipRegister">(Mínimo 8 caracteres, incluyendo números, mayúsculas y minúsculas y un caracter especial "$ ; . _ - * .")</div>
-                </div>
+                      type="password" class="form-control p_input" required>
+                    <button type="button" class="info-button mdi mdi-information-outline"
+                      onmouseover="mostrarMensaje(this.parentElement.querySelector('.tooltipRegister'))"
+                      onmouseout="ocultarMensaje(this.parentElement.querySelector('.tooltipRegister'))"></button>
+                    <div class="tooltipRegister">(Mínimo 8 caracteres, incluyendo números, mayúsculas y minúsculas y un
+                      caracter especial "$ ; . _ - * .")</div>
+                  </div>
                   <div th:if="${param.errorpassword}">
                     <div class="alert alert-danger">
                       La contraseña no cumple con los requisitos.
@@ -82,26 +83,16 @@
                   <label>Confirma la contraseña</label>
                   <input id="confirmar" name="confirmar" placeholder="vuelve a introducir la contraseña" type="password"
                     class="form-control p_input" required>
-                    <div th:if="${param.errorpassworddif}">
-                      <div class="alert alert-danger">
-                        Las contraseña no coinciden.
-                      </div>
-                    </div>
-                </div>
-                <div class="form-group d-flex align-items-center justify-content-between">
-                  <!--    BOTON RECORDARME IMPLEMENTAR EN EL FUTURO
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> Remember me </label>
-                    </div>
-                    -->
-                  <a href="#" class="forgot-pass">Has olvidado la contraseña?</a>
+                  <div id="errorpassworddif" th:if="${param.errorpassworddif}" class="alert alert-danger">
+                    Las contraseñas no coinciden.
+                  </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary btn-block enter-btn">Registrate</button>
-                </div>
+                  <!-- Cambiado de type="submit" a type="button" -->
+                  <button type="button" class="btn btn-primary btn-block enter-btn" onclick="verificarContrasena()">Regístrate</button>
+                </div>                
                 <p class="sign-up text-center">Ya tienes una cuenta?<a th:href="@{/login}"> Inicia sesión aqui! </a></p>
-                <p class="terms">*Creando una cuenta estas aceptando nuestros<a href="#"> Terminos y condiciones</a></p>
+                <p class="terms">*Creando una cuenta estas aceptando nuestros<a th:href="@{/terms}"> Terminos y condiciones</a></p>
               </form>
             </div>
           </div>
@@ -126,6 +117,9 @@
   <script th:src="@{../static/js/todolist.js}"></script>
   <script th:src="@{../static/js/eventColorRegister.js}"></script>
   <script th:src="@{../static/js/tooltips.js}"></script>
+  <script th:src="@{../static/js/confirmarPass.js}"></script>
+
+
   <!-- endinject -->
 </body>
 

@@ -319,4 +319,9 @@ public class UserController {
         return "/search";
     }
 
+    @GetMapping("/terms")
+    public String terms() {
+        return "/terminos";
+    }
+
 }

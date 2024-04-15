@@ -1,6 +1,8 @@
 package com.project.cloudator.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +63,20 @@ public class AdminController {
 
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
-        model.addAttribute("user", user);
-
-        UserAccess userAccess = repo.fetchUserAccess(userServerId);
 
         Integer page = 0;
         Integer size = 10;
         List<UserDto> users = userService.findFirstXUsers(page, size);
 
+        // Mapa para almacenar el acceso de cada usuario
+        Map<Long, UserAccess> userAccessMap = new HashMap<>();
+        for (UserDto userDto : users) {
+            UserAccess access = repo.fetchUserAccess(userDto.getId());
+            userAccessMap.put(userDto.getId(), access);
+        }
+
         model.addAttribute("users", users);
-        model.addAttribute("userAccess", userAccess);
+        model.addAttribute("userAccessMap", userAccessMap);
 
         return "/admin/admin";
     }
