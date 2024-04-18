@@ -61,7 +61,7 @@ public class FileController {
 	// private static final String STORAGE_SERVER_URL =
 	// "https://host.cloudator.live/upload/file"; //DESCOMENTAR CUANDO FUNCIONE EN
 	// EL SERVIDOR.
-	private static final String STORAGE_SERVER_URL = "https://173e-90-167-94-37.ngrok-free.app/upload/file";
+	private static final String STORAGE_SERVER_URL = "http://127.0.0.1:8081/upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {

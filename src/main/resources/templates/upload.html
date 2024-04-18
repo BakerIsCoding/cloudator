@@ -112,11 +112,12 @@
                         </div>
                     </div>
 
-                    <div class="alert alert"
-                        th:classappend="${message != null and message.contains('Ha ocurrido un error') ? 'badge-danger' : 'badge-success'}">
+                    <div th:if="${message != null}"
+                        th:classappend="${message.contains('Ha ocurrido un error') ? 'badge-danger alert alert' : 'badge-success alert alert'}">
                         <span th:text="${message}"></span>
                         <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></span>
                     </div>
+
 
                     <!--TEST CARDS-->
                     <div class="row ">

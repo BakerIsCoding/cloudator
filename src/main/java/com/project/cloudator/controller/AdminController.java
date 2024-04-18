@@ -3,16 +3,30 @@ package com.project.cloudator.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.List;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.Role;
@@ -47,6 +61,9 @@ public class AdminController {
     @Autowired
     private RoleRepository RoleService;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     /**
      * Obtiene una lista de usuarios registrados.
      * 
@@ -79,6 +96,39 @@ public class AdminController {
         model.addAttribute("userAccessMap", userAccessMap);
 
         return "/admin/admin";
+    }
+
+    @GetMapping("/admin/panel/logs")
+    public String logsPanel(Model model) {
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        try {
+            // Asumiendo que los archivos están en un directorio específico
+            Path logDir = Paths.get("./"); // Ajusta esta ruta
+            List<String> fileNames = Files.list(logDir)
+                    .filter(path -> path.toString().endsWith(".log"))
+                    .map(path -> path.getFileName().toString())
+                    .collect(Collectors.toList());
+            model.addAttribute("fileNames", fileNames);
+        } catch (IOException e) {
+            model.addAttribute("error", "Error listing log files: " + e.getMessage());
+        }
+
+        return "/admin/logs";
+    }
+
+    @GetMapping("/admin/panel/logs/content")
+    public ResponseEntity<String> getLogFileContent(@RequestParam String file) {
+        Path filePath = Paths.get("./", file); // Asegúrate de validar y sanear la entrada
+        try {
+            String content = Files.readString(filePath);
+            return ResponseEntity.ok(content);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("Error reading file: " + e.getMessage());
+        }
     }
 
     /**

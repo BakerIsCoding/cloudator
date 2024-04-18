@@ -42,8 +42,8 @@
 				<div class="col-12">
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
-						<a th:href="@{/}" class="logo">
-							<img th:src="@{../../../static/landing/images/logo-blue.png}" alt="Turing"/>
+						<a th:href="@{/}" class="logo" style="margin-top: 11px!important;">
+							<img th:src="@{../../../static/landing/images/logo2_b.png}" style="width: 105px;height: 60px;" alt="Turing"/>
 						</a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
@@ -62,7 +62,7 @@
 								<ul>
 									<li><a th:href="@{./landing/blue-about.html}">sobre nosotros</a></li>
 									<li><a th:href="@{./landing/blue-features.html}" >Caracteristicas</a></li>
-									<li><a th:href="@{./landing/blue-faq.html}" >FAQ's</a></li>
+									<li><a th:href="@{/faqs}">FAQ's</a></li>
 								</ul>
 							</li>
 							<li><a th:href="@{./landing/blue-contact.html}">Contacto</a></li>
@@ -98,9 +98,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-5 col-md-12 col-sm-12">
-						<h1>Servicios Gestionados y Soluciones de Personal Líderes en la Industria</h1>
-						<p>Métodos probados para capturar las prioridades y objetivos comerciales, así como los puntos de dolor actuales que permiten resultados comerciales medibles.</p>
-						<a href="#" class="btn-primary-line">APRENDER MÁS</a>
+						<h1><h1>Servicios de Web Hosting para Empresa y Particulares</h1>
+						<p>Almacena archivos de la forma más segura y cómoda. Somos la opción mejor opción del mercado también para tu bolsillo.</p>
+						<a href="#" class="btn-primary-line" th:href="@{/login}">EMPECEMOS!</a>
 					</div>
 				</div>
 			</div>
@@ -128,7 +128,7 @@
 									<i class="fa fa-cloud"></i>
 								</div>
 								<h5 class="features-title">Cloudator Solucions</h5>
-								<p>Muchas cosas.</p>
+								<p>Nuestros servicios</p>
 							</a>
 						</div>
 						<!-- ***** Features Small Item End ***** -->
@@ -240,65 +240,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- ***** Features Big Item End ***** -->
-	<!-- ***** Features Big Item Start ***** -->
-	<section class="section padding-bottom-80">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-5 col-md-12 col-sm-12 align-self-center mobile-bottom-fix-big" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-					<img th:src="@{../../../static/landing/images/photos/features/blue-2.png}" class="img-fluid d-block mx-auto" alt="App">
-				</div>
-				<div class="col-lg-1"></div>
-				<div class="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-bottom-fix">
-					<div class="left-heading">
-						<h2 class="section-title">Diseño y desarroyo</h2>
-					</div>
-					<div class="left-text">
-						<p>Muchas cosas.</p>
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home active" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Diseño Web</span>
-								</a>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Diseño de la App Movil</span>
-								</a>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Back-End</span>
-								</a>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Front-End</span>
-								</a>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Comercio electronico</span>
-								</a>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" th:href="@{./landing/blue-features-single.html}">
-									<i class="fa fa-angle-right"></i>
-									<span>Diseño</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- ***** Features Big Item End ***** -->
+	<!-- ***** Features Big Item End ***** -->	
 	<!-- ***** Counter Parallax Start ***** -->
 	<section class="parallax-counter" id="counter">
 		<div class="parallax-content">
@@ -553,8 +495,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="info">
-							<p>Nos preocupamos de guardar tus archivos <span>Via Web Hosting</span> ya sea para tu empresa o para particulares.</p>
-							<a class="btn-white-line" href="#">Contacta con nosotros si tienes alguna consulta</a>
+							<p>Nos preocupamos de guardar tus archivos de <span>Forma Segura y Eficiente</span> ya sea para tu empresa o para particulares.</p>
 						</div>
 					</div>
 				</div>
@@ -567,22 +508,23 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-5 col-md-12 col-sm-12">
-					<img th:src="@{../../../static/landing/images/logo-blue.png}" class="logo" alt="">
-					<div class="text">muchas cosas</div>
+					<a th:href="@{/}" class="logo" style="margin-top: 11px!important;">
+						<img th:src="@{../../../static/landing/images/logo2_b.png}" style="width: 105px;height: 60px;" alt="Turing"/>
+					</a>
+					<div class="text">Tus archivos, en su sitio.</div>
 				</div>
 				<div class="col-lg-2 col-md-4 col-sm-6 col-6">
 					<h5>Links de interes</h5>
 					<ul class="footer-nav">
 						<li><a href="#"><i class="fa fa-angle-right"></i><span>Sobre nosotros</span></a></li>
 						<li><a href="#"><i class="fa fa-angle-right"></i><span>Caracteristicas</span></a></li>
-						<li><a href="#"><i class="fa fa-angle-right"></i><span>FAQ’s</span></a></li>
+						<li><a th:href="@{/faqs}"><i class="fa fa-angle-right"></i><span>FAQ’s</span></a></li>
 					</ul>
 				</div>
 				<div class="col-lg-2 col-md-4 col-sm-6 col-6">
 					<h5>Support</h5>
 					<ul class="footer-nav">
-						<li><a th:href="@{/terminos}"><i class="fa fa-angle-right"></i><span>Terminos y condiciones</span></a></li>
-						<li><a href="#"><i class="fa fa-angle-right"></i><span>Contacto</span></a></li>
+						<li><a th:href="@{/terms}"><i class="fa fa-angle-right"></i><span>Terminos y condiciones</span></a></li>
 					</ul>
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-12">
@@ -590,7 +532,7 @@
 					<div class="address">
 						<p>Avinguda Joan Carles I<br>Gavà 08850</p>
 						<p>Phone: 628 80 65 22</p>
-						<p><span>E-Mail:</span><a href="#">support@cloudator.com</a></p>
+						<p><span>E-Mail:</span><a href="mailto:info@cloudator.live" >info@cloudator.live</a></p>
 						<ul class="social">
 							<li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
 							<li><a href="#"><i class="fa fa-twitter-square"></i></a></li>

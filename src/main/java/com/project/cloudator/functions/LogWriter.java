@@ -15,10 +15,10 @@ public class LogWriter {
      * 
      * @param text el texto a escribir en el registro
      */
-    public void startWriter(String text) {
+    public void startWriter() {
         try {
             String actualDate = getCurrentDate(1);
-            String finalString = text + "\nStarted at [" + actualDate + "] \n";
+            String finalString = "\nStarted at [" + actualDate + "] \n";
             FileWriter logWriter = new FileWriter(fileName, true);
             logWriter.write(finalString);
             logWriter.close();

@@ -324,4 +324,9 @@ public class UserController {
         return "/terminos";
     }
 
+    @GetMapping("/faqs")
+    public String faqs() {
+        return "/faqs";
+    }
+
 }

@@ -16,6 +16,7 @@
   <link rel="stylesheet" th:href="@{../../../static/vendors/flag-icon-css/css/flag-icon.min.css}">
   <link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.carousel.min.css}">
   <link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.theme.default.min.css}">
+  <link rel="stylesheet" th:href="@{../../../static/datatables/datatables.min.css}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <!-- endinject -->
@@ -52,93 +53,68 @@
                 <div class="card-body">
                   <h4 class="card-title">Lista Usuarios</h4>
                   <div th:if="${not #lists.isEmpty(users)}">
-                    <table class="table table-striped">
-                      <tr class="tituloBlanco text-center th">
-                        <th>Id</th>
-                        <th>Usuario</th>
-                        <th>Email</th>
-                        <th>Bloqueado</th>
-                        <th>Acciones</th>
-                      </tr>
-                      <tr class="text-center td" th:each="user: ${users}">
-                        <td th:text="${user.id}">Id</td>
-                        <td th:text="${user.username}">Nombre de usuario</td>
-                        <td th:text="${user.email}">Email</td>
-                        <td>
-                          <label class="switch">
-                            <span
-                              th:class="${userAccessMap[user.id].isblocked ? 'icon-red mdi mdi-close-circle icon-md' : 'icon-green mdi mdi-check-circle icon-md'}"></span>
-                          </label>
-                        </td>
-                        <td>
-                          <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
-                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                            <a th:href="${'/admin/edit/' + user.id}" class="mdi mdi-lead-pencil icon-md"></a>
-                            <span class="tooltip">Editar usuario</span>
-                          </div>
-                          <span class="espacio"></span>
+                    <table id="example" class="display" style="width:100%">
+                      <thead>
+                        <tr class="tituloBlanco text-center th">
+                          <th>Id</th>
+                          <th>Usuario</th>
+                          <th>Email</th>
+                          <th>Bloqueado</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="text-center td" th:each="user: ${users}">
+                          <td th:text="${user.id}">Id</td>
+                          <td th:text="${user.username}">Nombre de usuario</td>
+                          <td th:text="${user.email}">Email</td>
+                          <td>
+                            <label class="switch">
+                              <span
+                                th:class="${userAccessMap[user.id].isblocked ? 'icon-red mdi mdi-close-circle icon-md' : 'icon-green mdi mdi-check-circle icon-md'}"></span>
+                            </label>
+                          </td>
+                          <td>
+                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                              onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                              <a th:href="${'/admin/edit/' + user.id}" class="mdi mdi-lead-pencil icon-md"></a>
+                              <span class="tooltip">Editar usuario</span>
+                            </div>
+                            <span class="espacio"></span>
 
-                          <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
-                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                            <a th:href="${'/admin/users/unblock/' + user.id}"
-                              class="icon-green mdi mdi-lock-open-outline icon-md" data-bs-toggle="modal"
-                              th:onclick="'addIdToUnblockModal(' + ${user.id} + ')'"
-                              data-bs-target="#desbloquearModal"></a>
-                            <span class="tooltip">Desbloquear usuario</span>
-                          </div>
-                          <span class="espacio"></span>
+                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                              onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                              <a th:href="${'/admin/users/unblock/' + user.id}"
+                                class="icon-green mdi mdi-lock-open-outline icon-md" data-bs-toggle="modal"
+                                th:onclick="'addIdToUnblockModal(' + ${user.id} + ')'"
+                                data-bs-target="#desbloquearModal"></a>
+                              <span class="tooltip">Desbloquear usuario</span>
+                            </div>
+                            <span class="espacio"></span>
 
-                          <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
-                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                            <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md"
-                              data-bs-toggle="modal" th:onclick="'addIdToBlockModal(' + ${user.id} + ')'"
-                              data-bs-target="#bloquearModal"></a>
-                            <span class="tooltip">Bloquear usuario</span>
-                          </div>
-                          <span class="espacio"></span>
+                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                              onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                              <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md"
+                                data-bs-toggle="modal" th:onclick="'addIdToBlockModal(' + ${user.id} + ')'"
+                                data-bs-target="#bloquearModal"></a>
+                              <span class="tooltip">Bloquear usuario</span>
+                            </div>
+                            <span class="espacio"></span>
 
-                          <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
-                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                            <a th:href="${'/admin/users/delete/' + user.id}"
-                              class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal"
-                              th:onclick="'addIdToModal(' + ${user.id} + ')'" data-bs-target="#eliminarModal"></a>
-                            <span class="tooltip">Eliminar usuario</span>
-                          </div>
-                        </td>
-                      </tr>
+                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                              onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                              <a th:href="${'/admin/users/delete/' + user.id}"
+                                class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal"
+                                th:onclick="'addIdToModal(' + ${user.id} + ')'" data-bs-target="#eliminarModal"></a>
+                              <span class="tooltip">Eliminar usuario</span>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
                       <span id="blockedID" hidden></span>
                       <span id="unblockedID" hidden></span>
                       <span id="deleteID" hidden></span>
                     </table>
-                  </div>
-                  <div class="page-content page-container" id="page-content">
-                    <div class="padding">
-                      <div style="padding-left: inherit">
-                        <div class="col-md-4 col-sm-6 grid-margin stretch-card">
-                          <div class="card-body">
-                            <nav class="text-center">
-                              <ul class="pagination pagination-flat pagination-success">
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
-                                      class="fa fa-angle-left">
-                                    </i></a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">5</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">6</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">7</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">8</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">9</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
-                                      class="fa fa-angle-right">></i></a></li>
-                              </ul>
-                            </nav>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -249,127 +225,25 @@
   <script th:src="@{../../../static/js/hoverable-collapse.js}"></script>
   <script th:src="@{../../../static/js/settings.js}"></script>
   <script th:src="@{../../../static/js/todolist.js}"></script>
+  <script th:src="@{../../../static/js/jquery-3.7.1.min.js}"></script>
+  <script th:src="@{../../../static/datatables/datatables.min.js}"></script>
   <!-- endinject -->
   <!-- Custom js for this page -->
   <script th:src="@{../../../static/js/dashboard.js}"></script>
-  <script th:src="@{../../../static/js/sort.js}"></script>
+  <script th:src="@{../../../static/js/tooltips.js}"></script>
+  <script th:src="@{../../../static/js/admin.js}"></script>
   <!-- End custom js for this page -->
   <script>
-
-    function mostrarMensaje(tooltip) {
-      tooltip.style.opacity = 1;
-      tooltip.style.visibility = "visible";
-    }
-
-    function ocultarMensaje(tooltip) {
-      tooltip.style.opacity = 0;
-      tooltip.style.visibility = "hidden";
-    }
-
-    function addIdToModal(userId) {
-      document.getElementById('deleteID').innerHTML = "";
-      document.getElementById('deleteID').innerHTML = userId;
-      console.log(userId + "added as deleted")
-    }
-
-    function addIdToBlockModal(userId) {
-      document.getElementById('blockedID').innerHTML = "";
-      document.getElementById('blockedID').innerHTML = userId;
-      console.log(userId + "added as blocked")
-    }
-
-    function addIdToUnblockModal(userId) {
-      document.getElementById('unblockedID').innerHTML = "";
-      document.getElementById('unblockedID').innerHTML = userId;
-      console.log(userId + "added as unblocked")
-    }
-
-    document.getElementById('unblockUsuarioBtn').addEventListener('click', function () {
-      var unblockUserId = document.getElementById("unblockedID").textContent;
-      console.log('Desbloquear usuario con id:', unblockUserId);
-
-      if (confirm('¿Estás seguro de que deseas desbloquear este usuario?')) {
-        desbloquearUsuario(unblockUserId);
-      }
+    $(document).ready(function () {
+      $('#example').DataTable({
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        },
+        "lengthMenu": [10, 25, 50, 100, { label: 'Todos', value: -1 }],
+        "searching": true,
+        "paging": true
+      });
     });
-
-    document.getElementById('blockUsuarioBtn').addEventListener('click', function () {
-      var blockUserId = document.getElementById("blockedID").textContent;
-      console.log('Bloquear usuario con id:', blockUserId);
-
-      if (confirm('¿Estás seguro de que deseas bloquear este usuario?')) {
-        bloquearUsuario(blockUserId);
-      }
-    });
-
-    document.getElementById('eliminarUsuarioBtn').addEventListener('click', function () {
-      var userId = document.getElementById("deleteID").textContent;
-      console.log('Eliminar usuario con id:', userId);
-
-      if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        eliminarUsuario(userId);
-      }
-    });
-
-
-
-    function desbloquearUsuario(userId) {
-      fetch('/admin/users/unblock/' + userId, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al desbloquear el usuario');
-          }
-          window.location.reload();
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error al desbloquear el usuario');
-        });
-    }
-
-    function bloquearUsuario(userId) {
-      fetch('/admin/users/block/' + userId, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al bloquear el usuario');
-          }
-          window.location.reload();
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error al bloquear el usuario');
-        });
-    }
-
-    function eliminarUsuario(userId) {
-      fetch('/admin/users/delete/' + userId, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al eliminar el usuario');
-          }
-          window.location.reload();
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error al eliminar el usuario');
-        });
-    }
   </script>
-</body>
 
 </html>
