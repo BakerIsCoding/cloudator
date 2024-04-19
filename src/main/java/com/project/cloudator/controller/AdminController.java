@@ -70,7 +70,7 @@ public class AdminController {
      * @param model Modelo para almacenar los usuarios.
      * @return La vista para mostrar la lista de usuarios registrados.
      */
-    @GetMapping("/admin/panel")
+    @GetMapping("/admin/listaUsuarios")
     public String adminPanel(Model model) {
         org.springframework.security.core.Authentication authentication2 = SecurityContextHolder.getContext()
                 .getAuthentication();
@@ -98,7 +98,7 @@ public class AdminController {
         return "/admin/admin";
     }
 
-    @GetMapping("/admin/panel/logs")
+    @GetMapping("/admin/logs")
     public String logsPanel(Model model) {
         org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();

@@ -14,6 +14,8 @@ import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserRepository;
 import com.project.cloudator.service.UserAccessService;
 import com.project.cloudator.service.UserService;
+import com.project.cloudator.entity.File;
+import com.project.cloudator.repository.FileRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.fetchUser(user);
     }
 
-    public Long getUserIdByUsername(String username){
+    public Long getUserIdByUsername(String username) {
         User user = userRepository.fetchUser(username);
         return user.getId();
     }

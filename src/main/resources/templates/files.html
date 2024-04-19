@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{../../../static/vendors/flag-icon-css/css/flag-icon.min.css}">
     <link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.carousel.min.css}">
     <link rel="stylesheet" th:href="@{../../../static/vendors/owl-carousel-2/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{../../../static/datatables/datatables.min.css}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -55,52 +56,24 @@
                                         <table id="fileTable" class="table table-striped" style="text-align:center">
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        Nombre <a href="#"
-                                                            onclick="sortTableAndToggleIcon(0, this);"><i
-                                                                class="mdi mdi-chevron-down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        Tipo <a href="#"
-                                                            onclick="sortTableAndToggleIcon(1, this);"><i
-                                                                class="mdi mdi-chevron-down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        Tamaño <a href="#"
-                                                            onclick="sortTableAndToggleIcon(2, this);"><i
-                                                                class="mdi mdi-chevron-down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        Fecha <a href="#"
-                                                            onclick="sortTableAndToggleIcon(3, this);"><i
-                                                                class="mdi mdi-chevron-down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        Publicación <a href="#"
-                                                            onclick="sortTableAndToggleIcon(4, this);"><i
-                                                                class="mdi mdi-chevron-down"></i></a>
-                                                    </th>
-                                                    <th>
-                                                        Descargar
-                                                    </th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo</th>
+                                                    <th>Tamaño</th>
+                                                    <th>Fecha</th>
+                                                    <th>Publicación</th>
+                                                    <th>Descargar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td> Crying </td>
-                                                    <td> Audio </td>
-                                                    <td> 7,53 MB </td>
-                                                    <td> 15/02/2024 </td>
-                                                    <td> Privada </td>
-                                                    <td><a class="mdi mdi-download icon-md"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td> Barça </td>
-                                                    <td> Imagen </td>
-                                                    <td> 22,71 MB </td>
-                                                    <td> 10/12/2023 </td>
-                                                    <td> Público </td>
-                                                    <td><a class="mdi mdi-download icon-md"></a></td>
+                                                <tr th:each="file : ${files}">
+                                                    <td th:text="${file.filename}">Filename</td>
+                                                    <td th:text="${file.filetype}">Filetype</td>
+                                                    <td th:text="${file.filesize}">Filesize</td>
+                                                    <td th:text="${#dates.format(file.filedate, 'dd/MM/yyyy')}">Filedate
+                                                    </td>
+                                                    <td th:text="${file.ispublic ? 'Público' : 'Privada'}">Publicación
+                                                    </td>
+                                                    <td><a th:href="${file.url}" class="mdi mdi-download icon-md"></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -139,11 +112,24 @@
     <script th:src="@{../../../static/js/hoverable-collapse.js}"></script>
     <script th:src="@{../../../static/js/settings.js}"></script>
     <script th:src="@{../../../static/js/todolist.js}"></script>
+    <script th:src="@{../../../static/datatables/datatables.min.js}"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
-    <script th:src="@{../../../static/js/sort.js}"></script>
+
     <!-- End custom js for this page -->
+    <script>
+        $(document).ready(function () {
+            $('#fileTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+                "lengthMenu": [10, 25, 50, 100, { label: 'Todos', value: -1 }],
+                "searching": true,
+                "paging": true
+            });
+        });
+    </script>
 </body>
 
 </html>

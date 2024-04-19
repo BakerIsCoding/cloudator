@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2024 a las 16:48:43
+-- Tiempo de generación: 19-04-2024 a las 17:04:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -38,15 +38,6 @@ CREATE TABLE `files` (
   `ispublic` tinyint(1) NOT NULL,
   `url` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `files`
---
-
-INSERT INTO `files` (`id`, `filename`, `filetype`, `fileroute`, `filedate`, `filesize`, `owner`, `ispublic`, `url`) VALUES
-(16, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-03-08 16:30:40', 57277, 3, 1, ''),
-(18, 'CRASHER.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:19', 57277, 2, 1, ''),
-(19, 'cloudatordb (11).sql', 'application/x-sql', 'E:\\Eduardo\\pruebadescargas\\2\\', '2024-03-08 16:40:31', 6426, 2, 1, '');
 
 -- --------------------------------------------------------
 
@@ -89,10 +80,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`, `version`) VALUES
-(2, 'admingod', '$2a$10$pYv4bDY/B4uey5BfVM26JOLu2/BGqZ5xZGEEWuwb.UMZ0ld9vemJq', 'admingod@gmail.com', '2024-02-08 14:21:31', NULL),
-(3, 'Baker', '$2a$10$H0H3pe2nzK2cMTaY4Eesxu7kccJvkjoP2KRtruIOMHwQg9xAIbaXW', 'hestrada498111@gmail.com', '2024-03-05 15:12:32', NULL),
-(4, 'Buabua', '$2a$10$WFacN2vJ/Zgq7zxyA6CKxeOF7xi5CAqhvPe..JICV16.kIyVg3huO', 'buabua@gmail.com', '2024-03-05 15:17:57', NULL),
-(5, 'marc', '$2a$10$yKiXX3vjE7aa00zRwNwzg.AktReb5rrQFgHUcNY5G/CWc3PWwjCk.', 'marc@gmail.com', '2024-03-07 14:37:15', NULL);
+(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -110,10 +98,7 @@ CREATE TABLE `users_roles` (
 --
 
 INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
-(2, 1),
-(3, 4),
-(4, 4),
-(5, 4);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -132,10 +117,7 @@ CREATE TABLE `user_access` (
 --
 
 INSERT INTO `user_access` (`id`, `counter`, `isblocked`) VALUES
-(2, 0, 0),
-(3, 0, 0),
-(4, 0, 0),
-(5, 0, 0);
+(1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -157,10 +139,7 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`) VALUES
-(2, 'EDUARDO1', 'FORRO', '2024-03-02', 'Forro1', NULL),
-(3, 'N/A', 'N/A', '2024-03-07', 'N/A', NULL),
-(4, 'Buabua', 'Buababú', '2023-09-12', 'Río Alandor', NULL),
-(5, NULL, NULL, NULL, NULL, NULL);
+(1, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -222,7 +201,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT de la tabla `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -234,7 +213,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

@@ -4,9 +4,6 @@
     var body = $('body');
     var sidebar = $('.sidebar');
 
-    // Agrega la clase activa a nav-link basado en la URL de manera dinámica
-    // La clase activa también puede ser codificada directamente en el archivo HTML según sea necesario
-
     function addActiveClass(element) {
       var current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
       if (current == "users" || current == "admin") {

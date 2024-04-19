@@ -1,5 +1,7 @@
 package com.project.cloudator.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.cloudator.dto.UserDto;
+import com.project.cloudator.entity.File;
 import com.project.cloudator.entity.Role;
 import com.project.cloudator.entity.User;
 import com.project.cloudator.entity.UserInfo;
@@ -27,6 +30,7 @@ import com.project.cloudator.service.UserService;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserInfoRepository;
+import com.project.cloudator.service.FileService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,6 +66,9 @@ public class UserController {
 
     @Autowired
     private HttpServletResponse response;
+
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/")
     public String home() {
@@ -226,6 +233,9 @@ public class UserController {
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
 
+        List<File> files = fileService.findFilesByOwner(userServerId);
+        model.addAttribute("files", files);
+
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
@@ -305,8 +315,8 @@ public class UserController {
         return "/plan";
     }
 
-    @GetMapping("/users/search/")
-    public String showSearch(Model model) {
+    @GetMapping("/users/search/{search}")
+    public String showSearch(Model model, @PathVariable String search) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
@@ -315,6 +325,9 @@ public class UserController {
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
+
+        List<File> files = fileService.findFilesByFilename(search);
+        model.addAttribute("files", files);
 
         return "/search";
     }

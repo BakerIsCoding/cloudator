@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2024 a las 17:41:30
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 19-04-2024 a las 17:04:58
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cloudatordb`
 --
-CREATE DATABASE IF NOT EXISTS `cloudatordb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `cloudatordb`;
 
 -- --------------------------------------------------------
 
@@ -37,7 +35,8 @@ CREATE TABLE `files` (
   `filedate` timestamp NOT NULL DEFAULT current_timestamp(),
   `filesize` bigint(20) NOT NULL,
   `owner` bigint(20) NOT NULL,
-  `ispublic` tinyint(1) NOT NULL
+  `ispublic` tinyint(1) NOT NULL,
+  `url` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -50,6 +49,16 @@ CREATE TABLE `roles` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'ROLE_SUPERADMIN'),
+(2, 'ROLE_ADMIN'),
+(3, 'ROLE_PREMIUM'),
+(4, 'ROLE_USER');
 
 -- --------------------------------------------------------
 
@@ -66,6 +75,13 @@ CREATE TABLE `user` (
   `version` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`, `version`) VALUES
+(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -76,6 +92,13 @@ CREATE TABLE `users_roles` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users_roles`
+--
+
+INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -88,6 +111,13 @@ CREATE TABLE `user_access` (
   `counter` int(11) DEFAULT NULL,
   `isblocked` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `user_access`
+--
+
+INSERT INTO `user_access` (`id`, `counter`, `isblocked`) VALUES
+(1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -103,6 +133,13 @@ CREATE TABLE `user_info` (
   `address` varchar(32) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `user_info`
+--
+
+INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -170,13 +207,13 @@ ALTER TABLE `files`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

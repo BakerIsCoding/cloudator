@@ -3,6 +3,7 @@ package com.project.cloudator.controller;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -119,6 +120,35 @@ public class AuthController {
         userInfo.setFoto(null);
 
         userInfoService.save(userInfo);
+
+        ////////////////////////////////////////
+
+        // Asume que tienes un RestTemplate configurado y la URL del servicio de gestión
+        // de ficheros
+        /*
+         * String fileManagerServiceUrl = "http://localhost:8080/create-directory";
+         * Long userId = idUserExisting.getId();
+         * String requestUrl = fileManagerServiceUrl + "?userId=" + userId;
+         * try {
+         * // Realiza la llamada POST para crear las carpetas
+         * ResponseEntity<String> response = restTemplate.postForEntity(requestUrl,
+         * null, String.class);
+         * if (response.getStatusCode().is2xxSuccessful()) {
+         * logwriter.
+         * writeLog("Directorios creados correctamente para el usuario con id '" +
+         * userId + "'");
+         * } else {
+         * logwriter.writeLog(
+         * "Error al crear directorios para el usuario con id '" + userId + "': " +
+         * response.getBody());
+         * }
+         * } catch (Exception e) {
+         * logwriter.writeLog("Error al comunicarse con el servidor de archivos: " +
+         * e.getMessage());
+         * }
+         */
+
+        ////////////////////////////////////////
 
         User userDb = userService.fetchUser(user.getUsername());
         redirectAttributes.addAttribute("success", true);
