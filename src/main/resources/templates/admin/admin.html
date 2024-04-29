@@ -59,6 +59,7 @@
                           <th>Id</th>
                           <th>Usuario</th>
                           <th>Email</th>
+                          <th>Role</th>
                           <th>Bloqueado</th>
                           <th>Acciones</th>
                         </tr>
@@ -68,6 +69,9 @@
                           <td th:text="${user.id}">Id</td>
                           <td th:text="${user.username}">Nombre de usuario</td>
                           <td th:text="${user.email}">Email</td>
+                          <td>
+                            <span th:text="${#strings.listJoin(roleMap[user.id], ', ')}"></span>
+                          </td>
                           <td>
                             <label class="switch">
                               <span
@@ -94,7 +98,7 @@
 
                             <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
                               onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                              <a th:href="${'/admin/users/block/' + user.id}" class="icon-yellow mdi mdi-lock icon-md"
+                              <a th:href="${'/admin/users/block/' + user.id}" class="icon-candado mdi mdi-lock icon-md"
                                 data-bs-toggle="modal" th:onclick="'addIdToBlockModal(' + ${user.id} + ')'"
                                 data-bs-target="#bloquearModal"></a>
                               <span class="tooltip">Bloquear usuario</span>
@@ -108,12 +112,22 @@
                                 th:onclick="'addIdToModal(' + ${user.id} + ')'" data-bs-target="#eliminarModal"></a>
                               <span class="tooltip">Eliminar usuario</span>
                             </div>
+                            <span class="espacio"></span>
+
+                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                              onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                              <a th:href="${'/admin/users/upgrade/' + user.id}" class="icon-yellow mdi mdi-crown icon-md"
+                                data-bs-toggle="modal" th:onclick="'addIdToUpgradeModal(' + ${user.id} + ')'"
+                                data-bs-target="#upgradeModal"></a>
+                              <span class="tooltip">Ascender a Administrador</span>
+                            </div>
                           </td>
                         </tr>
                       </tbody>
                       <span id="blockedID" hidden></span>
                       <span id="unblockedID" hidden></span>
                       <span id="deleteID" hidden></span>
+                      <span id="upgradeID" hidden></span>
                     </table>
                   </div>
                 </div>
@@ -203,6 +217,28 @@
         <div class="modal-footer fondo-grey">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" id="unblockUsuarioBtn">Desbloquear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Ascender -->
+  <div class="modal fade" id="upgradeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header fondo-blue">
+          <svg class="bi flex-shrink-0 me-2" width="32" height="32" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill" />
+          </svg>
+          <h4 class="modal-title" id="exampleModalLabel">Atencion!</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fondo-grey">
+          Vas a ascender este usuario, ¿Estás seguro?
+        </div>
+        <div class="modal-footer fondo-grey">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="upgradeUsuarioBtn">Ascender</button>
         </div>
       </div>
     </div>

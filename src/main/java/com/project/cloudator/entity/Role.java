@@ -28,7 +28,7 @@ public class Role {
     public String getDisplayName() {
         switch (name) {
             case "ROLE_SUPERADMIN":
-                return "Super Administrador";
+                return "Super Admin";
 
             case "ROLE_ADMIN":
                 return "Administrador";
@@ -37,7 +37,7 @@ public class Role {
                 return "Premium";
 
             case "ROLE_USER":
-                return "Estándar";
+                return "Basico";
 
             default:
                 return name;

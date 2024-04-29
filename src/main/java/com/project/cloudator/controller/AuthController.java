@@ -3,6 +3,7 @@ package com.project.cloudator.controller;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.cloudator.dto.UserDto;
@@ -19,6 +21,9 @@ import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
+import com.project.cloudator.service.SecurityService;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Controller
 public class AuthController {
@@ -33,6 +38,7 @@ public class AuthController {
 
     @Autowired
     private Regex regex;
+
     // private final CustomUserDetails customUserDetails;
 
     /**
@@ -55,6 +61,8 @@ public class AuthController {
     public String loginForm() {
         return "login";
     }
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     /*
      * @GetMapping("/login?error")
@@ -86,6 +94,9 @@ public class AuthController {
      *                           attributes.
      * @return The name of the view.
      */
+
+    @Value("${secretencryptor}")
+    private String SECRET_KEY_ENCRYPTOR;
 
     @PostMapping("/post/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
@@ -123,30 +134,30 @@ public class AuthController {
 
         ////////////////////////////////////////
 
-        // Asume que tienes un RestTemplate configurado y la URL del servicio de gestión
-        // de ficheros
-        /*
-         * String fileManagerServiceUrl = "http://localhost:8080/create-directory";
-         * Long userId = idUserExisting.getId();
-         * String requestUrl = fileManagerServiceUrl + "?userId=" + userId;
-         * try {
-         * // Realiza la llamada POST para crear las carpetas
-         * ResponseEntity<String> response = restTemplate.postForEntity(requestUrl,
-         * null, String.class);
-         * if (response.getStatusCode().is2xxSuccessful()) {
-         * logwriter.
-         * writeLog("Directorios creados correctamente para el usuario con id '" +
-         * userId + "'");
-         * } else {
-         * logwriter.writeLog(
-         * "Error al crear directorios para el usuario con id '" + userId + "': " +
-         * response.getBody());
-         * }
-         * } catch (Exception e) {
-         * logwriter.writeLog("Error al comunicarse con el servidor de archivos: " +
-         * e.getMessage());
-         * }
-         */
+        SecurityService security = new SecurityService(SECRET_KEY_ENCRYPTOR);
+        String fileManagerServiceUrl = "http://management-pants.gl.at.ply.gg:27118/upload/create-directory";
+        Long userId = idUserExisting.getId();
+
+        String encryptedUserId = security.encryptData(userId.toString());
+        String encodedUserId = Base64.getUrlEncoder().encodeToString(encryptedUserId.getBytes(StandardCharsets.UTF_8));
+
+        String requestUrl = fileManagerServiceUrl + "?userId=" + encodedUserId;
+        try {
+            // Realiza la llamada POST para crear las carpetas.
+            ResponseEntity<String> response = restTemplate.postForEntity(requestUrl,
+                    null, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                logwriter.writeLog("Directorios creados correctamente para el usuario con id '" +
+                        userId + "'");
+            } else {
+                logwriter.writeLog(
+                        "Error al crear directorios para el usuario con id '" + userId + "': " +
+                                response.getBody());
+            }
+        } catch (Exception e) {
+            logwriter.writeLog("Error al comunicarse con el servidor de archivos: " +
+                    e.getMessage());
+        }
 
         ////////////////////////////////////////
 

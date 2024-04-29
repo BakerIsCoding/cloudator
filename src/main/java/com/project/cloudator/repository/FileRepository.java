@@ -16,4 +16,7 @@ public interface FileRepository extends JpaRepository<File, Long> {
     @Query(value = "SELECT * FROM files WHERE filename LIKE %:busqueda%", nativeQuery = true)
     public List<File> findFilesByFilename(@Param("busqueda") String filename);
 
+    @Query("SELECT f.filesize FROM File f WHERE f.owner = :ownerId")
+    List<Long> findFileSizesByOwner(@Param("ownerId") Long ownerId);
+
 }

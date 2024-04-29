@@ -37,4 +37,8 @@ public interface UserService {
 
     Long getUserIdByUsername(String username);
 
+    void upgradeToAdmin(Long userid, Long newRole);
+
+    List<String> getRolesByUserId(Long userId);
+
 }

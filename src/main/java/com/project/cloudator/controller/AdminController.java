@@ -92,8 +92,15 @@ public class AdminController {
             userAccessMap.put(userDto.getId(), access);
         }
 
+        Map<Long, List<String>> roleMap = new HashMap<>();
+        for (UserDto userDto : users) {
+            List<String> roles = userService.getRolesByUserId(userDto.getId());
+            roleMap.put(userDto.getId(), roles);
+        }
+
         model.addAttribute("users", users);
         model.addAttribute("userAccessMap", userAccessMap);
+        model.addAttribute("roleMap", roleMap);
 
         return "/admin/admin";
     }
@@ -190,6 +197,15 @@ public class AdminController {
         model.addAttribute("role", role);
 
         return "/settings";
+    }
+
+    @GetMapping("/admin/users/upgrade/{id}")
+    public String upgrade(@PathVariable Long id) {
+        Long newRole = 2L;
+        userService.upgradeToAdmin(id, newRole);
+        logWriter.writeLog(
+                "El usuario con id '" + id + "' ha sido ascendido a Administrador por un SuperAdministrador.");
+        return "redirect:/admin";
     }
 
 }

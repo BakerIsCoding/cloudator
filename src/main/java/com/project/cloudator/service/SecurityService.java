@@ -1,5 +1,6 @@
 package com.project.cloudator.service;
 
+import org.springframework.stereotype.Service;
 import com.project.cloudator.utils.Decryptor;
 import com.project.cloudator.utils.Encryptor;
 

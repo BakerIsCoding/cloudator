@@ -1,5 +1,6 @@
 package com.project.cloudator.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import com.project.cloudator.service.UserService;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserInfoRepository;
+import com.project.cloudator.repository.UserRoleRepository;
 import com.project.cloudator.service.FileService;
 
 import jakarta.servlet.http.Cookie;
@@ -39,6 +41,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UserController {
@@ -70,6 +73,9 @@ public class UserController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     @GetMapping("/")
     public String home() {
         return "landing";
@@ -78,7 +84,7 @@ public class UserController {
     @GetMapping("/users/")
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
-            Model model, @RequestParam(value = "rememberMe", required = false) boolean rememberMe) {
+            Model model) {
 
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
@@ -87,24 +93,65 @@ public class UserController {
 
         model.addAttribute("users", userService.getUserById(userServerId));
         System.out.println(userServerId);
-        if (rememberMe) {
-            // Si se marca el checkbox "Recordar usuario", guarda el nombre de usuario en
-            // una cookie segura
-            Cookie cookie = new Cookie("rememberedUsername", username);
-            cookie.setMaxAge(30 * 24 * 60 * 60); // La cookie expira en 30 días
-            cookie.setPath("/");
-            cookie.setSecure(true); // Para HTTPS
-            response.addCookie(cookie);
+
+        List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
+        String userRole = "";
+        if (!roles.isEmpty()) {
+            Role firstRole = roles.get(0);
+            userRole = firstRole.getName();
         } else {
-            // Si no se marca, asegúrate de borrar la cookie
-            Cookie cookie = new Cookie("rememberedUsername", null);
-            cookie.setMaxAge(0); // Caduca inmediatamente
-            cookie.setPath("/");
-            cookie.setSecure(true); // Para HTTPS
-            response.addCookie(cookie);
+            System.out.println("Error, el Rol está vacío.");
         }
 
+        // Storage user
+        Long totalStorageUsedLong = fileService.getStorage(userServerId);
+        BigInteger totalStorageUsed = BigInteger.valueOf(totalStorageUsedLong);
+        BigInteger maxStorage = BigInteger.ZERO;
+
+        switch (userRole) {
+            case "ROLE_USER":
+                maxStorage = new BigInteger("10737418240");
+                break;
+            case "ROLE_PREMIUM":
+                maxStorage = new BigInteger("107374182400");
+                break;
+            case "ROLE_ADMIN":
+                maxStorage = new BigInteger("1073741824000");
+                break;
+            case "ROLE_SUPERADMIN":
+                maxStorage = new BigInteger("1073741824000");
+                break;
+
+            default:
+                break;
+        }
+
+        BigInteger remainingStorage = maxStorage.subtract(totalStorageUsed);
+
+        model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed));
+        model.addAttribute("remainingStorage", formatBytes(remainingStorage));
+        model.addAttribute("maxStorage", formatBytes(maxStorage));
+
         return "index";
+    }
+
+    public String formatBytes(BigInteger bytes) {
+        BigInteger KILOBYTE = BigInteger.valueOf(1024);
+        BigInteger MEGABYTE = KILOBYTE.multiply(KILOBYTE);
+        BigInteger GIGABYTE = MEGABYTE.multiply(KILOBYTE);
+        BigInteger TERABYTE = GIGABYTE.multiply(KILOBYTE);
+
+        if (bytes.compareTo(KILOBYTE) < 0) {
+            return bytes + " bytes";
+        } else if (bytes.compareTo(MEGABYTE) < 0) {
+            return String.format("%.3f KB", bytes.divide(KILOBYTE).doubleValue());
+        } else if (bytes.compareTo(GIGABYTE) < 0) {
+            return String.format("%.2f MB", bytes.divide(MEGABYTE).doubleValue());
+        } else if (bytes.compareTo(TERABYTE) < 0) {
+            return String.format("%.2f GB", bytes.divide(GIGABYTE).doubleValue());
+        } else {
+            return String.format("%.2f TB", bytes.divide(TERABYTE).doubleValue());
+        }
     }
 
     /**
@@ -117,7 +164,7 @@ public class UserController {
     public String delete(@PathVariable Long id) {
         userService.deleteUser(id);
         logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
-        return "redirect:/delete";
+        return "redirect:/logout";
     }
 
     /**
@@ -243,6 +290,16 @@ public class UserController {
         return "/files";
     }
 
+    @PostMapping("/post/settingsimage")
+    public String postUserIname(@ModelAttribute("user") User user,
+            @RequestParam("image") MultipartFile image,
+            RedirectAttributes redirectAttributes) {
+        user.getId();
+
+        redirectAttributes.addFlashAttribute("message", "Imagen cargada con éxito!");
+        return "redirect:/users/edit/";
+    }
+
     @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
             BindingResult result, Model model) {
@@ -340,6 +397,11 @@ public class UserController {
     @GetMapping("/faqs")
     public String faqs() {
         return "/faqs";
+    }
+
+    @GetMapping("/us")
+    public String weare() {
+        return "/weare";
     }
 
 }

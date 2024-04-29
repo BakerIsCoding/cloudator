@@ -1,4 +1,7 @@
 /*  Nuestros CSS  */
+*{
+    font-family: system-ui;
+}
 
 .padding-10 {
     padding: 10px !important;
@@ -373,4 +376,9 @@ body {
 
 .tooltip-container:hover .tooltip {
   visibility: visible;
+}
+
+.icon-candado {
+    color: #ac780e;
+
 }

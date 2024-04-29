@@ -74,23 +74,23 @@
                                     <canvas id="doughnutChart" style="height:250px"></canvas>
                                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                                     <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3 lineaBottom">
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Espacio Ocupado</h6>
-                                        </div>
-                                        <div
-                                            class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                                            <h6 class="font-weight-normal mb-0">1,5Gb</h6> <!-- AÑADIR VARIABLE -->
-                                        </div>
+                                          </div>
+                                        
+                                          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                            <h6 class="font-weight-bold mb-0" th:text="${totalStorageUsed}"></h6>
+                                          </div>
                                     </div>
                                     <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3 lineaBottom">
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Espacio Libre</h6>
                                         </div>
                                         <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                                             style="margin-left: 30px !important;">
-                                            <h6 class="font-weight-normal mb-0">8,5Gb</h6> <!-- AÑADIR VARIABLE -->
+                                            <h6 class="font-weight-normal mb-0" th:text="${remainingStorage}"></h6>
                                         </div>
                                     </div>
                                     <div
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                                             style="margin-left: 30px !important;">
-                                            <h6 class="font-weight-normal mb-0">10Gb</h6> <!-- AÑADIR VARIABLE -->
+                                            <h6 class="font-weight-normal mb-0" th:text="${maxStorage}"></h6> <!-- AÑADIR VARIABLE -->
                                         </div>
                                     </div>
                                 </div>

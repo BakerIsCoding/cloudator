@@ -60,12 +60,12 @@
 							<li class="submenu">
 								<a href="javascript:;">Paginas</a>
 								<ul>
-									<li><a th:href="@{./landing/blue-about.html}">sobre nosotros</a></li>
-									<li><a th:href="@{./landing/blue-features.html}" >Caracteristicas</a></li>
+									<li><a th:href="@{/us}">Sobre nosotros</a></li>
+									<li><a th:href="@{/terms}" >Terminos y Condiciones</a></li>
 									<li><a th:href="@{/faqs}">FAQ's</a></li>
 								</ul>
 							</li>
-							<li><a th:href="@{./landing/blue-contact.html}">Contacto</a></li>
+							<li><a th:href="@{#contact}">Contacto</a></li>
 						</ul>
 						<a class="menu-trigger">
 							<span>Menu</span>
@@ -425,7 +425,7 @@
 							</ul>
 						</div>
 						<div class="pricing-footer">
-							<a href="#">Seleccionar Plan</a>
+							<a th:href="@{/users/plan/}">Seleccionar Plan</a>
 						</div>
 					</div>
 				</div>
@@ -452,7 +452,7 @@
 							</ul>
 						</div>
 						<div class="pricing-footer">
-							<a href="#">Seleccionar plan</a>
+							<a th:href="@{/users/plan/}">Seleccionar plan</a>
 						</div>
 					</div>
 				</div>
@@ -479,7 +479,7 @@
 							</ul>
 						</div>
 						<div class="pricing-footer">
-							<a href="#">Seleccionar Plan</a>
+							<a th:href="@{/users/plan/}">Seleccionar Plan</a>
 						</div>
 					</div>
 				</div>
@@ -505,7 +505,7 @@
 	<!-- ***** Parallax End ***** -->
 	<!-- ***** Footer Start ***** -->
 	<footer>
-		<div class="container">
+		<div class="container" id="contact">
 			<div class="row">
 				<div class="col-lg-5 col-md-12 col-sm-12">
 					<a th:href="@{/}" class="logo" style="margin-top: 11px!important;">

@@ -19,6 +19,17 @@ public class FileService {
         return "Fichero guardado correctamente";
     }
 
+    public Long getStorage(Long userId) {
+        long totalSpaceUsed = 0;
+        List<Long> totalStorageUsed = repo.findFileSizesByOwner(userId);
+
+        for (Long fileSize : totalStorageUsed) {
+            totalSpaceUsed += fileSize;
+        }
+
+        return totalSpaceUsed;
+    }
+
     public List<File> findFilesByOwner(Long owner) {
         return repo.findFilesByOwner(owner);
     }

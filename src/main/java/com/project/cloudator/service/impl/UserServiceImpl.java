@@ -12,6 +12,7 @@ import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserRepository;
+import com.project.cloudator.repository.UserRoleRepository;
 import com.project.cloudator.service.UserAccessService;
 import com.project.cloudator.service.UserService;
 import com.project.cloudator.entity.File;
@@ -42,6 +43,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserAccessService userAccessService;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     /**
      * Obtiene un usuario por su ID.
@@ -260,6 +264,11 @@ public class UserServiceImpl implements UserService {
         userRepository.updatePassword(userId, encodedPassword);
     }
 
+    @Override
+    public void upgradeToAdmin(Long userId, Long newRole) {
+        roleRepository.upgradeToAdmin(userId, newRole);
+    }
+
     /**
      * Bloquea un usuario por su ID.
      *
@@ -312,6 +321,12 @@ public class UserServiceImpl implements UserService {
                             + "ERROR: userAccess es NULL!");
             return false;
         }
+    }
+
+    @Override
+    public List<String> getRolesByUserId(Long userId) {
+        List<Role> roles = userRoleRepository.findRolesByUserId(userId);
+        return roles.stream().map(Role::getDisplayName).collect(Collectors.toList());
     }
 
 }
