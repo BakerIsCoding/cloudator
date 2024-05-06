@@ -81,4 +81,5 @@ public class UserInfo {
     public String getPFoto() {
         return foto;
     }
+
 }

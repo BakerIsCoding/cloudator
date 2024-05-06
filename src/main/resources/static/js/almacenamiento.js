@@ -1,50 +1,70 @@
- // Datos de archivos subidos hoy (reemplazar con tus datos reales)
- var archivosSubidosData = {
-    labels: ["Documentos", "Imagenes", "Videos", "Audios"],
-    datasets: [{
-        data: [12, 19, 3, 5], // Cantidad de archivos subidos hoy
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(153, 102, 255, 0.5)'
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(153, 102, 255, 1)'
-        ],
-        borderWidth: 1,
-        labels: {
-            color: 'white' // Cambiar el color del texto a negro
-        }
-    }]
-};
+document.addEventListener("DOMContentLoaded", function () {
+    var rawDataNormal = document.getElementById("fechasNormal").textContent;
+    var dataNormal = normalizeData(rawDataNormal);
 
+    var rawDataUser = document.getElementById("fechasUser").textContent;
+    var dataUser = normalizeData(rawDataUser);
 
-if ($("#archivosSubidosChart").length) {
-    var archivosSubidosChartCanvas = $("#archivosSubidosChart").get(0).getContext("2d");
-    var archivosSubidosChart = new Chart(archivosSubidosChartCanvas, {
-        type: 'bar',
-        data: archivosSubidosData,
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
+    var labels = getLast7Days();
+
+    var subidasDiariasData = {
+        labels: labels,
+        datasets: [{
+            label: 'En General',
+            data: labels.map(date => dataNormal[date] || 0),
+            fill: false,
+            borderColor: '#1E90FF',
+            tension: 0.4
+        }, {
+            label: 'Tú',
+            data: labels.map(date => dataUser[date] || 0),
+            fill: false,
+            borderColor: '#00FF7F',
+            tension: 0.4
+        }]
+    };
+
+    if ($("#subidasDiariasChart").length) {
+        var ctx = $("#subidasDiariasChart").get(0).getContext("2d");
+        var subidasDiariasChart = new Chart(ctx, {
+            type: 'line',
+            data: subidasDiariasData,
+            options: {
+                scales: {
+                    y: {
                         beginAtZero: true
                     }
-                }]
-            },
-            legend: {
-                display: false // Ocultar la leyenda
-            },
-            // Configuración del plugin datalabels para el color del texto
-            plugins: {
-                datalabels: {
-                    color: 'white' // Establecer el color del texto a blanco
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    }
                 }
             }
-        }
-    });
+        });
+    }
+});
+
+function normalizeData(rawData) {
+    var data = rawData.split(',').reduce((acc, item) => {
+        var parts = item.split(':');
+        acc[parts[0]] = parseInt(parts[1], 10);
+        return acc;
+    }, {});
+    return data;
+}
+
+function getLast7Days() {
+    var dates = [];
+    var today = new Date();
+    for (var i = 6; i >= 0; i--) {
+        var d = new Date(today);
+        d.setDate(d.getDate() - i);
+        dates.push(formatDate(d));
+    }
+    return dates;
+}
+
+function formatDate(date) {
+    return date.toISOString().substring(0, 10); // Formato 'YYYY-MM-DD'
 }

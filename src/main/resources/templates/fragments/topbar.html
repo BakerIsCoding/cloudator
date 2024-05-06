@@ -18,7 +18,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
             <div class="navbar-profile">
-              <img class="img-xs rounded-circle" src="" alt=""> <!-- VARIABLE IMAGEN USUARIO -->
+              <img class="img-xs rounded-circle" th:src="@{'http://management-pants.gl.at.ply.gg:27118/upload/' + ${userId} + '/pfp/profile.jpg'}" alt="Imagen de usuario"> <!-- VARIABLE IMAGEN USUARIO -->
               <p class="mb-0 d-none d-sm-block navbar-profile-name"><!-- VARIABLE NOMBRE USUARIO --></p>
               <i class="mdi mdi-menu-down d-none d-sm-block"></i>
             </div>

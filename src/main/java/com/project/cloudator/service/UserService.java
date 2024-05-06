@@ -37,7 +37,13 @@ public interface UserService {
 
     Long getUserIdByUsername(String username);
 
-    void upgradeToAdmin(Long userid, Long newRole);
+    /**
+     * Updates the role of a user identified by the given userid.
+     *
+     * @param userid  the ID of the user to update the role for
+     * @param newRole the ID of the new role to assign to the user
+     */
+    void updateRole(Long userid, Long newRole);
 
     List<String> getRolesByUserId(Long userId);
 

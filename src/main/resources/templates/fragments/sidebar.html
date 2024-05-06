@@ -38,27 +38,15 @@
                 <span class="menu-title">Subir Archivos</span>
             </a>
         </li>
-        <!--Verificar si el usuario tiene el rol "SUPERADMIN" o "ADMIN"
-        
-        <th:block th:if="${hasRole('SUPERADMIN') or hasRole('ADMIN')}"> -->
-        <!--
-        <li class="nav-item menu-items" sec:authorize="hasRole('ROLE_ADMIN')">
-            <a class="nav-link" th:href="@{/admin/panel}">
+        <li class="nav-item menu-items" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <span class="menu-icon">
                     <i class="mdi mdi-crown"></i>
                 </span>
                 <span class="menu-title">Panel Administrador</span>
-            </a>
-        </li>-->
-
-        <li class="nav-item menu-items" sec:authorize="hasRole('ROLE_ADMIN')">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-                <span class="menu-icon">
-                    <i class="mdi mdi-security"></i>
-                </span>
-                <span class="menu-title">Panel Administrador</span>
                 <i class="menu-arrow"></i>
             </a>
+            
             <div class="collapse" id="auth">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" th:href="@{/admin/listaUsuarios}"> Lista de usuarios </a></li>

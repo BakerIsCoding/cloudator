@@ -202,7 +202,7 @@ public class AdminController {
     @GetMapping("/admin/users/upgrade/{id}")
     public String upgrade(@PathVariable Long id) {
         Long newRole = 2L;
-        userService.upgradeToAdmin(id, newRole);
+        userService.updateRole(id, newRole);
         logWriter.writeLog(
                 "El usuario con id '" + id + "' ha sido ascendido a Administrador por un SuperAdministrador.");
         return "redirect:/admin";

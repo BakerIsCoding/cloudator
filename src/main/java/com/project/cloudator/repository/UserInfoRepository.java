@@ -15,6 +15,12 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
         // FALTA AÑADIR LOS METODOS INDIVIDUALES
         // public void updateName()
+
+        @Modifying
+        @Transactional
+        @Query("UPDATE UserInfo u SET u.foto = :foto WHERE u.id = :id")
+        public void updatePcp(@Param("id") Long id, @Param("foto") String foto);
+
         @Query(value = "SELECT u FROM UserInfo u WHERE u.id = :id")
         public UserInfo fetchUserInfo(@Param("id") Long id);
 }

@@ -1,7 +1,25 @@
 package com.project.cloudator.controller;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+//////
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.net.http.HttpHeaders;
+import java.nio.file.StandardOpenOption;
+
+//////
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
@@ -128,9 +146,18 @@ public class UserController {
 
         BigInteger remainingStorage = maxStorage.subtract(totalStorageUsed);
 
-        model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed));
-        model.addAttribute("remainingStorage", formatBytes(remainingStorage));
-        model.addAttribute("maxStorage", formatBytes(maxStorage));
+        Float totalStorageUsedInteger = formatBytesAsFloatGB(totalStorageUsed);
+        Float remainingStorageInteger = formatBytesAsFloatGB(remainingStorage);
+
+        model.addAttribute("espacioOcupado", totalStorageUsedInteger);
+        model.addAttribute("espacioLibre", remainingStorageInteger);
+
+        model.addAttribute("fechasNormal", fileService.countFilesFromLastWeekGrouped());
+        model.addAttribute("fechasUser", fileService.countFilesForOwnerFromLastWeekGrouped(userServerId));
+
+        model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed) + " GB");
+        model.addAttribute("remainingStorage", formatBytes(remainingStorage) + " GB");
+        model.addAttribute("maxStorage", formatBytes(maxStorage) + " GB");
 
         return "index";
     }
@@ -139,19 +166,22 @@ public class UserController {
         BigInteger KILOBYTE = BigInteger.valueOf(1024);
         BigInteger MEGABYTE = KILOBYTE.multiply(KILOBYTE);
         BigInteger GIGABYTE = MEGABYTE.multiply(KILOBYTE);
-        BigInteger TERABYTE = GIGABYTE.multiply(KILOBYTE);
 
-        if (bytes.compareTo(KILOBYTE) < 0) {
-            return bytes + " bytes";
-        } else if (bytes.compareTo(MEGABYTE) < 0) {
-            return String.format("%.3f KB", bytes.divide(KILOBYTE).doubleValue());
-        } else if (bytes.compareTo(GIGABYTE) < 0) {
-            return String.format("%.2f MB", bytes.divide(MEGABYTE).doubleValue());
-        } else if (bytes.compareTo(TERABYTE) < 0) {
-            return String.format("%.2f GB", bytes.divide(GIGABYTE).doubleValue());
-        } else {
-            return String.format("%.2f TB", bytes.divide(TERABYTE).doubleValue());
-        }
+        // Convierte siempre a GB, independientemente del tamaño original
+        double gigabytes = bytes.divide(GIGABYTE).doubleValue()
+                + (bytes.mod(GIGABYTE).doubleValue() / GIGABYTE.doubleValue());
+        return String.format("%.2f", gigabytes);
+    }
+
+    public Float formatBytesAsFloatGB(BigInteger bytes) {
+        BigInteger KILOBYTE = BigInteger.valueOf(1024);
+        BigInteger MEGABYTE = KILOBYTE.multiply(KILOBYTE);
+        BigInteger GIGABYTE = MEGABYTE.multiply(KILOBYTE);
+
+        // Calcula los gigabytes como un valor float
+        float gigabytes = bytes.divide(GIGABYTE).floatValue()
+                + (bytes.mod(GIGABYTE).floatValue() / GIGABYTE.floatValue());
+        return gigabytes;
     }
 
     /**
@@ -293,8 +323,41 @@ public class UserController {
     @PostMapping("/post/settingsimage")
     public String postUserIname(@ModelAttribute("user") User user,
             @RequestParam("image") MultipartFile image,
-            RedirectAttributes redirectAttributes) {
-        user.getId();
+            RedirectAttributes redirectAttributes) throws IllegalStateException, IOException, InterruptedException {
+
+        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
+        /////
+        Path tempFile = Paths.get(System.getProperty("java.io.tmpdir"), image.getOriginalFilename());
+        image.transferTo(tempFile);
+
+        // Prepare the URI and the HttpRequest with multipart/form-data
+        URI uri = URI.create("http://management-pants.gl.at.ply.gg:27118/" + userServerId + "/pfpic");
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Content-Type", "application/octet-stream")
+                .POST(BodyPublishers.ofFile(tempFile))
+                .build();
+
+        // Send the request using HttpClient
+        HttpClient client = HttpClient.newHttpClient();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+
+        /////
+
+        System.out.println("username = " + username);
+        System.out.println("id = " + userServerId);
+
+        String url = "http://management-pants.gl.at.ply.gg:27118/upload/" + userServerId + "/pfpic";
+
+        System.out.println("Url: " + url);
+        UserInfo userinfo = new UserInfo();
+        userinfo.setId(userServerId);
+        userinfo.setFoto(url);
+        System.out.println("Url subida: " + userinfo.getFoto());
+        userInfoRepository.updatePcp(userinfo.getId(), userinfo.getFoto());
 
         redirectAttributes.addFlashAttribute("message", "Imagen cargada con éxito!");
         return "redirect:/users/edit/";
@@ -402,6 +465,24 @@ public class UserController {
     @GetMapping("/us")
     public String weare() {
         return "/weare";
+    }
+
+    @GetMapping("/users/plan/basic/{id}")
+    public String planBasic(@PathVariable Long id) {
+        Long newRole = 4L;
+        userService.updateRole(id, newRole);
+        logWriter.writeLog(
+                "El usuario con id '" + id + "' ha sido degradado a usuario Basico.");
+        return "redirect:/users/plan/";
+    }
+
+    @GetMapping("/users/plan/premium/{id}")
+    public String planPremium(@PathVariable Long id) {
+        Long newRole = 3L;
+        userService.updateRole(id, newRole);
+        logWriter.writeLog(
+                "El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
+        return "redirect:/users/plan/";
     }
 
 }

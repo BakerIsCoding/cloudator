@@ -19,5 +19,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE UserRole u SET u.roleId = :newRole WHERE u.userId = :userId")
-    public void upgradeToAdmin(@Param("userId") Long userId, @Param("newRole") Long newRole);
+    public void updateRole(@Param("userId") Long userId, @Param("newRole") Long newRole);
 }

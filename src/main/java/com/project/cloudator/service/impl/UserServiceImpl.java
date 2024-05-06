@@ -265,8 +265,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void upgradeToAdmin(Long userId, Long newRole) {
-        roleRepository.upgradeToAdmin(userId, newRole);
+    public void updateRole(Long userId, Long newRole) {
+        roleRepository.updateRole(userId, newRole);
     }
 
     /**

@@ -3,6 +3,14 @@
     font-family: system-ui;
 }
 
+.text-rightimportant {
+    text-align: right !important;
+}
+
+.roundedbig{
+    border-radius: 1rem !important;
+}
+
 .padding-10 {
     padding: 10px !important;
 }
@@ -381,4 +389,9 @@ body {
 .icon-candado {
     color: #ac780e;
 
+}
+.button.disabled {
+    background-color: #ccc; 
+    color: #999; 
+    cursor: not-allowed; 
 }

@@ -1,40 +1,44 @@
-var data = {
-    labels: ["Espacio Ocupado", "Espacio Libre"],
-    datasets: [{
-        data: [1.5, 8.5], // Datos de espacio ocupado y libre AÑADIR VARIABLES.
-        backgroundColor: [
-            'rgba(255, 0, 0, 0.5)', // Color para "Espacio Ocupado"
-            'rgba(0, 255, 127, 0.5)' // Color para "Espacio Libre"
-        ],
-        borderColor: [
-            'rgba(255, 0, 0, 1)',
-            'rgba(0, 255, 127, 1)'
-        ],
-        borderWidth: 1
-    }]
-};
 
-// Calcular la suma de los valores
-var sumaValores = data.datasets[0].data.reduce(function (a, b) {
-    return a + b;
-}, 0);
+document.addEventListener('DOMContentLoaded', function () {
+    var espacioOcupado = document.getElementById('espacioOcupado').innerText;
+    var espacioLibre = document.getElementById('espacioLibre').innerText;
 
-var options = {
-    cutoutPercentage: 70,
-    legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-            fontColor: 'white'
+    var data = {
+        labels: ["Espacio Ocupado", "Espacio Libre"],
+        datasets: [{
+            data: [espacioOcupado, espacioLibre],
+            backgroundColor: [
+                'rgba(255, 0, 0, 0.5)',  // rojo semi-transparente para "Espacio Ocupado"
+                'rgba(0, 255, 127, 0.5)' // verde menta semi-transparente para "Espacio Libre"
+            ],
+            borderColor: [
+                'rgba(255, 0, 0, 1)',  // rojo para el borde de "Espacio Ocupado"
+                'rgba(0, 255, 127, 1)' // verde menta para el borde de "Espacio Libre"
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    var options = {
+        cutoutPercentage: 70,
+        legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+                fontColor: 'white' // texto blanco para las etiquetas de la leyenda
+            }
         }
-    }
-}
+    };
 
-if ($("#doughnutChart").length) {
-    var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
-    var doughnutChart = new Chart(doughnutChartCanvas, {
-        type: 'doughnut',
-        data: data,
-        options: options
-    });
-}
+    // Asegúrate de que el elemento canvas exista en tu HTML
+    if ($("#doughnutChart").length) {
+        var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
+        var doughnutChart = new Chart(doughnutChartCanvas, {
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+    }
+});
+
+

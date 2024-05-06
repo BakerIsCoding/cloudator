@@ -114,7 +114,7 @@
                             </div>
                             <span class="espacio"></span>
 
-                            <div class="tooltip-container" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                            <div class="tooltip-container" sec:authorize="hasRole('ROLE_SUPERADMIN')" onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
                               onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
                               <a th:href="${'/admin/users/upgrade/' + user.id}" class="icon-yellow mdi mdi-crown icon-md"
                                 data-bs-toggle="modal" th:onclick="'addIdToUpgradeModal(' + ${user.id} + ')'"

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <!-- Required meta tags -->
@@ -27,11 +28,11 @@
 </head>
 
 <body>
-    
+
     <div class="container-scroller">
         <!--LEFT SIDEBAR -->
         <div th:replace="~{fragments/sidebar :: html_sidebar}"></div>
-    
+
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
 
@@ -57,8 +58,7 @@
                                         <div class="col-3 col-sm-2 col-xl-2 ps-0 text-end">
                                             <span>
                                                 <a th:href="@{/users/plan/}"
-                                                    class="btn btn-outline-light btn-rounded get-started-btn">Cambiar
-                                                    plan</a>
+                                                    class="btn btn-outline-light btn-rounded get-started-btn">Cambiar plan</a>
                                             </span>
                                         </div>
                                     </div>
@@ -71,36 +71,42 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title text-center">Espacio de Almacenamiento</h4>
-                                    <canvas id="doughnutChart" style="height:250px"></canvas>
+                                    <div
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-2 px-4 px-md-3 px-xl-4 roundedbig mt-3">
+                                        <canvas id="doughnutChart" style="height:250px"></canvas>
+                                    </div>
+
                                     <!--<canvas id="transaction-history" class="transaction-chart"></canvas>-->
                                     <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                                        <div class="text-md-center text-xl-left">
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 roundedbig mt-3">
+                                        <div class="text-md- text-xl-left">
                                             <h6 class="mb-1">Espacio Ocupado</h6>
-                                          </div>
-                                        
-                                          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                                            <h6 class="font-weight-bold mb-0" th:text="${totalStorageUsed}"></h6>
-                                          </div>
+                                        </div>
+
+                                        <div
+                                            class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                            <h6 class="text-rightimportant font-weight-bold mb-0" th:text="${totalStorageUsed}"></h6>
+                                        </div>
                                     </div>
                                     <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 roundedbig mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Espacio Libre</h6>
                                         </div>
                                         <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                                             style="margin-left: 30px !important;">
-                                            <h6 class="font-weight-normal mb-0" th:text="${remainingStorage}"></h6>
+                                            <h6 class="text-rightimportant font-weight-bold mb-0" th:text="${remainingStorage}"></h6>
                                         </div>
                                     </div>
                                     <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 roundedbig mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Espacio Total</h6>
                                         </div>
                                         <div class="align-self-center flex-grow text-md-center text-xl-right py-md-2 py-xl-0"
                                             style="margin-left: 30px !important;">
-                                            <h6 class="font-weight-normal mb-0" th:text="${maxStorage}"></h6> <!-- AÑADIR VARIABLE -->
+                                            <h6 class="text-rightimportant font-weight-bold mb-0" th:text="${maxStorage}"></h6>
+                                            <!-- AÑADIR VARIABLE -->
                                         </div>
                                     </div>
                                 </div>
@@ -113,13 +119,24 @@
                                         <h4 class="card-title mb-1 text-center">Archivos subidos hoy</h4>
                                     </div>
                                     <!-- INSERTAR GRAFICO -->
-                                    <canvas id="archivosSubidosChart" style="height:250px"></canvas>
+                                    <div
+                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-2 px-4 px-md-3 px-xl-4 roundedbig mt-3">
+                                        <canvas id="subidasDiariasChart" style="height:250px"></canvas>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- content-wrapper ends -->
+                <span style="display: none;" id="espacioOcupado" th:text="${espacioOcupado}"></span>
+                <span style="display: none;" id="espacioLibre" th:text="${espacioLibre}"></span>
+                <span id="fechasNormal" style="display: none;"
+                    th:text="${#strings.listJoin(fechasNormal.![#dates.format(date, 'yyyy-MM-dd') + ':' + count], ',')}">
+                </span>
+                <span id="fechasUser" style="display: none;"
+                    th:text="${#strings.listJoin(fechasUser.![#dates.format(date, 'yyyy-MM-dd') + ':' + count], ',')}">
+                </span>
 
                 <!-- partial -->
             </div>
@@ -153,7 +170,7 @@
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
     <!-- End custom js for this page -->
-    
+
 </body>
 
 </html>

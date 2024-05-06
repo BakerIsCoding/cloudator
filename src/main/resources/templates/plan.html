@@ -36,7 +36,8 @@
 </style>
 </head>
 
-<body>
+<body data-user-roles="${user.roles.stream().map(Role::getName).collect(Collectors.joining(','))}">
+
     <div class="container-scroller">
         <!--LEFT SIDEBAR -->
         <div th:replace="~{fragments/sidebar :: html_sidebar}"></div>
@@ -46,7 +47,7 @@
 
             <!--TOP SIDEBAR -->
             <div th:replace="~{fragments/topbar :: html_topbar}"></div>
-
+            
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -68,28 +69,28 @@
                                           <li class="gris">10GB de Almacenamiento</li>
                                           <li class="gris">Tus Archivos seran Públicos <br/>(podran ser vistos por otros usuarios)</li>
                                           <li class="gris">100MB de Ancho de banda</li>
-                                          <li class="grey"><a href="#" class="button">Elegir</a></li>
+                                          <li class="grey"><a th:href="${'/users/plan/basic/' + user.id}" id="basicButton" class="button" onclick="updateRoleBasic(user.id)">Elegir</a>
                                         </ul>
                                       </div>
                                       <div class="columns">
                                         <ul class="price">
-                                          <li class="header lineaBlanca" style="background-color:#04AA6D">Pro</li>
+                                          <li class="header lineaBlanca" style="background-color:#04AA6D">Premium</li>
                                           <li class="grey">4,99€/mes</li>
                                           <li class="gris">100GB de Almacenamiento</li>
                                           <li class="gris">Puedes elegir que Archivos son Públicos y cuales son Privados</li>
                                           <li class="gris">1GB de Ancho de banda</li>
-                                          <li class="grey"><a href="#" class="button">Elegir</a></li>
+                                          <li class="grey"><a th:href="${'/users/plan/premium/' + user.id}" id="premiumButton" class="button" onclick="updateRolePremium(user.id)">Elegir</a>
                                         </ul>
                                       </div>
                                       
                                       <div class="columns">
                                         <ul class="price">
-                                          <li class="header lineaBlanca">Premium</li>
+                                          <li class="header lineaBlanca">Pro</li>
                                           <li class="grey">14,99€/mes</li>
                                           <li class="gris">1TB de Almacenamiento</li>
                                           <li class="gris">Puedes elegir que Archivos son Públicos y cuales son Privados</li>
                                           <li class="gris">1GB de Ancho de banda</li>
-                                          <li class="grey"><a href="#" class="button">Elegir</a></li>
+                                          <li><span class="button disabled">Proximamente</span></li>
                                         </ul>
                                       </div>
                                 </div>
@@ -129,7 +130,7 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
-    <script th:src="@{../../../static/js/sort.js}"></script>
+    <script th:src="@{../../../static/js/plan.js}"></script>
     <!-- End custom js for this page -->
 </body>
 
