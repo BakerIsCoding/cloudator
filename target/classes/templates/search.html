@@ -112,19 +112,8 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
+    <script th:src="@{../../../static/js/dataTables.js}"></script>
     <!-- End custom js for this page -->
-    <script>
-        $(document).ready(function () {
-            $('#fileTable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-                },
-                "lengthMenu": [10, 25, 50, 100, { label: 'Todos', value: -1 }],
-                "searching": true,
-                "paging": true
-            });
-        });
-    </script>
 </body>
 
 </html>
