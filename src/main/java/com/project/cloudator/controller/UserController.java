@@ -21,6 +21,14 @@ import java.nio.file.StandardOpenOption;
 
 //////
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+//////
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.stereotype.Controller;
@@ -43,6 +51,7 @@ import com.project.cloudator.entity.User;
 import com.project.cloudator.entity.UserInfo;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.functions.Regex;
+import com.project.cloudator.functions.UserImg;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
@@ -94,6 +103,9 @@ public class UserController {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
+    private UserImg userMethods;
+
     @GetMapping("/")
     public String home() {
         return "landing";
@@ -110,7 +122,6 @@ public class UserController {
         Long userServerId = userService.getUserIdByUsername(username);
 
         model.addAttribute("users", userService.getUserById(userServerId));
-        System.out.println(userServerId);
 
         List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
         String userRole = "";
@@ -158,6 +169,10 @@ public class UserController {
         model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed) + " GB");
         model.addAttribute("remainingStorage", formatBytes(remainingStorage) + " GB");
         model.addAttribute("maxStorage", formatBytes(maxStorage) + " GB");
+
+        model.addAttribute("userIMG", "http://management-pants.gl.at.ply.gg:27118/upload/3/pfp/profile.jpg");
+        // "http://management-pants.gl.at.ply.gg:27118/upload/" +
+        // userMethods.getUserId() + "/pfp/profile.jpg");
 
         return "index";
     }
@@ -211,6 +226,8 @@ public class UserController {
             BindingResult result,
             Model model, @PathVariable Long id) {
         User usernameExisting = userService.findByUsername(user.getUsername());
+        logWriter.writeLog(
+                "El usuario con id '" + id + "' ha cambiado su nombre de usuario a '" + user.getUsername() + "'.");
 
         if (!regex.isValidUsername(user.getUsername())) {
             return "redirect:/users/edit/" + id + "?error01=1";
@@ -237,6 +254,8 @@ public class UserController {
             @PathVariable Long id) {
 
         User mailExisting = userService.findByEmail(user.getEmail());
+        logWriter.writeLog(
+                "El usuario con id '" + id + "' ha cambiado su correo electrónico a '" + user.getEmail() + "'.");
 
         if (!regex.isValidMail(user.getEmail())) {
             return "redirect:/users/edit/" + id + "?error1=1";
@@ -270,12 +289,9 @@ public class UserController {
         String password = user.getPassword();
         userService.updatePassword(id, password);
 
-        return "redirect:/users/edit/" + id + "?success2=1";
-    }
+        logWriter.writeLog("El usuario con id '" + id + "' ha cambiado su contraseña.");
 
-    @GetMapping("/status")
-    public String status() {
-        return "status";
+        return "redirect:/users/edit/" + id + "?success2=1";
     }
 
     /**
@@ -325,17 +341,14 @@ public class UserController {
             @RequestParam("image") MultipartFile image,
             RedirectAttributes redirectAttributes) throws IllegalStateException, IOException, InterruptedException {
 
-        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
-        String username = userDetails.getUsername();
-        Long userServerId = userService.getUserIdByUsername(username);
+        Long authUserId = userMethods.getUserId();
 
         /////
         Path tempFile = Paths.get(System.getProperty("java.io.tmpdir"), image.getOriginalFilename());
         image.transferTo(tempFile);
 
         // Prepare the URI and the HttpRequest with multipart/form-data
-        URI uri = URI.create("http://management-pants.gl.at.ply.gg:27118/" + userServerId + "/pfpic");
+        URI uri = URI.create("http://management-pants.gl.at.ply.gg:27118/upload/" + authUserId + "/pfpic");
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/octet-stream")
                 .POST(BodyPublishers.ofFile(tempFile))
@@ -344,22 +357,20 @@ public class UserController {
         // Send the request using HttpClient
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println("URL foto perfil: " + uri);
 
         /////
 
-        System.out.println("username = " + username);
-        System.out.println("id = " + userServerId);
+        String url = "http://management-pants.gl.at.ply.gg:27118/upload/" + authUserId + "/pfp/profile.jpg";
 
-        String url = "http://management-pants.gl.at.ply.gg:27118/upload/" + userServerId + "/pfpic";
-
-        System.out.println("Url: " + url);
         UserInfo userinfo = new UserInfo();
-        userinfo.setId(userServerId);
+        userinfo.setId(authUserId);
         userinfo.setFoto(url);
         System.out.println("Url subida: " + userinfo.getFoto());
         userInfoRepository.updatePcp(userinfo.getId(), userinfo.getFoto());
 
         redirectAttributes.addFlashAttribute("message", "Imagen cargada con éxito!");
+        logWriter.writeLog("El usuario con id '" + authUserId + "' ha cambiado su imagen de perfil.");
         return "redirect:/users/edit/";
     }
 
@@ -448,6 +459,8 @@ public class UserController {
 
         List<File> files = fileService.findFilesByFilename(search);
         model.addAttribute("files", files);
+
+        logWriter.writeLog("El usuario con id '" + userServerId + "' ha buscado '" + search + "'.");
 
         return "/search";
     }

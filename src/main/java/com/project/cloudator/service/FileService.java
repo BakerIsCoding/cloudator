@@ -102,4 +102,15 @@ public class FileService {
         return repo.findFilesByFilename(busqueda);
     }
 
+    public void updateFileVisibility(Long fileId, Boolean isPublic) {
+        File file = repo.findById(fileId).orElseThrow(() -> new RuntimeException("Archivo no encontrado"));
+        file.setIspublic(isPublic);
+        repo.save(file);
+    }
+
+    public boolean checkFileOwnership(Long fileId, Long userId) {
+        File file = repo.findById(fileId).orElseThrow(() -> new RuntimeException("Archivo no encontrado"));
+        return file.getOwner().equals(userId);
+    }
+
 }

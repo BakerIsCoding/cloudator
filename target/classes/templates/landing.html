@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Landing-Cloudator</title>
 	<link rel="canonical" href="http://demo.tempload.com" />
 	<meta name="description" content="Turing - IT Solutions and Corporate template by tempload." />
 	<meta name="keywords" content="turing, startup, saas, agency, development, html, template, tempload" />
-	<meta name="author" content="tempload"/>
+	<meta name="author" content="tempload" />
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" th:href="@{../../../static/images/favicon.png}" />
 	<!-- Bootstrap & Plugins CSS -->
@@ -17,15 +18,17 @@
 	<link th:href="@{../../../static/landing/css/magnific-popup.css}" rel="stylesheet" type="text/css">
 	<!-- Custom CSS -->
 	<link th:href="@{../../../static/landing/css/blue.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{../../../static/landing/css/custom.css}" rel="stylesheet" type="text/css">
 	<!-- Global site tag (gtag.js) - Google Analytics 
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118135390-1"></script>-->
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
+		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
 		gtag('config', 'UA-118135390-1');
 	</script>
 </head>
+
 <body>
 	<!-- ***** Preloader Start ***** -->
 	<div id="preloader">
@@ -43,7 +46,8 @@
 					<nav class="main-nav">
 						<!-- ***** Logo Start ***** -->
 						<a th:href="@{/}" class="logo" style="margin-top: 11px!important;">
-							<img th:src="@{../../../static/landing/images/logo2_b.png}" style="width: 105px;height: 60px;" alt="Turing"/>
+							<img th:src="@{../../../static/landing/images/logo2_w.png}"
+								style="width: 105px;height: 60px;" alt="Turing" />
 						</a>
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
@@ -53,15 +57,15 @@
 								<a href="javascript:;">Explorar</a>
 								<ul>
 									<li><a th:href="@{#features}">Servicios</a></li>
-									<li><a th:href="@{#our-team}" >Nuestro equipo</a></li>
-									<li><a th:href="@{#pricing-plans}" >Planes y precios</a></li>
+									<li><a th:href="@{#our-team}">Nuestro equipo</a></li>
+									<li><a th:href="@{#pricing-plans}">Planes y precios</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
 								<a href="javascript:;">Paginas</a>
 								<ul>
 									<li><a th:href="@{/us}">Sobre nosotros</a></li>
-									<li><a th:href="@{/terms}" >Terminos y Condiciones</a></li>
+									<li><a th:href="@{/terms}">Terminos y Condiciones</a></li>
 									<li><a th:href="@{/faqs}">FAQ's</a></li>
 								</ul>
 							</li>
@@ -91,16 +95,18 @@
 		</div>
 		<!-- ***** Header Background Image End ***** -->
 		<div class="header-bg">
-			<img th:src="@{../../../static/landing/images/header-bg.svg}" class="img-fluid" alt="">
+			<img th:src="@{../../../static/landing/images/header-bg_b2.png}" class="img-fluid" alt="">
 		</div>
 		<!-- ***** Header Text Start ***** -->
 		<div class="header-text">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-5 col-md-12 col-sm-12">
-						<h1><h1>Servicios de Web Hosting para Empresa y Particulares</h1>
-						<p>Almacena archivos de la forma más segura y cómoda. Somos la opción mejor opción del mercado también para tu bolsillo.</p>
-						<a href="#" class="btn-primary-line" th:href="@{/login}">EMPECEMOS!</a>
+						<h1>
+							<h1>Servicios de Web Hosting para Empresa y Particulares</h1>
+							<p>Almacena archivos de la forma más segura y cómoda. Somos la opción mejor opción del
+								mercado también para tu bolsillo.</p>
+							<a href="#" class="btn-primary-line" th:href="@{/login}">EMPECEMOS!</a>
 					</div>
 				</div>
 			</div>
@@ -122,7 +128,8 @@
 				<div class="col-lg-12">
 					<div class="row">
 						<!-- ***** Features Small Item Start ***** -->
-						<div class="col-lg-3 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-12"
+							data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
 							<a th:href="@{#features}" class="features-small-item">
 								<div class="icon">
 									<i class="fa fa-cloud"></i>
@@ -133,7 +140,8 @@
 						</div>
 						<!-- ***** Features Small Item End ***** -->
 						<!-- ***** Features Small Item Start ***** -->
-						<div class="col-lg-3 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-12"
+							data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
 							<a th:href="@{#our-team}" class="features-small-item">
 								<div class="icon">
 									<i class="fa fa-laptop"></i>
@@ -144,7 +152,8 @@
 						</div>
 						<!-- ***** Features Small Item End ***** -->
 						<!-- ***** Features Small Item Start ***** -->
-						<div class="col-lg-3 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-12"
+							data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
 							<a th:href="@{#pricing-plans}" class="features-small-item">
 								<div class="icon">
 									<i class="fa fa-video-camera"></i>
@@ -155,7 +164,8 @@
 						</div>
 						<!-- ***** Features Small Item End ***** -->
 						<!-- ***** Features Small Item Start ***** -->
-						<div class="col-lg-3 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.8s">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-12"
+							data-scroll-reveal="enter bottom move 50px over 0.6s after 0.8s">
 							<a th:href="@{#contact}" class="features-small-item">
 								<div class="icon">
 									<i class="fa fa-server"></i>
@@ -172,7 +182,7 @@
 	</section>
 	<!-- ***** Features Small End ***** -->
 	<!-- ***** Features Big Item Start ***** -->
-	<section class="section padding-bottom-80 colored" id="features">
+	<section class="section padding-bottom-80 colored2 noPaddingTop" id="features">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-bottom-fix">
@@ -201,13 +211,13 @@
 								</a>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" >
+								<a class="btn-home">
 									<i class="fa fa-angle-right"></i>
 									<span>Transfiere archivos</span>
 								</a>
 							</div>
 							<div class="col-lg-6 col-md-6 col-sm-12">
-								<a class="btn-home" >
+								<a class="btn-home">
 									<i class="fa fa-angle-right"></i>
 									<span>Comparte archivos</span>
 								</a>
@@ -234,13 +244,15 @@
 					</div>
 				</div>
 				<div class="col-lg-1"></div>
-				<div class="col-lg-5 col-md-12 col-sm-12 align-self-center mobile-bottom-fix" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-					<img th:src="@{../../../static/landing/images/photos/features/blue-1.png}" class="img-fluid d-block mx-auto" alt="App">
+				<div class="col-lg-5 col-md-12 col-sm-12 align-self-center mobile-bottom-fix"
+					data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+					<img th:src="@{../../../static/landing/images/photos/features/blue-1.png}"
+						class="img-fluid d-block mx-auto" alt="App">
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- ***** Features Big Item End ***** -->	
+	<!-- ***** Features Big Item End ***** -->
 	<!-- ***** Counter Parallax Start ***** -->
 	<section class="parallax-counter" id="counter">
 		<div class="parallax-content">
@@ -292,7 +304,7 @@
 				</div>
 			</div>
 			<!-- ***** Section Title End ***** -->
-			<div class="row" style= "justify-content: space-between;"!important>
+			<div class="row" style="justify-content: space-between;" !important>
 				<!-- ***** Team Item Start ***** -->
 				<div class="col-lg-3 col-md-6 col-sm-12">
 					<div class="team-item">
@@ -305,11 +317,13 @@
 								<span>Frontend DEV</span>
 							</div>
 							<ul class="social">
-								<li><a href="https://www.facebook.com/marc.pedrenomarine"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="https://www.facebook.com/marc.pedrenomarine"><i
+											class="fa fa-facebook"></i></a></li>
 								<li><a href="https://twitter.com/Marc50693"><i class="fa fa-twitter"></i></a></li>
 								<li><a href="https://github.com/Cramcat639"><i class="fa fa-github"></i></a></li>
 							</ul>
-							<p>Nuestro artista en diseño. Con su creatividad y habilidades en HTML, CSS, JavaScript, y Thymeleaf se encarga de crear interfaces intuitivas y atractivas.</p>
+							<p>Nuestro artista en diseño. Con su creatividad y habilidades en HTML, CSS, JavaScript, y
+								Thymeleaf se encarga de crear interfaces intuitivas y atractivas.</p>
 						</div>
 					</div>
 				</div>
@@ -328,7 +342,9 @@
 							<ul class="social">
 								<li><a href="https://github.com/BakerIsCoding"><i class="fa fa-github"></i></a></li>
 							</ul>
-							<p>Nuestro genio del backend. Con una sólida experiencia en lenguajes como Python, SQL y Java, se encarga de desarrollar la infraestructura robusta que respalda nuestros servicios de alojamiento.</p>
+							<p>Nuestro genio del backend. Con una sólida experiencia en lenguajes como Python, SQL y
+								Java, se encarga de desarrollar la infraestructura robusta que respalda nuestros
+								servicios de alojamiento.</p>
 						</div>
 					</div>
 				</div>
@@ -347,7 +363,9 @@
 							<ul class="social">
 								<li><a href="https://github.com/EdNuGa"><i class="fa fa-github"></i></a></li>
 							</ul>
-							<p>El gurú de API's. Se asegura de que nuestra infraestructura de alojamiento sea escalable, segura y confiable. Desde la configuración de servidores hasta la implementación de prácticas de seguridad avanzadas.</p>
+							<p>El gurú de API's. Se asegura de que nuestra infraestructura de alojamiento sea escalable,
+								segura y confiable. Desde la configuración de servidores hasta la implementación de
+								prácticas de seguridad avanzadas.</p>
 						</div>
 					</div>
 				</div>
@@ -375,7 +393,8 @@
 			<!-- ***** Section Title End ***** -->
 			<div class="row">
 				<!-- ***** Pricing Item Start ***** -->
-				<div class="col-lg-4 col-md-6 col-sm-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
+				<div class="col-lg-4 col-md-6 col-sm-12"
+					data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
 					<div class="pricing-item">
 						<div class="pricing-header">
 							<h3 class="pricing-title">Plan Basico</h3>
@@ -402,7 +421,8 @@
 				</div>
 				<!-- ***** Pricing Item End ***** -->
 				<!-- ***** Pricing Item Start ***** -->
-				<div class="col-lg-4 col-md-6 col-sm-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
+				<div class="col-lg-4 col-md-6 col-sm-12"
+					data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
 					<div class="pricing-item active">
 						<div class="pricing-header">
 							<h3 class="pricing-title">Plan PRO</h3>
@@ -429,7 +449,8 @@
 				</div>
 				<!-- ***** Pricing Item End ***** -->
 				<!-- ***** Pricing Item Start ***** -->
-				<div class="col-lg-4 col-md-6 col-sm-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
+				<div class="col-lg-4 col-md-6 col-sm-12"
+					data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
 					<div class="pricing-item">
 						<div class="pricing-header">
 							<h3 class="pricing-title">Premium Plan</h3>
@@ -466,7 +487,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="info">
-							<p>Nos preocupamos de guardar tus archivos de <span>Forma Segura y Eficiente</span> ya sea para tu empresa o para particulares.</p>
+							<p>Nos preocupamos de guardar tus archivos de <span>Forma Segura y Eficiente</span> ya sea
+								para tu empresa o para particulares.</p>
 						</div>
 					</div>
 				</div>
@@ -480,7 +502,8 @@
 			<div class="row">
 				<div class="col-lg-5 col-md-12 col-sm-12">
 					<a th:href="@{/}" class="logo" style="margin-top: 11px!important;">
-						<img th:src="@{../../../static/landing/images/logo2_b.png}" style="width: 105px;height: 60px;" alt="Turing"/>
+						<img th:src="@{../../../static/landing/images/logo2_w.png}" style="width: 105px;height: 60px;"
+							alt="Turing" />
 					</a>
 					<div class="text">Tus archivos, en su sitio.</div>
 				</div>
@@ -495,7 +518,8 @@
 				<div class="col-lg-2 col-md-4 col-sm-6 col-6">
 					<h5>Support</h5>
 					<ul class="footer-nav">
-						<li><a th:href="@{/terms}"><i class="fa fa-angle-right"></i><span>Terminos y condiciones</span></a></li>
+						<li><a th:href="@{/terms}"><i class="fa fa-angle-right"></i><span>Terminos y
+									condiciones</span></a></li>
 					</ul>
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-12">
@@ -503,7 +527,7 @@
 					<div class="address">
 						<p>Avinguda Joan Carles I<br>Gavà 08850</p>
 						<p>Phone: 628 80 65 22</p>
-						<p><span>E-Mail:</span><a href="mailto:info@cloudator.live" >info@cloudator.live</a></p>
+						<p><span>E-Mail:</span><a href="mailto:info@cloudator.live">info@cloudator.live</a></p>
 					</div>
 				</div>
 			</div>
@@ -526,7 +550,8 @@
 	<script th:src="@{../../../static/landing/js/waypoints.min.js}"></script>
 	<script th:src="@{../../../static/landing/js/jquery.counterup.min.js}"></script>
 	<script th:src="@{../../../static/landing/js/jquery.magnific-popup.min.js}"></script>
-	<script th:src="@{../../../static/landing/js/imgfix.min.js}"></script>	
+	<script th:src="@{../../../static/landing/js/imgfix.min.js}"></script>
 	<!-- Global Init -->
 	<script th:src="@{../../../static/landing/js/custom.js}"></script>
+
 </html>

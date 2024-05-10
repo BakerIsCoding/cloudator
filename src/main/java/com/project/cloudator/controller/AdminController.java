@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,8 +134,13 @@ public class AdminController {
     public ResponseEntity<String> getLogFileContent(@RequestParam String file) {
         Path filePath = Paths.get("./", file); // Asegúrate de validar y sanear la entrada
         try {
-            String content = Files.readString(filePath);
-            return ResponseEntity.ok(content);
+            String content = Files.readString(filePath, StandardCharsets.UTF_8);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("text", "plain", StandardCharsets.UTF_8));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(content);
         } catch (IOException e) {
             return ResponseEntity.badRequest().body("Error reading file: " + e.getMessage());
         }

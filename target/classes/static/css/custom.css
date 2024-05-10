@@ -1,5 +1,5 @@
 /*  Nuestros CSS  */
-*{
+* {
     font-family: system-ui;
 }
 
@@ -7,7 +7,7 @@
     text-align: right !important;
 }
 
-.roundedbig{
+.roundedbig {
     border-radius: 1rem !important;
 }
 
@@ -43,15 +43,15 @@
 }
 
 .input-enabled-settings {
-    background-color: #ffffff!important;
-    color: #000000!important;
-    height: 30px!important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    height: 30px !important;
 }
 
 .input-disabled-settings {
-    background-color: #2A3038!important;
-    color: #FFFFFF!important;
-    height: 30px!important;
+    background-color: #2A3038 !important;
+    color: #FFFFFF !important;
+    height: 30px !important;
 }
 
 .contenedor {
@@ -60,6 +60,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
 .titleMenu {
     color: #ffffff;
     font-size: 16px;
@@ -67,6 +68,7 @@
     margin-left: 10px;
     margin-bottom: 20px;
 }
+
 .serchBox {
     color: #FFFFFF;
     display: block;
@@ -76,6 +78,7 @@
     font-weight: 400;
     line-height: 1;
 }
+
 .primary-btn {
     background-color: #007bff;
     color: #fff;
@@ -88,15 +91,18 @@
 .primary-btn:hover {
     background-color: #0056b3;
 }
+
 .login-bg {
     background: url(/static/images/auth/fondo_1_comprimido.jpg) no-repeat center center;
     background-size: cover;
 }
+
 .sign-upnoM a {
     text-decoration: none;
     color: blue;
     font-size: 16px;
 }
+
 .forgot-pass {
     text-decoration: none;
     color: blue;
@@ -106,70 +112,76 @@
 .forgot-pass:hover {
     text-decoration: underline;
 }
+
 .sign-upnoM {
     margin-top: 20px;
 }
+
 .sign-upnoM a:hover {
     text-decoration: underline;
 }
+
 /* Create three columns of equal width */
 .columns {
-float: left;
-width: 33.3%;
-padding: 8px;
+    float: left;
+    width: 33.3%;
+    padding: 8px;
 }
 
 /* Style the list */
 .price {
-list-style-type: none;
-border: 1px solid #eee;
-margin: 0;
-padding: 0;
--webkit-transition: 0.3s;
-transition: 0.3s;
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
 }
 
 /* Add shadows on hover */
 .price:hover {
-box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2)
 }
 
 /* Pricing header */
 .price .header {
-background-color: #111;
-color: white;
-font-size: 25px;
+    background-color: #111;
+    color: white;
+    font-size: 25px;
 }
 
 /* List items */
 .price li {
-padding: 20px;
-text-align: center;
+    padding: 20px;
+    text-align: center;
 }
 
 /* Grey list item */
 .price .grey {
-background-color: #191c24;
-font-size: 20px;
-color: #ffffff;
+    background-color: #191c24;
+    font-size: 20px;
+    color: #ffffff;
 }
 
 /* The "Sign Up" button */
 .button {
-background-color: #04AA6D;
-border: none;
-color: white;
-padding: 10px 25px;
-text-align: center;
-text-decoration: none;
-font-size: 18px;
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
 }
-.gris{
+
+.gris {
     background-color: #2c2e33;
 }
-.lineaBlanca{
+
+.lineaBlanca {
     border-bottom: 1px solid #eee;
 }
+
 .switch {
     --button-width: 3.5em;
     --button-height: 2em;
@@ -225,6 +237,7 @@ font-size: 18px;
 .switch input[type="checkbox"]:checked:active+.slider::after {
     transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
 }
+
 body {
     background-color: #f9f9fa
 }
@@ -296,10 +309,12 @@ body {
 .confirmation-dialog button {
     margin: 0 5px;
 }
+
 .tituloBlanco th {
     color: white !important;
     background-color: #111 !important;
 }
+
 .icon-red {
     color: red;
 }
@@ -307,20 +322,25 @@ body {
 .icon-green {
     color: green;
 }
+
 .icon-yellow {
     color: rgb(248, 224, 6);
 }
+
 .espacio {
     margin-right: 15px;
 }
+
 .fondo-blue {
     background-color: #0864c6;
     color: white;
 }
+
 .fondo-grey {
     background-color: #2c2e33;
     color: white;
 }
+
 /* Register CCS */
 .password-container {
     position: relative;
@@ -375,23 +395,69 @@ body {
     visibility: hidden;
     transition: opacity 0.3s;
     text-align: center;
-  }
+}
 
 .tooltip-container {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .tooltip-container:hover .tooltip {
-  visibility: visible;
+    visibility: visible;
 }
 
 .icon-candado {
     color: #ac780e;
 
 }
+
 .button.disabled {
-    background-color: #ccc; 
-    color: #999; 
-    cursor: not-allowed; 
+    background-color: #ccc;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.inputLog {
+    line-height: 1;
+    color: #ffffff;
+    background-color: #2A3038;
+    border: 1px solid #2c2e33;
+}
+
+.log-container {
+    height: 400px;
+    /* Altura fija para pantallas grandes */
+    overflow-y: auto;
+    background-color: #20242f;
+    border: 1px solid #fff;
+    padding: 1rem;
+    /* Uso de rem para el padding */
+    margin-top: 1.00rem;
+    /* Margin-top con unidad relativa */
+    font-size: 0.90rem;
+    /* Tamaño de fuente relativo */
+    color: #fff;
+    /* Mejor contraste de texto */
+}
+
+/* Media query para tabletas */
+@media (max-width: 768px) {
+    .log-container {
+        height: 300px;
+        /* Altura menor para tabletas */
+        padding: 0.8rem;
+        font-size: 0.7rem;
+    }
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 480px) {
+    .log-container {
+        height: 200px;
+        /* Altura reducida para dispositivos móviles */
+        padding: 0.5rem;
+        font-size: 0.65rem;
+        /* Tamaño de fuente más pequeño para mejorar la legibilidad en pantallas pequeñas */
+        margin-top: 1rem;
+    }
 }

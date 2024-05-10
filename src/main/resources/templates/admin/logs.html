@@ -24,45 +24,6 @@
     <link rel="stylesheet" th:href="@{../../../static/css/custom.css}">
     <!-- End layout styles -->
     <link rel="shortcut icon" th:href="@{../../../static/images/favicon.png}" />
-    <style>
-        .log-container {
-            height: 400px;
-            /* Altura fija para pantallas grandes */
-            overflow-y: auto;
-            background-color: #20242f;
-            border: 1px solid #fff;
-            padding: 1rem;
-            /* Uso de rem para el padding */
-            margin-top: 1.25rem;
-            /* Margin-top con unidad relativa */
-            font-size: 0.75rem;
-            /* Tamaño de fuente relativo */
-            color: #fff;
-            /* Mejor contraste de texto */
-        }
-
-        /* Media query para tabletas */
-        @media (max-width: 768px) {
-            .log-container {
-                height: 300px;
-                /* Altura menor para tabletas */
-                padding: 0.8rem;
-                font-size: 0.7rem;
-            }
-        }
-
-        /* Media query para dispositivos móviles */
-        @media (max-width: 480px) {
-            .log-container {
-                height: 200px;
-                /* Altura reducida para dispositivos móviles */
-                padding: 0.5rem;
-                font-size: 0.65rem;
-                /* Tamaño de fuente más pequeño para mejorar la legibilidad en pantallas pequeñas */
-                margin-top: 1rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -90,10 +51,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Logs</h4>
-                                    <select class="form-control" id="logFileSelector" onchange="loadLogFile()">
-                                        <option value="">Select a log file</option>
+                                    <select class="inputLog page-link" id="logFileSelector" onchange="loadLogFile()">
+                                        <option class="page-link" value="" disabled selected>Selecciona un log</option>
                                         <th:block th:each="fileName : ${fileNames}">
-                                            <option th:text="${fileName}" th:value="${fileName}"></option>
+                                            <option class="page-link" th:text="${fileName}" th:value="${fileName}"></option>
                                         </th:block>
                                     </select>
                                     <div th:if="${error}">
@@ -161,7 +122,7 @@
                     .catch(error => console.error('Error loading the log file:', error));
             }
         }
-        </script>
+    </script>
 </body>
 
 </html>

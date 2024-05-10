@@ -12,9 +12,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -24,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -38,9 +41,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.cloudator.entity.File;
+import com.project.cloudator.entity.User;
+import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.jwt.JsonWebTokenManager;
 import com.project.cloudator.service.FileService;
 import com.project.cloudator.service.UserService;
+import com.project.cloudator.functions.LogWriter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,6 +59,9 @@ public class FileController {
 
 	@Autowired
 	private FileService fileService;
+
+	@Autowired
+	private LogWriter logWriter;
 
 	@Autowired
 	private UserService userService;
@@ -71,6 +80,26 @@ public class FileController {
 	@RequestMapping("/users/upload/")
 	public ModelAndView showUpload() {
 		return new ModelAndView("upload");
+	}
+
+	@PostMapping("/users/files/{fileId}/visibility")
+	public ResponseEntity<String> updateFileVisibility(@PathVariable Long fileId, @RequestParam boolean isPublic) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		Long userId = userService.getUserIdByUsername(userDetails.getUsername());
+
+		// Verificar si el usuario es el dueño del archivo
+		if (!fileService.checkFileOwnership(fileId, userId)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autorizado para actualizar este archivo");
+		}
+
+		try {
+			fileService.updateFileVisibility(fileId, isPublic);
+			return ResponseEntity.ok("Visibilidad del archivo actualizada con éxito");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error al actualizar la visibilidad del archivo: " + e.getMessage());
+		}
 	}
 
 	@PostMapping("/post/upload")
@@ -111,13 +140,12 @@ public class FileController {
 			String serverResponse = responseEntity.getBody();
 
 			// Añade la respuesta del servidor a la vista
-			ModelAndView modelAndView = new ModelAndView("status");
-			modelAndView.addObject("message", "Archivo subido correctamente");
-			modelAndView.addObject("serverResponse", "Respuesta del servidor: " + serverResponse);
+			ModelAndView modelAndView = new ModelAndView("redirect:/users/upload/");
+			redirectAttributes.addFlashAttribute("message", "Archivo subido correctamente");
+			redirectAttributes.addFlashAttribute("serverResponse", "Respuesta del servidor: " + serverResponse);
 
 			try {
 				ArrayList<String> arrayItems = jwtManager.decodeJwt(serverResponse);
-				System.out.println(serverResponse);
 
 				String fileDateString = arrayItems.get(3);
 				DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
@@ -134,60 +162,33 @@ public class FileController {
 				fileEntity.setFileroute(arrayItems.get(2));
 				fileEntity.setFiledate(fileDate);
 				fileEntity.setFilesize(fileSizeLong);
-				System.out.println("owner: '" + owner + "'");
 				fileEntity.setOwner(owner);
 				fileEntity.setIspublic(Boolean.parseBoolean(arrayItems.get(6)));
 				fileEntity.setUrl(url);
 
 				fileService.saveFileOnDb(fileEntity);
+				logWriter.writeLog("El usuario con id '" + userServerId + "' ha subido un archivo.");
 			} catch (Exception e) {
 
 				System.out.println(
 						"Error en filecontroller, mensaje:" + e.getMessage() + "\nStack: ");
 				e.printStackTrace();
-				return new ModelAndView("upload", "message",
-						"Ha ocurrido un error: Error al procesar el archivo, " + e.getMessage());
+
+				redirectAttributes.addFlashAttribute("message",
+						"Ha ocurrido un error: Error al procesar el archivo");
+
+				logWriter.writeLog("Error al subir el archivo: " + e.getMessage());
+
+				return modelAndView;
 
 			}
 
 			return modelAndView;
 		} catch (IOException e) {
+			logWriter.writeLog("Error al subir el archivo: " + e.getMessage());
 			return new ModelAndView("upload", "message", "Ha ocurrido un error: Error al procesar el archivo");
 		}
-	}
 
-	@PostMapping("/post/settings/image")
-	public ModelAndView handleFileUpload(@RequestParam("image") MultipartFile image) {
-		if (image.isEmpty()) {
-			return new ModelAndView("settings", "message", "Por favor, selecciona una imagen válida.");
-		}
-
-		try {
-			byte[] bytes = image.getBytes();
-			// Path path = Paths.get(UPLOAD_FOLDER + image.getOriginalFilename());
-			// Files.write(path, bytes);
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-			MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-			body.add("image", new ByteArrayResource(bytes) {
-				@Override
-				public String getFilename() {
-					return image.getOriginalFilename();
-				}
-			});
-
-			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> response = restTemplate.postForEntity(STORAGE_SERVER_URL, requestEntity,
-					String.class);
-
-			return new ModelAndView("settings", "message", "Imagen subida correctamente.");
-		} catch (IOException e) {
-
-			return new ModelAndView("settings", "message", "Error al subir la imagen: " + e.getMessage());
-		}
 	}
 
 	/*

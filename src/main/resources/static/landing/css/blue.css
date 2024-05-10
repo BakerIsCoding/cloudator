@@ -568,7 +568,7 @@ header
 }
 .header-area .main-nav .nav li.submenu ul li a {
   display: block;
-  background: #fff;
+  background: #252525;
   color: #3B566E;
   padding-left: 20px;
   height: 40px;
@@ -596,7 +596,7 @@ header
   background: #635CDB;
 }
 .header-area .main-nav .nav li.submenu ul li a:hover {
-  background: #f5f5f5;
+  background: #191c24;
   padding-left: 25px;
 }
 .header-area .main-nav .nav li.submenu ul li a:hover:before {
@@ -1284,7 +1284,7 @@ features
 .features-small-item .features-title {
   font-weight: 400;
   font-size: 16px;
-  color: #3B566E;
+  color: #ffffff;
   letter-spacing: 0.7px;
   margin-bottom: 15px;
   position: relative;

@@ -22,6 +22,9 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false)
+    private Long maxStorage;
+
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 

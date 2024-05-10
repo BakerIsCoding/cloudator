@@ -1,0 +1,87 @@
+/* Modo Oscuro General */
+body {
+    background-color: #151722 !important;
+    color: #e0e0e0 !important;
+}
+/* Nav, header y footer */
+.nav,
+.header-area,
+footer {
+    background-color: #1c1c1c !important;
+    /* Fondo ligeramente más claro que el body */
+    color: #ffffff !important;
+}
+
+/* Links */
+a {
+    color: #ffffff !important;
+    /* Un tono de púrpura claro */
+}
+
+a:hover {
+    color: #979797 !important;
+    /* Un púrpura más oscuro para hover */
+}
+
+/* Botones */
+.btn-nav-primary,
+.btn-primary-line,
+.pricing-item .pricing-footer a {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+.btn-nav-primary:hover,
+.btn-primary-line:hover,
+.pricing-item .pricing-footer a:hover {
+    background-color: #444444 !important;
+}
+
+/* Secciones y cards */
+.features-small-item,
+.pricing-item,
+.team-item {
+    background-color: #191c24 !important;
+    /* Fondo para elementos individuales */
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Menú desplegable */
+ul.nav ul {
+    background-color: #232323 !important;
+}
+
+h1 {
+    color: #ffffff !important;
+    /* Blanco puro para títulos grandes */
+}
+
+p {
+    color: #b0b0b0 !important;
+    /* Gris claro para texto de párrafos */
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.colored{
+    background-color: #333333 !important;
+}
+
+.colored2{
+    background-color: #252525 !important;
+}
+
+.widgetsFix{
+    padding-bottom: 0px!important;
+    border-bottom: 1px solid black;
+}
+
+.noPaddingTop{
+    padding-top: 0px!important;
+}
+
+/* Modificar otros elementos específicos según necesidades */

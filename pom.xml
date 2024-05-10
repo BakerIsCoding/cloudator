@@ -85,6 +85,10 @@
      <artifactId>rapidpm-proxybuilder-modules-objectadapter-generator-annotations</artifactId>
      <version>0.9.1</version>
    </dependency>
+   <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+</dependency>
  </dependencies>
 
 	<build>
