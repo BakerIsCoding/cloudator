@@ -57,3 +57,28 @@ function deleteFile(fileId) {
             alert('Error al eliminar el archivo');
         });
 }
+
+function copiarAlPortapapeles(element) {
+    const url = element.querySelector('a').href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('URL copiada al portapapeles: ' + url);
+    }).catch(err => {
+        console.error('Error al copiar la URL: ', err);
+    });
+}
+
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const filesizeElements = document.querySelectorAll('.filesize');
+    filesizeElements.forEach(function (element) {
+        const bytes = parseInt(element.innerText, 10);
+        element.innerText = formatBytes(bytes);
+    });
+});

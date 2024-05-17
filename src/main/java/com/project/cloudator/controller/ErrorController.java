@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ErrorController {
     @GetMapping("/error401/")
-    public String getMethodName() {
+    public String noAutorizado() {
         return "/errors/error401";
     }
 

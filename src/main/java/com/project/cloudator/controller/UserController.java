@@ -430,7 +430,7 @@ public class UserController {
         image.transferTo(tempFile);
 
         // Prepare the URI and the HttpRequest with multipart/form-data
-        URI uri = URI.create("http://management-pants.gl.at.ply.gg:27118/upload/" + authUserId + "/pfpic");
+        URI uri = URI.create(domain + "upload/" + authUserId + "/pfpic");
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/octet-stream")
                 .POST(BodyPublishers.ofFile(tempFile))
@@ -443,7 +443,7 @@ public class UserController {
 
         /////
 
-        String url = "http://management-pants.gl.at.ply.gg:27118/upload/" + authUserId + "/pfp/profile.jpg";
+        String url = domain + "upload/" + authUserId + "/pfp/profile.jpg";
 
         UserInfo userinfo = new UserInfo();
         userinfo.setId(authUserId);

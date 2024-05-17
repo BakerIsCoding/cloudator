@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -124,18 +123,25 @@ public class FileController {
 
 	@GetMapping("/users/files/delete/{fileId}")
 	@ResponseBody
-	public ResponseEntity<?> deleteFile(@PathVariable Long fileId) {
+	public ModelAndView deleteFile(@PathVariable Long fileId, HttpServletRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		Long userId = userService.getUserIdByUsername(userDetails.getUsername());
 
 		try {
+			// Verificar si el archivo pertenece al usuario
+			boolean isOwner = fileService.checkFileOwnership(fileId, userId);
+			if (!isOwner) {
+				// Redirige a la página de error personalizada
+				return new ModelAndView("redirect:/error401/");
+			}
+
 			fileService.deleteFile(fileId);
-			logWriter.writeLog("El usuario con id '" + userId + "' ha eliminado un archivo.");
-			return ResponseEntity.ok("Archivo eliminado con éxito");
+			logWriter.writeLog("El usuario con id '" + userId + "' ha eliminado el archivo con id '" + fileId + "'.");
+			return new ModelAndView("redirect:/users/files/").addObject("message", "Archivo eliminado correctamente");
 		} catch (Exception e) {
 			logWriter.writeLog("Error al eliminar el archivo: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el archivo");
+			return new ModelAndView("redirect:/users/files/").addObject("message", "Error al eliminar el archivo");
 		}
 	}
 

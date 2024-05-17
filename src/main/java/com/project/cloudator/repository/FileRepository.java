@@ -86,4 +86,13 @@ public interface FileRepository extends JpaRepository<File, Long> {
     @Query("DELETE FROM File f WHERE f.id = :fileId")
     void deleteFile(@Param("fileId") Long fileId);
 
+    /**
+     * Encuentra si ese archivo es de ese propietario.
+     *
+     * @param ownerId El ID del propietario del archivo.
+     * @return Un id del propietario del archivo.
+     */
+    @Query("SELECT f.owner FROM File f WHERE f.id = :fileId")
+    Long findFileOwner(@Param("fileId") Long fileId);
+
 }
