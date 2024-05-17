@@ -43,11 +43,10 @@ import com.project.cloudator.service.UserAccessService;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.entity.UserAccess;
 import com.project.cloudator.entity.UserInfo;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 public class AdminController {
-
-    // private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -66,6 +65,9 @@ public class AdminController {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
+    @Value("${domain}")
+    private String domain;
 
     /**
      * Obtiene una lista de usuarios registrados.
@@ -108,6 +110,12 @@ public class AdminController {
         return "/admin/admin";
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar el panel de logs.
+     *
+     * @param model El modelo que se utilizará para pasar atributos a la vista.
+     * @return La vista del panel de logs.
+     */
     @GetMapping("/admin/logs")
     public String logsPanel(Model model) {
         org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext()
@@ -116,8 +124,8 @@ public class AdminController {
         String username = userDetails.getUsername();
 
         try {
-            // Asumiendo que los archivos están en un directorio específico
-            Path logDir = Paths.get("./"); // Ajusta esta ruta
+
+            Path logDir = Paths.get("./");
             List<String> fileNames = Files.list(logDir)
                     .filter(path -> path.toString().endsWith(".log"))
                     .map(path -> path.getFileName().toString())
@@ -130,6 +138,13 @@ public class AdminController {
         return "/admin/logs";
     }
 
+    /**
+     * Maneja la solicitud GET para obtener el contenido de un archivo de log.
+     *
+     * @param file El nombre del archivo de log que se quiere leer.
+     * @return Una respuesta con el contenido del archivo de log, o un mensaje de
+     *         error si no se pudo leer el archivo.
+     */
     @GetMapping("/admin/panel/logs/content")
     public ResponseEntity<String> getLogFileContent(@RequestParam String file) {
         Path filePath = Paths.get("./", file); // Asegúrate de validar y sanear la entrada
@@ -189,6 +204,13 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar la página de edición de un usuario.
+     *
+     * @param model El modelo que se utilizará para pasar atributos a la vista.
+     * @param id    El ID del usuario que se quiere editar.
+     * @return La vista de la página de configuración del usuario.
+     */
     @GetMapping("/admin/edit/{id}")
     public String showUser(Model model, @PathVariable Long id) {
 
@@ -207,6 +229,12 @@ public class AdminController {
         return "/settings";
     }
 
+    /**
+     * Maneja la solicitud GET para ascender a un usuario a Administrador.
+     *
+     * @param id El ID del usuario que se quiere ascender.
+     * @return Una redirección a la página de administración.
+     */
     @GetMapping("/admin/users/upgrade/{id}")
     public String upgrade(@PathVariable Long id) {
         Long newRole = 2L;

@@ -53,7 +53,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Lista Usuarios</h4>
                   <div th:if="${not #lists.isEmpty(users)}">
-                    <table id="fileTable" class="display" style="width:100%">
+                    <table id="fileTable" class="display fileTable" style="width:100%">
                       <thead>
                         <tr class="tituloBlanco text-center th">
                           <th>Id</th>
@@ -270,5 +270,5 @@
   <script th:src="@{../../../static/js/admin.js}"></script>
   <script th:src="@{../../../static/js/dataTables.js}"></script>
   <!-- End custom js for this page -->
-
+</body>
 </html>

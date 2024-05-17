@@ -461,3 +461,19 @@ body {
         margin-top: 1rem;
     }
 }
+
+/* Estilos para selects y inputs de texto con !important para asegurar la prioridad */
+select, input[type="search"] {
+    color: white !important; 
+    background-color: #333 !important; 
+    border: 1px solid #555 !important; 
+}
+
+select:focus, input[type="search"]:focus {
+    outline: 2px solid #777 !important; 
+}
+
+select option {
+    background-color: #333 !important; 
+    color: white !important; 
+}

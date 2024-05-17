@@ -30,15 +30,18 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.project.cloudator.entity.File;
 import com.project.cloudator.entity.User;
@@ -70,18 +73,35 @@ public class FileController {
 	// private static final String STORAGE_SERVER_URL =
 	// "https://host.cloudator.live/upload/file"; //DESCOMENTAR CUANDO FUNCIONE EN
 	// EL SERVIDOR.
-	private static final String STORAGE_SERVER_URL = "http://management-pants.gl.at.ply.gg:27118/upload/file";
+
+	@Value("${domain}")
+	private String domain;
+
+	private final String STORAGE_SERVER_URL = domain + "upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
 		return "upload";
 	}
 
+	/**
+	 * Maneja la solicitud para mostrar la página de subida de archivos.
+	 *
+	 * @return Un objeto ModelAndView que contiene el nombre de la vista de subida
+	 *         de archivos.
+	 */
 	@RequestMapping("/users/upload/")
 	public ModelAndView showUpload() {
 		return new ModelAndView("upload");
 	}
 
+	/**
+	 * Maneja la solicitud POST para actualizar la visibilidad de un archivo.
+	 *
+	 * @param fileId   El ID del archivo cuya visibilidad se quiere actualizar.
+	 * @param isPublic Un booleano que indica si el archivo debe ser público o no.
+	 * @return Una ResponseEntity con un mensaje de éxito o error.
+	 */
 	@PostMapping("/users/files/{fileId}/visibility")
 	public ResponseEntity<String> updateFileVisibility(@PathVariable Long fileId, @RequestParam boolean isPublic) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -102,6 +122,32 @@ public class FileController {
 		}
 	}
 
+	@GetMapping("/users/files/delete/{fileId}")
+	@ResponseBody
+	public ResponseEntity<?> deleteFile(@PathVariable Long fileId) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		Long userId = userService.getUserIdByUsername(userDetails.getUsername());
+
+		try {
+			fileService.deleteFile(fileId);
+			logWriter.writeLog("El usuario con id '" + userId + "' ha eliminado un archivo.");
+			return ResponseEntity.ok("Archivo eliminado con éxito");
+		} catch (Exception e) {
+			logWriter.writeLog("Error al eliminar el archivo: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el archivo");
+		}
+	}
+
+	/**
+	 * Maneja la solicitud POST para subir un archivo.
+	 *
+	 * @param file               El archivo MultipartFile que se quiere subir.
+	 * @param redirectAttributes Los atributos de redirección que se utilizarán para
+	 *                           enviar mensajes flash.
+	 * @return Un objeto ModelAndView que contiene el nombre de la vista de subida
+	 *         de archivos y los mensajes flash.
+	 */
 	@PostMapping("/post/upload")
 	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {

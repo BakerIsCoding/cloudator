@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.apache.tika.mime.MimeType;
+import org.apache.tika.mime.MimeTypes;
 
 //////
 
@@ -69,6 +71,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 public class UserController {
@@ -106,11 +109,24 @@ public class UserController {
     @Autowired
     private UserImg userMethods;
 
+    @Value("${domain}")
+    private String domain;
+
     @GetMapping("/")
     public String home() {
         return "landing";
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar la página principal del usuario.
+     *
+     * @param user   El objeto UserDto que se validará.
+     * @param result El objeto BindingResult que contendrá los resultados de la
+     *               validación.
+     * @param model  El objeto Model que se utilizará para pasar atributos a la
+     *               vista.
+     * @return El nombre de la vista de la página principal del usuario.
+     */
     @GetMapping("/users/")
     public String home(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
@@ -125,35 +141,38 @@ public class UserController {
 
         List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
         String userRole = "";
-        if (!roles.isEmpty()) {
-            Role firstRole = roles.get(0);
-            userRole = firstRole.getName();
-        } else {
-            System.out.println("Error, el Rol está vacío.");
-        }
 
-        // Storage user
         Long totalStorageUsedLong = fileService.getStorage(userServerId);
         BigInteger totalStorageUsed = BigInteger.valueOf(totalStorageUsedLong);
         BigInteger maxStorage = BigInteger.ZERO;
 
-        switch (userRole) {
-            case "ROLE_USER":
-                maxStorage = new BigInteger("10737418240");
-                break;
-            case "ROLE_PREMIUM":
-                maxStorage = new BigInteger("107374182400");
-                break;
-            case "ROLE_ADMIN":
-                maxStorage = new BigInteger("1073741824000");
-                break;
-            case "ROLE_SUPERADMIN":
-                maxStorage = new BigInteger("1073741824000");
-                break;
-
-            default:
-                break;
+        if (!roles.isEmpty()) {
+            Role firstRole = roles.get(0);
+            userRole = firstRole.getName();
+            maxStorage = firstRole.getMaxStorage();
+        } else {
+            System.out.println("Error, el Rol está vacío.");
         }
+
+        /*
+         * switch (userRole) {
+         * case "ROLE_USER":
+         * maxStorage = new BigInteger("10737418240");
+         * break;
+         * case "ROLE_PREMIUM":
+         * maxStorage = new BigInteger("107374182400");
+         * break;
+         * case "ROLE_ADMIN":
+         * maxStorage = new BigInteger("1073741824000");
+         * break;
+         * case "ROLE_SUPERADMIN":
+         * maxStorage = new BigInteger("1073741824000");
+         * break;
+         * 
+         * default:
+         * break;
+         * }
+         */
 
         BigInteger remainingStorage = maxStorage.subtract(totalStorageUsed);
 
@@ -166,26 +185,40 @@ public class UserController {
         model.addAttribute("fechasNormal", fileService.countFilesFromLastWeekGrouped());
         model.addAttribute("fechasUser", fileService.countFilesForOwnerFromLastWeekGrouped(userServerId));
 
-        model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed) + " GB");
-        model.addAttribute("remainingStorage", formatBytes(remainingStorage) + " GB");
-        model.addAttribute("maxStorage", formatBytes(maxStorage) + " GB");
-
-        model.addAttribute("userIMG", "http://management-pants.gl.at.ply.gg:27118/upload/3/pfp/profile.jpg");
-        // "http://management-pants.gl.at.ply.gg:27118/upload/" +
-        // userMethods.getUserId() + "/pfp/profile.jpg");
+        model.addAttribute("totalStorageUsed", formatBytes(totalStorageUsed));
+        model.addAttribute("remainingStorage", formatBytes(remainingStorage));
+        model.addAttribute("maxStorage", formatBytes(maxStorage));
 
         return "index";
     }
 
     public String formatBytes(BigInteger bytes) {
+        if (bytes.equals(BigInteger.ZERO))
+            return "0 Bytes";
         BigInteger KILOBYTE = BigInteger.valueOf(1024);
         BigInteger MEGABYTE = KILOBYTE.multiply(KILOBYTE);
         BigInteger GIGABYTE = MEGABYTE.multiply(KILOBYTE);
+        BigInteger TERABYTE = GIGABYTE.multiply(KILOBYTE);
 
-        // Convierte siempre a GB, independientemente del tamaño original
-        double gigabytes = bytes.divide(GIGABYTE).doubleValue()
-                + (bytes.mod(GIGABYTE).doubleValue() / GIGABYTE.doubleValue());
-        return String.format("%.2f", gigabytes);
+        double value;
+        String unit;
+        if (bytes.compareTo(TERABYTE) >= 0) {
+            value = bytes.divide(TERABYTE).doubleValue() + (bytes.mod(TERABYTE).doubleValue() / TERABYTE.doubleValue());
+            unit = " TB";
+        } else if (bytes.compareTo(GIGABYTE) >= 0) {
+            value = bytes.divide(GIGABYTE).doubleValue() + (bytes.mod(GIGABYTE).doubleValue() / GIGABYTE.doubleValue());
+            unit = " GB";
+        } else if (bytes.compareTo(MEGABYTE) >= 0) {
+            value = bytes.divide(MEGABYTE).doubleValue() + (bytes.mod(MEGABYTE).doubleValue() / MEGABYTE.doubleValue());
+            unit = " MB";
+        } else if (bytes.compareTo(KILOBYTE) >= 0) {
+            value = bytes.divide(KILOBYTE).doubleValue() + (bytes.mod(KILOBYTE).doubleValue() / KILOBYTE.doubleValue());
+            unit = " KB";
+        } else {
+            value = bytes.doubleValue();
+            unit = " Bytes";
+        }
+        return String.format("%.2f", value) + unit;
     }
 
     public Float formatBytesAsFloatGB(BigInteger bytes) {
@@ -319,6 +352,13 @@ public class UserController {
         return "/settings";
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar los archivos del usuario.
+     *
+     * @param model El objeto Model que se utilizará para pasar atributos a la
+     *              vista.
+     * @return El nombre de la vista de la página de archivos del usuario.
+     */
     @GetMapping("/users/files/")
     public String showFiles(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -327,15 +367,57 @@ public class UserController {
         Long userServerId = userService.getUserIdByUsername(username);
 
         List<File> files = fileService.findFilesByOwner(userServerId);
+
+        files.forEach(file -> {
+            file.setFiletype(mimeToString(file.getFiletype()));
+        });
+
         model.addAttribute("files", files);
 
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
+        // model.addAttribute("userIMG",
+        // domain + "/upload/" + userServerId + "/pfp/profile.jpg");
 
         return "/files";
     }
 
+    // QUIZAS ERROR DE ESTO
+
+    public String mimeToString(String mimeType) {
+        try {
+            MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
+            MimeType type = allTypes.forName(mimeType);
+            String extension = type.getExtension();
+            if (mimeType == "application/x-msdownload") {
+                extension = ".exe";
+            }
+            // delete "."
+            extension = extension.substring(1);
+            return extension;
+        } catch (Exception e) {
+            System.out.println("Error al determinar el tipo de archivo, " +
+                    e.getMessage());
+            return "Otro";
+        }
+    }
+
+    /**
+     * Maneja la solicitud POST para actualizar la imagen de perfil del usuario.
+     *
+     * @param user               El objeto User que contiene la información del
+     *                           usuario.
+     * @param image              El archivo MultipartFile que contiene la nueva
+     *                           imagen de perfil.
+     * @param redirectAttributes Los atributos de redirección que se utilizarán para
+     *                           enviar mensajes flash.
+     * @return Una redirección a la página de edición del usuario.
+     * @throws IllegalStateException Si ocurre un error al manejar el archivo de
+     *                               imagen.
+     * @throws IOException           Si ocurre un error de entrada/salida.
+     * @throws InterruptedException  Si la operación es interrumpida.
+     */
     @PostMapping("/post/settingsimage")
     public String postUserIname(@ModelAttribute("user") User user,
             @RequestParam("image") MultipartFile image,
@@ -374,6 +456,18 @@ public class UserController {
         return "redirect:/users/edit/";
     }
 
+    /**
+     * Maneja la solicitud POST para actualizar la información del usuario(Nombre de
+     * Usuario, Mail y Contraseña).
+     *
+     * @param userr  El objeto User que contiene la información del usuario.
+     * @param result El objeto BindingResult que contendrá los resultados de la
+     *               validación.
+     * @param model  El objeto Model que se utilizará para pasar atributos a la
+     *               vista.
+     * @return Una redirección a la página de edición del usuario con un mensaje de
+     *         éxito o error.
+     */
     @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
             BindingResult result, Model model) {
@@ -407,6 +501,19 @@ public class UserController {
 
     }
 
+    /**
+     * Maneja la solicitud POST para actualizar la información opcional del usuario
+     * (Datos Opcionales).
+     *
+     * @param userinfo El objeto UserInfo que contiene la información opcional del
+     *                 usuario.
+     * @param result   El objeto BindingResult que contendrá los resultados de la
+     *                 validación.
+     * @param model    El objeto Model que se utilizará para pasar atributos a la
+     *                 vista.
+     * @return Una redirección a la página de edición del usuario con un mensaje de
+     *         éxito o error.
+     */
     @PostMapping("/post/settingsoptional")
     public String postOptional(@Valid @ModelAttribute("userinfo") UserInfo userinfo,
             BindingResult result, Model model) {
@@ -432,6 +539,13 @@ public class UserController {
 
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar la página del plan del usuario.
+     *
+     * @param model El objeto Model que se utilizará para pasar atributos a la
+     *              vista.
+     * @return El nombre de la vista de la página del plan del usuario.
+     */
     @GetMapping("/users/plan/")
     public String showPlan(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -442,10 +556,20 @@ public class UserController {
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
+        // model.addAttribute("userIMG",
+        // domain + "upload/" + userServerId + "/pfp/profile.jpg");
 
         return "/plan";
     }
 
+    /**
+     * Maneja la solicitud GET para mostrar los resultados de búsqueda de archivos.
+     *
+     * @param model  El objeto Model que se utilizará para pasar atributos a la
+     *               vista.
+     * @param search La cadena de búsqueda que se utilizará para buscar archivos.
+     * @return El nombre de la vista de la página de resultados de búsqueda.
+     */
     @GetMapping("/users/search/{search}")
     public String showSearch(Model model, @PathVariable String search) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -480,6 +604,12 @@ public class UserController {
         return "/weare";
     }
 
+    /**
+     * Maneja la solicitud GET para degradar a un usuario a un plan básico.
+     *
+     * @param id El ID del usuario que se quiere degradar.
+     * @return Una redirección a la página del plan del usuario.
+     */
     @GetMapping("/users/plan/basic/{id}")
     public String planBasic(@PathVariable Long id) {
         Long newRole = 4L;
@@ -489,6 +619,12 @@ public class UserController {
         return "redirect:/users/plan/";
     }
 
+    /**
+     * Maneja la solicitud GET para ascender a un usuario a un plan Premium.
+     *
+     * @param id El ID del usuario que se quiere ascender.
+     * @return Una redirección a la página del plan del usuario.
+     */
     @GetMapping("/users/plan/premium/{id}")
     public String planPremium(@PathVariable Long id) {
         Long newRole = 3L;
@@ -497,5 +633,4 @@ public class UserController {
                 "El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
         return "redirect:/users/plan/";
     }
-
 }

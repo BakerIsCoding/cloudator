@@ -78,6 +78,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.fetchUser(user);
     }
 
+    /**
+     * Obtiene el ID de un usuario por su nombre de usuario.
+     *
+     * @param username El nombre de usuario del que se quiere obtener el ID.
+     * @return El ID del usuario.
+     */
     public Long getUserIdByUsername(String username) {
         User user = userRepository.fetchUser(username);
         return user.getId();
@@ -264,6 +270,12 @@ public class UserServiceImpl implements UserService {
         userRepository.updatePassword(userId, encodedPassword);
     }
 
+    /**
+     * Actualiza el rol de un usuario.
+     *
+     * @param userId  El ID del usuario al que se le va a cambiar el rol.
+     * @param newRole El nuevo rol que se le asignará al usuario.
+     */
     @Override
     public void updateRole(Long userId, Long newRole) {
         roleRepository.updateRole(userId, newRole);
@@ -323,6 +335,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Obtiene los roles de un usuario por su ID.
+     *
+     * @param userId El ID del usuario del que se quieren obtener los roles.
+     * @return Una lista de roles asociados al usuario.
+     */
     @Override
     public List<String> getRolesByUserId(Long userId) {
         List<Role> roles = userRoleRepository.findRolesByUserId(userId);

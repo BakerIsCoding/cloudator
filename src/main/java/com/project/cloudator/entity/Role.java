@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Setter
@@ -27,6 +28,11 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+    public BigInteger getMaxStorage() {
+        Long maxStorage = this.maxStorage;
+        return BigInteger.valueOf(maxStorage);
+    }
 
     public String getDisplayName() {
         switch (name) {

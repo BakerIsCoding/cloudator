@@ -92,4 +92,26 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User u where username=:user")
     public User fetchUser(@Param("user") String username);
 
+    /**
+     * Busca un usuario por su dirección de correo electrónico.
+     *
+     * @param email la dirección de correo electrónico del usuario a buscar
+     * @return el usuario encontrado o null si no se encuentra ninguno
+     */
+    @Query(value = "SELECT u FROM User u where email=:email")
+    public User fetchUserByEmail(@Param("email") String email);
+
+    /**
+     * Busca un usuario por su ID.
+     *
+     * @param id el ID del usuario a buscar
+     * @return el usuario encontrado o null si no se encuentra ninguno
+     */
+    @Query(value = "SELECT u FROM User u where id=:id")
+    public User fetchUserById(@Param("id") Long id);
+
+    /**
+     * 
+     */
+
 }

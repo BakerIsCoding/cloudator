@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.cloudator.entity.UserAccess;
+import java.util.List;
 
 public interface UserAccessRepository extends JpaRepository<UserAccess, Long> {
 

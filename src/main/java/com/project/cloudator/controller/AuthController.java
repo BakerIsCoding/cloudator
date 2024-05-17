@@ -39,43 +39,29 @@ public class AuthController {
     @Autowired
     private Regex regex;
 
-    // private final CustomUserDetails customUserDetails;
+    @Value("${secretencryptor}")
+    private String SECRET_KEY_ENCRYPTOR;
+
+    @Value("${domain}")
+    private String domain;
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     /**
-     * Returns the index.
-     * 
-     * @return The name of the index view.
-     * 
-     *         @GetMapping("/")
-     *         public String home() {
-     *         return "index";
-     *         }
-     */
-
-    /**
-     * Returns the login form.
-     * 
-     * @return The name of the login form view.
+     * Devuelve el formulario de inicio de sesión.
+     *
+     * @return El nombre de la vista del formulario de inicio de sesión.
      */
     @GetMapping("/login")
     public String loginForm() {
         return "login";
     }
 
-    private RestTemplate restTemplate = new RestTemplate();
-
-    /*
-     * @GetMapping("/login?error")
-     * public String loginError() {
-     * return "error";
-     * }
-     */
-
     /**
-     * Returns the registration form.
+     * Devuelve el formulario de registro.
      *
-     * @param model The model object for the view.
-     * @return The name of the registration form view.
+     * @param model El objeto modelo para la vista.
+     * @return El nombre de la vista del formulario de registro.
      */
     @GetMapping("register")
     public String showRegistrationForm(Model model) {
@@ -85,19 +71,14 @@ public class AuthController {
     }
 
     /**
-     * Handles the registration form submit request.
+     * Registra un nuevo usuario.
      *
-     * @param user               The UserDto object containing the user data.
-     * @param result             The BindingResult object for validation errors.
-     * @param model              The model object for the view.
-     * @param redirectAttributes The RedirectAttributes object for redirecting with
-     *                           attributes.
-     * @return The name of the view.
+     * @param user               El usuario a registrar.
+     * @param result             El resultado de la validación.
+     * @param model              El objeto modelo para la vista.
+     * @param redirectAttributes Los atributos de redirección.
+     * @return La redirección a la vista de registro.
      */
-
-    @Value("${secretencryptor}")
-    private String SECRET_KEY_ENCRYPTOR;
-
     @PostMapping("/post/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
             BindingResult result,
@@ -135,7 +116,7 @@ public class AuthController {
         ////////////////////////////////////////
 
         SecurityService security = new SecurityService(SECRET_KEY_ENCRYPTOR);
-        String fileManagerServiceUrl = "http://management-pants.gl.at.ply.gg:27118/upload/create-directory";
+        String fileManagerServiceUrl = domain + "/upload/create-directory";
         Long userId = idUserExisting.getId();
 
         String encryptedUserId = security.encryptData(userId.toString());

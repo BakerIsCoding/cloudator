@@ -13,10 +13,21 @@ public class UserInfoService {
     @Autowired
     private UserInfoRepository repo;
 
+    /**
+     * Guarda la información de un usuario.
+     *
+     * @param userInfo La información del usuario que se quiere guardar.
+     */
     public void save(UserInfo userInfo) {
         repo.save(userInfo);
     }
 
+    /**
+     * Busca la información de un usuario por su ID.
+     *
+     * @param id El ID del usuario que se quiere buscar.
+     * @return La información del usuario con el ID proporcionado.
+     */
     public UserInfo getUserInfoById(Long id) {
         return repo.findById(id).get();
     }

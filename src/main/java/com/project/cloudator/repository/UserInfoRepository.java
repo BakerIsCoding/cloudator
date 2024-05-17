@@ -13,14 +13,23 @@ import com.project.cloudator.entity.UserInfo;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
-        // FALTA AÑADIR LOS METODOS INDIVIDUALES
-        // public void updateName()
-
+        /**
+         * Actualiza la foto de un usuario.
+         *
+         * @param id   El ID del usuario cuya foto se quiere actualizar.
+         * @param foto La nueva foto del usuario.
+         */
         @Modifying
         @Transactional
         @Query("UPDATE UserInfo u SET u.foto = :foto WHERE u.id = :id")
         public void updatePcp(@Param("id") Long id, @Param("foto") String foto);
 
+        /**
+         * Busca la información de un usuario por su ID.
+         *
+         * @param id El ID del usuario que se quiere buscar.
+         * @return La información del usuario con el ID proporcionado.
+         */
         @Query(value = "SELECT u FROM UserInfo u WHERE u.id = :id")
         public UserInfo fetchUserInfo(@Param("id") Long id);
 }
