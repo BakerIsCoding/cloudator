@@ -76,7 +76,10 @@ public class FileController {
 	@Value("${domain}")
 	private String domain;
 
-	private final String STORAGE_SERVER_URL = domain + "upload/file";
+	// private final String STORAGE_SERVER_URL = domain + "upload/file";
+	// private final String STORAGE_SERVER_URL =
+	// "https://host.cloudator.live/upload/file";
+	private final String STORAGE_SERVER_URL = "http://management-pants.gl.at.ply.gg:27118/upload/file";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {

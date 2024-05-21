@@ -36,7 +36,7 @@
 </style>
 </head>
 
-<body data-user-roles="${user.roles.stream().map(Role::getName).collect(Collectors.joining(','))}">
+<body>
 
     <div class="container-scroller">
         <!--LEFT SIDEBAR -->
@@ -69,7 +69,8 @@
                                           <li class="gris">10GB de Almacenamiento</li>
                                           <li class="gris">Tus Archivos seran Públicos <br/>(podran ser vistos por otros usuarios)</li>
                                           <li class="gris">100MB de Ancho de banda</li>
-                                          <li class="grey"><a th:href="${'/users/plan/basic/' + user.id}" id="basicButton" class="button" onclick="updateRoleBasic(user.id)">Elegir</a>
+                                          <li class="grey"><a th:disabled="${#authorization.expression('hasRole(''ROLE_USER'')')}" id="basicButton" 
+                                            th:href="${'/users/plan/basic/' + user.id}" class="button">Elegir</a>
                                         </ul>
                                       </div>
                                       <div class="columns">
@@ -79,7 +80,8 @@
                                           <li class="gris">100GB de Almacenamiento</li>
                                           <li class="gris">Puedes elegir que Archivos son Públicos y cuales son Privados</li>
                                           <li class="gris">1GB de Ancho de banda</li>
-                                          <li class="grey"><a th:href="${'/users/plan/premium/' + user.id}" id="premiumButton" class="button" onclick="updateRolePremium(user.id)">Elegir</a>
+                                          <li class="grey"><a th:disabled="${#authorization.expression('hasRole(''ROLE_PREMIUM'')')}" 
+                                            th:href="${'/users/plan/premium/' + user.id}" id="premiumButton" class="button">Elegir</a>
                                         </ul>
                                       </div>
                                       
@@ -130,7 +132,6 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
-    <script th:src="@{../../../static/js/plan.js}"></script>
     <!-- End custom js for this page -->
 </body>
 
