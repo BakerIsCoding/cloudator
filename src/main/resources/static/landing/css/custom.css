@@ -88,4 +88,14 @@ p {
     padding-top: 75px!important;
 }
 
+.login-bg {
+    background: radial-gradient(circle, #4b5789, #151722) !important;
+    background-size: cover;
+}
+
+
+.roundedbig{
+    border-radius: 4.25rem !important;
+}
+
 /* Modificar otros elementos específicos según necesidades */

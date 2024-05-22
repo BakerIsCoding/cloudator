@@ -93,8 +93,16 @@
 }
 
 .login-bg {
-    background: url(/static/images/auth/fondo_1_comprimido.jpg) no-repeat center center;
+    background: radial-gradient(circle, #4b5789, #151722) !important;
     background-size: cover;
+}
+
+.margin-top28{
+    margin-top: 28px;
+}
+
+.roundedbig{
+    border-radius: 4.25rem !important;
 }
 
 .sign-upnoM a {
@@ -114,7 +122,8 @@
 }
 
 .sign-upnoM {
-    margin-top: 20px;
+    margin-top: 0px!important;
+    margin-bottom: 0px!important;
 }
 
 .sign-upnoM a:hover {

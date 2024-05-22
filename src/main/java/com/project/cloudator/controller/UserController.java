@@ -616,7 +616,7 @@ public class UserController {
         userService.updateRole(id, newRole);
         logWriter.writeLog(
                 "El usuario con id '" + id + "' ha sido degradado a usuario Basico.");
-        return "redirect:/users/plan/";
+        return "redirect:/logout";
     }
 
     /**
@@ -631,6 +631,6 @@ public class UserController {
         userService.updateRole(id, newRole);
         logWriter.writeLog(
                 "El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
-        return "redirect:/users/plan/";
+        return "redirect:/logout";
     }
 }
