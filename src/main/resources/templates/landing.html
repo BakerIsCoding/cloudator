@@ -39,7 +39,14 @@
 	</div>
 	<!-- ***** Preloader End ***** -->
 	<!-- ***** Header Area Start ***** -->
-	<header class="header-area">
+	<!--
+	<script>
+		window.onload = function() {
+			var header = document.getElementById('headerselector');
+			header.classList.add('header-sticky');
+		};
+	</script>-->
+	<header id="headerselector" class="header-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -78,7 +85,7 @@
 						<!-- ***** Header Buttons Start ***** -->
 						<ul class="header-buttons">
 							<li><a class="btn-nav-line" th:href="@{/login}">Iniciar Sesión</a></li>
-							<li><a class="btn-nav-primary" th:href="@{/register}">Registrarse</a></li>
+							<li><a class="btn-nav-primary landing-button-color" th:href="@{/register}">Registrarse</a></li>
 						</ul>
 						<!-- ***** Header Buttons End ***** -->
 					</nav>
