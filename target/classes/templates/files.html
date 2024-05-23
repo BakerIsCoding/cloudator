@@ -108,7 +108,7 @@
                                                         <div class="tooltip-container"
                                                             onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
                                                             onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
-                                                            <a th:href="${'/users/files/delete/' + fileId}" th:onclick="'addIdToModal(' + ${file.id} + ');'" class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal" data-bs-target="#eliminarModal"></a>
+                                                            <a th:href="${'/users/files/delete/' + file.id}" th:onclick="'addIdToModal(' + ${file.id} + ');'" class="icon-red mdi mdi-delete-forever icon-md" data-bs-toggle="modal" data-bs-target="#eliminarModal"></a>
                                                             <span class="tooltip">Eliminar Archivo</span>
                                                         </div>
                                                     </td>

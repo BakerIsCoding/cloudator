@@ -95,4 +95,12 @@ public interface FileRepository extends JpaRepository<File, Long> {
     @Query("SELECT f.owner FROM File f WHERE f.id = :fileId")
     Long findFileOwner(@Param("fileId") Long fileId);
 
+    /**
+     * Obtiene el nombre de un archivo.
+     *
+     * @param fileId El ID del archivo a obtener el nombre.
+     */
+    @Query("SELECT f.filename FROM File f WHERE f.id = :fileId")
+    String getFileNameById(@Param("fileId") Long fileId);
+
 }

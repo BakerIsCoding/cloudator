@@ -154,26 +154,6 @@ public class UserController {
             System.out.println("Error, el Rol está vacío.");
         }
 
-        /*
-         * switch (userRole) {
-         * case "ROLE_USER":
-         * maxStorage = new BigInteger("10737418240");
-         * break;
-         * case "ROLE_PREMIUM":
-         * maxStorage = new BigInteger("107374182400");
-         * break;
-         * case "ROLE_ADMIN":
-         * maxStorage = new BigInteger("1073741824000");
-         * break;
-         * case "ROLE_SUPERADMIN":
-         * maxStorage = new BigInteger("1073741824000");
-         * break;
-         * 
-         * default:
-         * break;
-         * }
-         */
-
         BigInteger remainingStorage = maxStorage.subtract(totalStorageUsed);
 
         Float totalStorageUsedInteger = formatBytesAsFloatGB(totalStorageUsed);
@@ -382,8 +362,6 @@ public class UserController {
 
         return "/files";
     }
-
-    // QUIZAS ERROR DE ESTO
 
     public String mimeToString(String mimeType) {
         try {
@@ -611,12 +589,12 @@ public class UserController {
      * @return Una redirección a la página del plan del usuario.
      */
     @GetMapping("/users/plan/basic/{id}")
-    public String planBasic(@PathVariable Long id) {
+    public String planBasic(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Long newRole = 4L;
         userService.updateRole(id, newRole);
-        logWriter.writeLog(
-                "El usuario con id '" + id + "' ha sido degradado a usuario Basico.");
-        return "redirect:/logout";
+        redirectAttributes.addFlashAttribute("infoMessage", "Has cambiado el plan a Usuario Básico.");
+        logWriter.writeLog("El usuario con id '" + id + "' ha sido degradado a usuario Básico.");
+        return "redirect:/login";
     }
 
     /**
@@ -626,11 +604,11 @@ public class UserController {
      * @return Una redirección a la página del plan del usuario.
      */
     @GetMapping("/users/plan/premium/{id}")
-    public String planPremium(@PathVariable Long id) {
+    public String planPremium(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Long newRole = 3L;
         userService.updateRole(id, newRole);
-        logWriter.writeLog(
-                "El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
-        return "redirect:/logout";
+        redirectAttributes.addFlashAttribute("infoMessage", "Has cambiado el plan a Usuario Premium.");
+        logWriter.writeLog("El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
+        return "redirect:/login";
     }
 }

@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var confirmarInput = document.getElementById('confirmar');
 
     usernameInput.addEventListener('input', function() {
-        this.style.color = '#87CEEB';
+        this.style.color = '#739FEA';
     });
     passwordInput.addEventListener('input', function() {
-        this.style.color = '#87CEEB'; 
+        this.style.color = '#739FEA'; 
     });
     confirmarInput.addEventListener('input', function() {
-        this.style.color = '#87CEEB';
+        this.style.color = '#739FEA';
     });
     emailInput.addEventListener('input', function() {
-        this.style.color = '#87CEEB'; 
+        this.style.color = '#739FEA'; 
     });
     usernameInput.addEventListener('blur', function() {
         this.style.color = '#FFFFFF';

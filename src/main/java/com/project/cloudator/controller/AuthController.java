@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +25,9 @@ import com.project.cloudator.service.UserService;
 import com.project.cloudator.service.SecurityService;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class AuthController {
@@ -47,13 +51,24 @@ public class AuthController {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
     /**
      * Devuelve el formulario de inicio de sesión.
-     *
+     * 
      * @return El nombre de la vista del formulario de inicio de sesión.
      */
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginPage(@RequestParam(value = "logout", required = false) String logout,
+            Model model,
+            @ModelAttribute("infoMessage") String infoMessage) {
+        if (logout != null) {
+            model.addAttribute("logoutMessage", "Se ha cerrado sesión.");
+        }
+        if (infoMessage != null) {
+            model.addAttribute("infoMessage", infoMessage);
+        }
+        log.info("Info Message: " + infoMessage);
         return "login";
     }
 

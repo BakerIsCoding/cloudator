@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,9 +44,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.project.cloudator.entity.File;
+import com.project.cloudator.entity.Role;
 import com.project.cloudator.entity.User;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.jwt.JsonWebTokenManager;
+import com.project.cloudator.repository.UserRoleRepository;
 import com.project.cloudator.service.FileService;
 import com.project.cloudator.service.UserService;
 import com.project.cloudator.functions.LogWriter;
@@ -64,6 +67,9 @@ public class FileController {
 
 	@Autowired
 	private LogWriter logWriter;
+
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 
 	@Autowired
 	private UserService userService;
@@ -139,6 +145,32 @@ public class FileController {
 				return new ModelAndView("redirect:/error401/");
 			}
 
+			// Obtener el nombre del archivo por ID
+			String filename = fileService.getFileById(fileId);
+
+			// Configurar la solicitud POST al otro endpoint
+			try {
+				RestTemplate restTemplate = new RestTemplate();
+				// String url = "http://management-pants.gl.at.ply.gg:27118/file/delete";
+				String url = "http://host.cloudator.live/file/delete";
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+				MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+				String userIdStr = Long.toString(userId);
+				map.add("id", userIdStr);
+				map.add("filename", filename);
+
+				HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
+				ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+				System.out.println("file server response: " + response.getBody());
+			} catch (Exception e) {
+				logWriter.writeLog("Error al realizar la solicitud POST: " + e.getMessage());
+				return new ModelAndView("redirect:/users/files/").addObject("message",
+						"Error al comunicar con el servidor de archivos");
+			}
+
+			// Eliminar el archivo localmente
 			fileService.deleteFile(fileId);
 			logWriter.writeLog("El usuario con id '" + userId + "' ha eliminado el archivo con id '" + fileId + "'.");
 			return new ModelAndView("redirect:/users/files/").addObject("message", "Archivo eliminado correctamente");
@@ -209,6 +241,32 @@ public class FileController {
 				Long fileSizeLong = Long.parseLong(arrayItems.get(4));
 				Long owner = Long.parseLong(arrayItems.get(5));
 				String url = arrayItems.get(7);
+
+				Long userStorage = fileService.getStorage(userServerId);
+
+				List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
+				String userRole = "";
+
+				Long totalStorageUsedLong = fileService.getStorage(userServerId);
+				BigInteger totalStorageUsed = BigInteger.valueOf(totalStorageUsedLong);
+				BigInteger maxStorage = BigInteger.ZERO;
+
+				if (!roles.isEmpty()) {
+					Role firstRole = roles.get(0);
+					userRole = firstRole.getName();
+					maxStorage = firstRole.getMaxStorage();
+				} else {
+					System.out.println("Error, el Rol está vacío.");
+				}
+
+				BigInteger totalFileSize = BigInteger.valueOf(fileSizeLong);
+				BigInteger totalStorageFinal = totalFileSize.add(totalStorageUsed);
+
+				if (totalStorageFinal.compareTo(maxStorage) < 0) {
+
+				} else {
+
+				}
 
 				File fileEntity = new File();
 

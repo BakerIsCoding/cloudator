@@ -35,6 +35,9 @@
               <div th:if="${param.logout}">
                   <div class="alert alert-success">Se ha cerrado sesión.</div>
               </div>
+              <div th:if="${infoMessage != null and !infoMessage.isEmpty()}">
+                <div class="alert alert-primary" th:text="${infoMessage}"></div>
+              </div>
               <form method="post" th:action="@{/post/login}" th:object="${user}" class="form-horizontal" role="form">
                 <div class="form-group">
                   <label for="username" class="control-label">Usuario</label>

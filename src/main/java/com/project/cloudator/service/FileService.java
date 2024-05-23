@@ -165,4 +165,13 @@ public class FileService {
         repo.deleteById(fileId);
     }
 
+    /**
+     * Obtiene el nombre de un archivo de la base de datos.
+     *
+     * @param fileId El ID del archivo que se quiere obtener el nombre.
+     */
+    public String getFileById(Long fileId) {
+        return repo.getFileNameById(fileId);
+    }
+
 }

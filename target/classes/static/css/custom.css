@@ -107,7 +107,7 @@
 
 .sign-upnoM a {
     text-decoration: none;
-    color: blue;
+    color: #739FEA;
     font-size: 16px;
 }
 
@@ -124,10 +124,12 @@
 .sign-upnoM {
     margin-top: 0px!important;
     margin-bottom: 0px!important;
+    
 }
 
 .sign-upnoM a:hover {
     text-decoration: underline;
+    color: #739FEA;
 }
 
 /* Create three columns of equal width */
@@ -491,4 +493,11 @@ select:focus, input[type="search"]:focus {
 select option {
     background-color: #333 !important; 
     color: white !important; 
+}
+.terms a{
+    color: #739FEA;
+}
+
+.sign-up a{
+    color: #739FEA !important;
 }
