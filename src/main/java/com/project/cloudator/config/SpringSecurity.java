@@ -69,7 +69,7 @@ public class SpringSecurity {
 
                                                                 .anyRequest().authenticated())
                                 .exceptionHandling((exceptionHandling) -> exceptionHandling
-                                                .accessDeniedPage("/error401/")) // FALTA HACER ENDPOINT
+                                                .accessDeniedPage("/error401/"))
                                 .formLogin(form -> form
                                                 .loginPage("/login")
                                                 .loginProcessingUrl("/post/login")
@@ -93,6 +93,7 @@ public class SpringSecurity {
 
                                 .logout(logout -> logout
                                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                                .logoutSuccessUrl("/login?logout=true")
                                                 .permitAll());
                 return http.build();
         }

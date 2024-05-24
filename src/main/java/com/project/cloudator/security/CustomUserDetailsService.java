@@ -49,7 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 userAccess = userAccessService.findById(dbUser.getId());
                 if (!userAccess.isIsblocked()) {
                     return new org.springframework.security.core.userdetails.User(
-                            dbUser.getUsername(),
+                            username,
                             dbUser.getPassword(),
                             mapRolesToAuthorities(dbUser.getRoles()));
                 } else {

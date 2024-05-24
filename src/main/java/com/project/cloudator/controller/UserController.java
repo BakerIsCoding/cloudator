@@ -41,10 +41,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.File;
@@ -61,6 +63,7 @@ import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserInfoRepository;
 import com.project.cloudator.repository.UserRoleRepository;
+import com.project.cloudator.security.CustomUserDetailsService;
 import com.project.cloudator.service.FileService;
 
 import jakarta.servlet.http.Cookie;
@@ -219,10 +222,23 @@ public class UserController {
      * @return La vista para redirigir después de eliminar el usuario.
      */
     @GetMapping("/users/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        userService.deleteUser(id);
-        logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
-        return "redirect:/logout";
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
+        String username = userDetails.getUsername();
+        Long userServerId = userService.getUserIdByUsername(username);
+
+        System.out.println("ID del usuario: " + userServerId);
+        System.out.println("ID del usuario a eliminar: " + id);
+
+        if (userServerId != id) {
+            return "redirect:/error401/";
+        } else {
+            userService.deleteUser(id);
+            redirectAttributes.addFlashAttribute("deleteAccount", "Se ha eliminado la cuenta correctamente.");
+            logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
+            return "redirect:/logout?delete=true";
+        }
     }
 
     /**
@@ -344,6 +360,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
+
         Long userServerId = userService.getUserIdByUsername(username);
 
         List<File> files = fileService.findFilesByOwner(userServerId);
@@ -446,12 +463,14 @@ public class UserController {
      * @return Una redirección a la página de edición del usuario con un mensaje de
      *         éxito o error.
      */
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
             BindingResult result, Model model) {
 
         Long userId = userr.getId();
-        // String userIdString = userId.toString();
         Role role = RoleRepository.fetchRoleById(userId);
         model.addAttribute("role", role);
 
@@ -459,24 +478,44 @@ public class UserController {
             if (!regex.isValidPassword(userr.getPassword())) {
                 return "redirect:/users/edit/?error2=1";
             }
-            userService.updateUsername(userId, userr.getUsername());
             userService.updateEmail(userId, userr.getEmail());
             userService.updatePassword(userId, userr.getPassword());
+            userService.updateUsername(userId, userr.getUsername());
+
+            // Obtener la autenticación actual
+            Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) currentAuth.getPrincipal();
+            String oldusername = userDetails.getUsername();
+            System.out.println("Old username: " + oldusername);
+            System.out.println("New username: " + userr.getUsername());
+
+            // Cargar los detalles del usuario actualizado
+            UserDetails updatedUserDetails = customUserDetailsService.loadUserByUsername(userr.getUsername());
+            UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+                    updatedUserDetails, currentAuth.getCredentials(), updatedUserDetails.getAuthorities());
+
+            // Actualizar el contexto de seguridad
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+            /*
+             * // Verificar la nueva autenticación
+             * Authentication newAuth2 =
+             * SecurityContextHolder.getContext().getAuthentication();
+             * UserDetails userDetails2 = (UserDetails) newAuth2.getPrincipal();
+             * String newusername = userDetails2.getUsername();
+             * System.out.println("New username: " + newusername);
+             */
 
             if (userr.getRoles() != null) {
-                return "redirect:/admin/edit/userId ?success=2=1";
-
+                return "redirect:/users/edit/?success=2=1";
             } else {
                 return "redirect:/users/edit/?success=1";
             }
 
         } catch (Exception e) {
-
             e.printStackTrace();
             System.out.println(e.getMessage());
             return "redirect:/users/edit/?error=1";
         }
-
     }
 
     /**
@@ -594,7 +633,7 @@ public class UserController {
         userService.updateRole(id, newRole);
         redirectAttributes.addFlashAttribute("infoMessage", "Has cambiado el plan a Usuario Básico.");
         logWriter.writeLog("El usuario con id '" + id + "' ha sido degradado a usuario Básico.");
-        return "redirect:/login";
+        return "redirect:/login?logout";
     }
 
     /**
@@ -609,6 +648,6 @@ public class UserController {
         userService.updateRole(id, newRole);
         redirectAttributes.addFlashAttribute("infoMessage", "Has cambiado el plan a Usuario Premium.");
         logWriter.writeLog("El usuario con id '" + id + "' ha sido ascendido a usuario Premium.");
-        return "redirect:/login";
+        return "redirect:/login?logout";
     }
 }

@@ -151,8 +151,8 @@ public class FileController {
 			// Configurar la solicitud POST al otro endpoint
 			try {
 				RestTemplate restTemplate = new RestTemplate();
-				// String url = "http://management-pants.gl.at.ply.gg:27118/file/delete";
-				String url = "http://host.cloudator.live/file/delete";
+				String url = "http://management-pants.gl.at.ply.gg:27118/file/delete";
+				// String url = "http://host.cloudator.live/file/delete";
 
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -205,6 +205,35 @@ public class FileController {
 			// Lee el archivo
 			byte[] bytes = file.getBytes();
 
+			List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
+			String userRole = "";
+
+			Long totalStorageUsedLong = fileService.getStorage(userServerId);
+			BigInteger totalStorageUsed = BigInteger.valueOf(totalStorageUsedLong);
+			BigInteger maxStorage = BigInteger.ZERO;
+
+			if (!roles.isEmpty()) {
+				Role firstRole = roles.get(0);
+				userRole = firstRole.getName();
+				maxStorage = firstRole.getMaxStorage();
+			} else {
+				System.out.println("Error, el Rol está vacío.");
+			}
+
+			BigInteger totalFileSize = BigInteger.valueOf(file.getSize());
+			BigInteger totalStorageFinal = totalFileSize.add(totalStorageUsed);
+
+			System.out.println("Tamaño del fichero: " + totalFileSize);
+			System.out.println("Tamaño de almacenamiento usado: " + totalStorageUsed);
+			System.out.println("Tamaño de almacenamiento y fichero: " + totalStorageFinal);
+			System.out.println("Tamaño total: " + maxStorage);
+			System.out.println("Comparación resultado: " + totalStorageFinal.compareTo(maxStorage));
+
+			if (totalStorageFinal.compareTo(maxStorage) >= 0) {
+				return new ModelAndView("upload", "message",
+						"Ha ocurrido un error: Excede el espacio de almacenamiento disponible");
+			}
+
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -241,32 +270,6 @@ public class FileController {
 				Long fileSizeLong = Long.parseLong(arrayItems.get(4));
 				Long owner = Long.parseLong(arrayItems.get(5));
 				String url = arrayItems.get(7);
-
-				Long userStorage = fileService.getStorage(userServerId);
-
-				List<Role> roles = userRoleRepository.findRolesByUserId(userServerId);
-				String userRole = "";
-
-				Long totalStorageUsedLong = fileService.getStorage(userServerId);
-				BigInteger totalStorageUsed = BigInteger.valueOf(totalStorageUsedLong);
-				BigInteger maxStorage = BigInteger.ZERO;
-
-				if (!roles.isEmpty()) {
-					Role firstRole = roles.get(0);
-					userRole = firstRole.getName();
-					maxStorage = firstRole.getMaxStorage();
-				} else {
-					System.out.println("Error, el Rol está vacío.");
-				}
-
-				BigInteger totalFileSize = BigInteger.valueOf(fileSizeLong);
-				BigInteger totalStorageFinal = totalFileSize.add(totalStorageUsed);
-
-				if (totalStorageFinal.compareTo(maxStorage) < 0) {
-
-				} else {
-
-				}
 
 				File fileEntity = new File();
 

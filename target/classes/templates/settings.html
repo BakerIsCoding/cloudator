@@ -66,6 +66,12 @@
 
             </div>
           </div>
+          <div th:if="${param.errorDelete}">
+            <div class="alert alert-danger">
+              Error, No puedes eliminar la cuenta de otro usuario.
+            </div>
+          </div>
+
 
           <form id="imageForm" style="display:none;">
             <input type="file" id="imageInput2" name="image"> <!-- Input para la imagen REPETIDO -->
@@ -84,7 +90,8 @@
                       <div class="position-relative" style="cursor: pointer;">
                         <!--<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                           alt="avatar" class="rounded-circle img-fluid" style="width: 150px;" id="profileImage"> -->
-                        <img th:src="${userIMG}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;" id="profileImage">
+                        <img th:src="${userIMG}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;"
+                          id="profileImage">
                         <div class="overlay"
                           style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; opacity: 0; transition: .5s ease; background-color: rgba(0,0,0,0.5);">
                           <div class="text"
@@ -216,13 +223,13 @@
                               style="flex: 1 1 auto;" disabled>
                               <i class="mdi mdi-content-save-all"></i> Guardar
                             </button>
-                            <button type="button" th:href="${'/users/delete/' + user.id}"
-                              th:onclick="'addIdToModal(' + ${user.id} + ')'" data-toggle="modal"
-                              data-target="#eliminarModal" class="btn btn-danger btn-icon-text mx-1 my-1"
+                            <button type="button" th:onclick="'addIdToModal(' + ${user.id} + ');'" data-bs-toggle="modal"
+                              data-bs-target="#eliminarModal" class="btn btn-danger btn-icon-text mx-1 my-1"
                               style="flex: 0 1 auto;">
                               <i class="mdi mdi-close btn-icon-prepend"></i> Eliminar Cuenta
-                              <span id="deleteID" hidden></span>
                             </button>
+                            <span id="deleteID" hidden></span>
+
                           </div>
                         </div>
 
@@ -247,8 +254,18 @@
         </symbol>
       </svg>
 
+      
+
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="exclamation-triangle-fill" fill="yellow" viewBox="0 0 16 16">
+          <path
+            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+        </symbol>
+      </svg>
+    
+      <!-- Modals -->
       <!-- Modal Eliminar -->
-      <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header fondo-blue">
@@ -259,15 +276,16 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body fondo-grey">
-              Vas a eliminar este usuario, ¿Estás seguro?
+              Vas a eliminar tu propio usuario, ¿Estás seguro?
             </div>
             <div class="modal-footer fondo-grey">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" id="eliminarUsuarioBtn">Eliminar</button>
+              <button type="button" class="btn btn-primary" id="eliminarArchivoBtn" onclick="confirmarEliminacion()">Eliminar</button>
             </div>
           </div>
         </div>
       </div>
+
       <!-- partial -->
     </div>
     <!-- main-panel ends -->
@@ -349,13 +367,6 @@
     }
 
 
-    function saveChanges() {
-      console.log('Saving changes...');
-    }
-
-    function deleteAnAccount() {
-      console.log('Deleting account...');
-    }
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -385,18 +396,14 @@
     function addIdToModal(userId) {
       document.getElementById('deleteID').innerHTML = "";
       document.getElementById('deleteID').innerHTML = userId;
-      console.log(userId + "added as deleted")
-
+      console.log(userId + " added as deleted");
     }
 
-    document.getElementById('eliminarUsuarioBtn').addEventListener('click', function () {
-      var userId = document.getElementById("deleteID").textContent;
-      console.log('Eliminar usuario con id:', userId);
-
-      if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        eliminarUsuario(userId);
-      }
-    });
+    function confirmarEliminacion() {
+      var userId = document.getElementById('deleteID').innerHTML;
+      eliminarUsuario(userId);
+      $('#eliminarModal').modal('hide');
+    }
 
     function eliminarUsuario(userId) {
       fetch('/users/delete/' + userId, {
@@ -415,7 +422,10 @@
           console.error('Error:', error);
           alert('Error al eliminar el usuario');
         });
+
+      console.log("Usuario con ID " + userId + " eliminado");
     }
+
 
   </script>
 

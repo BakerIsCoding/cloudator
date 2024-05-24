@@ -61,14 +61,18 @@ public class AuthController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "logout", required = false) String logout,
             Model model,
-            @ModelAttribute("infoMessage") String infoMessage) {
+            @ModelAttribute("infoMessage") String infoMessage,
+            @ModelAttribute("deleteAccount") String deleteAccount) {
         if (logout != null) {
             model.addAttribute("logoutMessage", "Se ha cerrado sesión.");
         }
         if (infoMessage != null) {
             model.addAttribute("infoMessage", infoMessage);
         }
-        log.info("Info Message: " + infoMessage);
+        if (deleteAccount != null) {
+            model.addAttribute("deleteAccount", deleteAccount);
+        }
+
         return "login";
     }
 

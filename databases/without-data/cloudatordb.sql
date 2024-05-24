@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-05-2024 a las 17:25:38
+-- Tiempo de generación: 23-05-2024 a las 23:23:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -44,8 +44,8 @@ CREATE TABLE `files` (
 --
 
 INSERT INTO `files` (`id`, `filename`, `filetype`, `fileroute`, `filedate`, `filesize`, `owner`, `ispublic`, `url`) VALUES
-(1, 'pedidos (2).sql', 'application/x-sql', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-04-26 15:05:29', 1426, 3, 1, 'http://localhost:8080/download?owner=MFU4SThnakFSczNHQUpRdUJScUlPbTd2NURIYzlNek1IbjYwUGwzNW5zRDBIaWNMbmJwcjkyQVVqSldqTlNXTA==&filename=NCtBSEFXZVBQQ0x1Y29HV0x4ZDYwME5QNHlNalJhMFV6amE3WU1VVEpHZGpOZkdMSjQ5ZzJQNEUrSjY2bmFNSA=='),
-(2, 'FileZilla_3.67.0_win64-setup.exe', 'application/x-msdownload', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-04-30 14:31:17', 12388016, 3, 1, 'http://localhost:8080/download?owner=Z2hmSkNmcE9MY3huOTQ1cGdSeGs2WVpyYkJmb2NYYWVkZjFTRmVIeXdITnB0b0lRT0ZuakkxUWJXR3JEcDlaSw==&filename=S2FxOTdBcVExRWZGc0VmUGJhSmFobUlrdlNmeUd5N1dZQXVYK1l5cHdCS1BvcHVpKzUzUmRtcWZ2WkJ3U1FuU1NSWm0yeng3ZlZPUWRXT0g1clBsZDV4dUZoakl3OS8yZGlhbUtac1EwQjQ9');
+(7, 'FiddlerSetup.5.0.20242.10753-latest.exe', 'application/x-msdownload', 'E:\\Eduardo\\pruebadescargas\\4\\', '2024-05-09 13:30:51', 4632256, 4, 1, 'http://localhost:8080/download?owner=d2hCRFg3eG9uOS9RakF1RThiNmxYUy9OQUt3bGtTd2pNcnhKVWJWUk85SGsyV3RwaWVQWVZ1ZUxsSlZScUd1aA==&filename=dzgvWGZpSnZ2SHZDMERSUjFFTE9hUHhYWTZaQ1B2UnVXOTJaVFMyU0NxMVl5MWRwSGNhb2k2Vm0ycHJDUTJGb2FDUzd0OVZiV3lOaFJmSiszNjNFTUJFZCtENys4c2RDZEJvcWFkRFc0QXM9'),
+(9, 'carnetgod.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-05-21 13:55:20', 8, 3, 1, 'http://management-pants.gl.at.ply.gg:27118/download?owner=WHpQMjVhMXRwUXNJN1NZdmU5VmtTTUcrMzl2SzRjNTMveGg5cHlUL0FwTzRBM3hrRDVtb2tpZ2hCbmI2WnNtWA==&filename=Y3AzbEc0b3M5cTk1dzM3VjdSVkpha25SQVJFMTBmMEpGaC9GL2RqTFdYbGI4TzIvNUxnYUpURTVuUkZMUjc5Ng==');
 
 -- --------------------------------------------------------
 
@@ -77,22 +77,23 @@ INSERT INTO `roles` (`id`, `name`, `max_storage`) VALUES
 
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
-  `username` varchar(32) NOT NULL,
+  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `password` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `creationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `version` int(11) DEFAULT NULL
+  `creationDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`, `version`) VALUES
-(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13', NULL),
-(3, 'furrykiller24', '$2a$10$8HJPUWbdczOX4xahOfijJejjzmTC5uMsIKnbjJbHCRoM0wIcZYn/2', 'furrykiller24@gmail.com', '2024-04-26 15:03:55', NULL),
-(4, 'marc', '$2a$10$75/rmuriqqGZ3E7OzyJLT.fWxKSKnL1bgp8R6vn8Z/VhP5F.UTBpS', 'marc639@outlook.com', '2024-04-29 14:34:51', NULL),
-(5, 'Buabua', '$2a$10$ojY9I82vm5GFVqIyjkHmvOIe4WWxAbYGakKXpkLpZGNYns4xJn6Ii', 'buabua@gmail.com', '2024-05-02 14:11:22', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`) VALUES
+(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13'),
+(3, 'furrykiller24', '$2a$10$8HJPUWbdczOX4xahOfijJejjzmTC5uMsIKnbjJbHCRoM0wIcZYn/2', 'furrykiller24@gmail.com', '2024-04-26 15:03:55'),
+(4, 'Marc Pedreño', '$2a$10$SkiO9C7/QUEOuw/q0anFM.AJIXnQmWNo8GpKZ0GtubIapoaoNeTcW', 'marc639@outlook.com', '2024-04-29 14:34:51'),
+(5, 'Buabua', '$2a$10$ojY9I82vm5GFVqIyjkHmvOIe4WWxAbYGakKXpkLpZGNYns4xJn6Ii', 'buabua@gmail.com', '2024-05-02 14:11:22'),
+(6, 'Baker', '$2a$10$GcxR9WtvaeRqU9if45CwhegohbijB5YqzOcEb8BrBLJHatV9nha5C', 'hestrada49811fadd1@gmail.com', '2024-05-10 13:23:57'),
+(7, 'eliminacion', '$2a$10$cFnP2/pve5MXys6H.LfZ.ONkTGrpPWE3K38jBKEUugOFlUVRfs3mi', 'eliminacion@gmail.com', '2024-05-14 13:52:28');
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,9 @@ INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 (1, 1),
 (3, 2),
 (4, 4),
-(5, 2);
+(5, 2),
+(6, 4),
+(7, 4);
 
 -- --------------------------------------------------------
 
@@ -135,7 +138,9 @@ INSERT INTO `user_access` (`id`, `counter`, `isblocked`) VALUES
 (1, 0, 0),
 (3, 0, 0),
 (4, 0, 0),
-(5, 0, 0);
+(5, 0, 0),
+(6, 0, 0),
+(7, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -160,7 +165,9 @@ INSERT INTO `user_info` (`id`, `name`, `surname`, `birthday`, `address`, `foto`)
 (1, NULL, NULL, NULL, NULL, NULL),
 (3, NULL, NULL, NULL, NULL, NULL),
 (4, NULL, NULL, NULL, NULL, 'http://management-pants.gl.at.ply.gg:27118/upload/4/pfpic'),
-(5, NULL, NULL, NULL, NULL, 'http://management-pants.gl.at.ply.gg:27118/upload/5/pfpic');
+(5, NULL, NULL, NULL, NULL, 'http://management-pants.gl.at.ply.gg:27118/upload/5/pfp/profile.jpg'),
+(6, NULL, NULL, NULL, NULL, NULL),
+(7, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -222,7 +229,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT de la tabla `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -234,7 +241,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas

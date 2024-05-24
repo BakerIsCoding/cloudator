@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2024 a las 15:26:18
+-- Tiempo de generación: 23-05-2024 a las 23:23:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -44,7 +44,8 @@ CREATE TABLE `files` (
 --
 
 INSERT INTO `files` (`id`, `filename`, `filetype`, `fileroute`, `filedate`, `filesize`, `owner`, `ispublic`, `url`) VALUES
-(7, 'FiddlerSetup.5.0.20242.10753-latest.exe', 'application/x-msdownload', 'E:\\Eduardo\\pruebadescargas\\4\\', '2024-05-09 13:30:51', 4632256, 4, 1, 'http://localhost:8080/download?owner=d2hCRFg3eG9uOS9RakF1RThiNmxYUy9OQUt3bGtTd2pNcnhKVWJWUk85SGsyV3RwaWVQWVZ1ZUxsSlZScUd1aA==&filename=dzgvWGZpSnZ2SHZDMERSUjFFTE9hUHhYWTZaQ1B2UnVXOTJaVFMyU0NxMVl5MWRwSGNhb2k2Vm0ycHJDUTJGb2FDUzd0OVZiV3lOaFJmSiszNjNFTUJFZCtENys4c2RDZEJvcWFkRFc0QXM9');
+(7, 'FiddlerSetup.5.0.20242.10753-latest.exe', 'application/x-msdownload', 'E:\\Eduardo\\pruebadescargas\\4\\', '2024-05-09 13:30:51', 4632256, 4, 1, 'http://localhost:8080/download?owner=d2hCRFg3eG9uOS9RakF1RThiNmxYUy9OQUt3bGtTd2pNcnhKVWJWUk85SGsyV3RwaWVQWVZ1ZUxsSlZScUd1aA==&filename=dzgvWGZpSnZ2SHZDMERSUjFFTE9hUHhYWTZaQ1B2UnVXOTJaVFMyU0NxMVl5MWRwSGNhb2k2Vm0ycHJDUTJGb2FDUzd0OVZiV3lOaFJmSiszNjNFTUJFZCtENys4c2RDZEJvcWFkRFc0QXM9'),
+(9, 'carnetgod.txt', 'text/plain', 'E:\\Eduardo\\pruebadescargas\\3\\', '2024-05-21 13:55:20', 8, 3, 1, 'http://management-pants.gl.at.ply.gg:27118/download?owner=WHpQMjVhMXRwUXNJN1NZdmU5VmtTTUcrMzl2SzRjNTMveGg5cHlUL0FwTzRBM3hrRDVtb2tpZ2hCbmI2WnNtWA==&filename=Y3AzbEc0b3M5cTk1dzM3VjdSVkpha25SQVJFMTBmMEpGaC9GL2RqTFdYbGI4TzIvNUxnYUpURTVuUkZMUjc5Ng==');
 
 -- --------------------------------------------------------
 
@@ -76,24 +77,23 @@ INSERT INTO `roles` (`id`, `name`, `max_storage`) VALUES
 
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
-  `username` varchar(32) NOT NULL,
+  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `password` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `creationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `version` int(11) DEFAULT NULL
+  `creationDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`, `version`) VALUES
-(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13', NULL),
-(3, 'furrykiller24', '$2a$10$8HJPUWbdczOX4xahOfijJejjzmTC5uMsIKnbjJbHCRoM0wIcZYn/2', 'furrykiller24@gmail.com', '2024-04-26 15:03:55', NULL),
-(4, 'marc', '$2a$10$75/rmuriqqGZ3E7OzyJLT.fWxKSKnL1bgp8R6vn8Z/VhP5F.UTBpS', 'marc639@outlook.com', '2024-04-29 14:34:51', NULL),
-(5, 'Buabua', '$2a$10$ojY9I82vm5GFVqIyjkHmvOIe4WWxAbYGakKXpkLpZGNYns4xJn6Ii', 'buabua@gmail.com', '2024-05-02 14:11:22', NULL),
-(6, 'Baker', '$2a$10$GcxR9WtvaeRqU9if45CwhegohbijB5YqzOcEb8BrBLJHatV9nha5C', 'hestrada49811fadd1@gmail.com', '2024-05-10 13:23:57', NULL),
-(7, 'eliminacion', '$2a$10$cFnP2/pve5MXys6H.LfZ.ONkTGrpPWE3K38jBKEUugOFlUVRfs3mi', 'eliminacion@gmail.com', '2024-05-14 13:52:28', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `creationDate`) VALUES
+(1, 'admin', '$2a$10$M.ZcKUWP4MNCsz8o/POdCOFJCHg8d8KzqIkITqpWqQiIYcKNO3zRS', 'admin@cloudator.live', '2024-04-19 15:02:13'),
+(3, 'furrykiller24', '$2a$10$8HJPUWbdczOX4xahOfijJejjzmTC5uMsIKnbjJbHCRoM0wIcZYn/2', 'furrykiller24@gmail.com', '2024-04-26 15:03:55'),
+(4, 'Marc Pedreño', '$2a$10$SkiO9C7/QUEOuw/q0anFM.AJIXnQmWNo8GpKZ0GtubIapoaoNeTcW', 'marc639@outlook.com', '2024-04-29 14:34:51'),
+(5, 'Buabua', '$2a$10$ojY9I82vm5GFVqIyjkHmvOIe4WWxAbYGakKXpkLpZGNYns4xJn6Ii', 'buabua@gmail.com', '2024-05-02 14:11:22'),
+(6, 'Baker', '$2a$10$GcxR9WtvaeRqU9if45CwhegohbijB5YqzOcEb8BrBLJHatV9nha5C', 'hestrada49811fadd1@gmail.com', '2024-05-10 13:23:57'),
+(7, 'eliminacion', '$2a$10$cFnP2/pve5MXys6H.LfZ.ONkTGrpPWE3K38jBKEUugOFlUVRfs3mi', 'eliminacion@gmail.com', '2024-05-14 13:52:28');
 
 -- --------------------------------------------------------
 
@@ -113,7 +113,7 @@ CREATE TABLE `users_roles` (
 INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 (1, 1),
 (3, 2),
-(4, 3),
+(4, 4),
 (5, 2),
 (6, 4),
 (7, 4);
@@ -229,7 +229,7 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT de la tabla `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
