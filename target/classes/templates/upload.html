@@ -89,6 +89,15 @@
             background-color: #0090e7;
             color: #ffffff;
         }
+
+        #progressWrapper {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #progressBar {
+            width: 100%;
+            height: 20px;
+        }
     </style>
 </head>
 
@@ -118,7 +127,9 @@
                         <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}"></span>
                     </div>
 
+                    
 
+                    
                     <!--TEST CARDS-->
                     <div class="row ">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -165,7 +176,7 @@
                                         <input class="input" name="file" id="file" type="file" />
                                         <input type="hidden" name="id" />
                                         <br />
-                                        <button type="submit">
+                                        <button id="uploadButton" type="submit">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="2" stroke="currentColor" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -177,6 +188,10 @@
                                             </svg>
                                             Subir fichero
                                         </button>
+                                        <div id="progressWrapper" style="display: none;">
+                                            <progress id="progressBar" value="0" max="100"></progress>
+                                            <span id="progressText">0%</span>
+                                        </div>
 
 
 
@@ -198,6 +213,57 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('uploadButton').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevenir la acción por defecto del formulario
+        
+                var fileInput = document.getElementById('file');
+                if (fileInput.files.length === 0) {
+                    alert('Por favor, selecciona un archivo primero.');
+                    return;
+                }
+        
+                var formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+        
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/post/upload', true);
+                xhr.setRequestHeader('Accept', 'application/json');
+        
+                xhr.upload.addEventListener('progress', function(event) {
+                    if (event.lengthComputable) {
+                        var percentComplete = (event.loaded / event.total) * 100;
+                        document.getElementById('progressBar').value = percentComplete;
+                        document.getElementById('progressText').textContent = Math.round(percentComplete) + '%';
+                    }
+                });
+        
+                xhr.upload.addEventListener('loadstart', function() {
+                    document.getElementById('progressWrapper').style.display = 'block';
+                });
+        
+                xhr.addEventListener('load', function() {
+                    document.getElementById('progressWrapper').style.display = 'none';
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    } else {
+                        var errorResponse = JSON.parse(xhr.responseText);
+                        alert('Error al subir el archivo: ' + errorResponse.message);
+                    }
+                });
+        
+                xhr.addEventListener('error', function() {
+                    alert('Error al subir el archivo.');
+                    document.getElementById('progressWrapper').style.display = 'none';
+                });
+        
+                xhr.send(formData);
+            });
+        });        
+    </script>
 
     <!-- container-scroller -->
     <!-- plugins:js -->

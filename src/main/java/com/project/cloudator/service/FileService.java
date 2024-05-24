@@ -56,15 +56,20 @@ public class FileService {
     public List<FileCountByDate> countFilesFromLastWeekGrouped() {
         Calendar calendar = Calendar.getInstance();
 
-        // Se ajusta la fecha
+        // Ajusta la fecha al final del día actual
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date endDate = calendar.getTime();
+
+        calendar.add(Calendar.DATE, -7); // -7 días
+        // Ajusta la fecha al inicio del día
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        Date endDate = calendar.getTime();
-
-        calendar.add(Calendar.DATE, -7); // -7 días
-        Date startDate = calendar.getTime(); // Fecha normal
+        Date startDate = calendar.getTime();
 
         List<Object[]> results = repo.countFilesByDateRangeGrouped(startDate, endDate);
         ArrayList<FileCountByDate> fileCounts = new ArrayList<>();
@@ -89,15 +94,20 @@ public class FileService {
     public List<FileCountByDate> countFilesForOwnerFromLastWeekGrouped(Long ownerId) {
         Calendar calendar = Calendar.getInstance();
 
-        // Se ajusta la fecha
+        // Ajusta la fecha al final del día actual
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date endDate = calendar.getTime();
+
+        calendar.add(Calendar.DATE, -7); // -7 días
+        // Ajusta la fecha al inicio del día
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        Date endDate = calendar.getTime(); // Fecha de hoy a medianoche
-
-        calendar.add(Calendar.DATE, -7); // -7 días
-        Date startDate = calendar.getTime(); // Fecha normal
+        Date startDate = calendar.getTime();
 
         List<Object[]> results = repo.countFilesByOwnerAndDateRangeGrouped(startDate, endDate, ownerId);
         ArrayList<FileCountByDate> fileCounts = new ArrayList<>();
