@@ -15,8 +15,12 @@ import com.project.cloudator.repository.FileRepository;
 
 @Service
 public class FileService {
+
     @Autowired
     private FileRepository repo;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Guarda un archivo en la base de datos.
@@ -182,6 +186,22 @@ public class FileService {
      */
     public String getFileById(Long fileId) {
         return repo.getFileNameById(fileId);
+    }
+
+    /**
+     * Busca los archivos de un propietario y devuelve el nombre de usuario en lugar
+     * del ID.
+     *
+     * @param owner El ID del propietario cuyos archivos se quieren buscar.
+     * @return Una lista de los archivos del propietario con el nombre de usuario.
+     */
+    public List<File> findFilesByOwnerWithUsername(Long owner) {
+        List<File> files = repo.findFilesByOwner(owner);
+        for (File file : files) {
+            String username = userService.getUsernameById(file.getOwner());
+            file.setOwnerUsername(username);
+        }
+        return files;
     }
 
 }

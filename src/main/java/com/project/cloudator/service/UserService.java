@@ -144,4 +144,12 @@ public interface UserService {
      */
     List<String> getRolesByUserId(Long userId);
 
+    /**
+     * Obtiene el nombre de un usuario por su ID.
+     *
+     * @param userId El ID del usuario cuyo nombre se quiere obtener.
+     * @return El nombre del usuario con el ID proporcionado.
+     */
+    String getUsernameById(Long userId);
+
 }

@@ -158,7 +158,8 @@ public class FileController {
 				ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 				System.out.println("file server response: " + response.getBody());
 			} catch (Exception e) {
-				logWriter.writeError("Error al realizar la solicitud POST al intentar eliminar un archivo: " + e.getMessage());
+				logWriter.writeError(
+						"Error al realizar la solicitud POST al intentar eliminar un archivo: " + e.getMessage());
 				return new ModelAndView("redirect:/users/files/").addObject("message",
 						"Error al comunicar con el servidor de archivos");
 			}
@@ -216,11 +217,15 @@ public class FileController {
 			BigInteger totalFileSize = BigInteger.valueOf(file.getSize());
 			BigInteger totalStorageFinal = totalFileSize.add(totalStorageUsed);
 
-			System.out.println("Tamaño del fichero: " + totalFileSize);
-			System.out.println("Tamaño de almacenamiento usado: " + totalStorageUsed);
-			System.out.println("Tamaño de almacenamiento y fichero: " + totalStorageFinal);
-			System.out.println("Tamaño total: " + maxStorage);
-			System.out.println("Comparación resultado: " + totalStorageFinal.compareTo(maxStorage));
+			/*
+			 * System.out.println("Tamaño del fichero: " + totalFileSize);
+			 * System.out.println("Tamaño de almacenamiento usado: " + totalStorageUsed);
+			 * System.out.println("Tamaño de almacenamiento y fichero: " +
+			 * totalStorageFinal);
+			 * System.out.println("Tamaño total: " + maxStorage);
+			 * System.out.println("Comparación resultado: " +
+			 * totalStorageFinal.compareTo(maxStorage));
+			 */
 
 			if (totalStorageFinal.compareTo(maxStorage) >= 0) {
 				return ResponseEntity.status(400).body("Selecciona un archivo válido");
@@ -286,7 +291,8 @@ public class FileController {
 
 			return ResponseEntity.status(200).body("El archivo se ha subido correctamente");
 		} catch (Exception e) {
-			logWriter.writeLog("El usuario '" + userServerId + "'' ha intentado subir un archivo, pero ha ocurrido un error: " + e.getMessage());
+			logWriter.writeLog("El usuario '" + userServerId
+					+ "'' ha intentado subir un archivo, pero ha ocurrido un error: " + e.getMessage());
 			String errorMessage = e.getMessage();
 			if (e.getMessage().contains("El archivo ya existe")) {
 				errorMessage = "El archivo ya existe";

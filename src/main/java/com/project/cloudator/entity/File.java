@@ -43,4 +43,7 @@ public class File {
 
     @Column(nullable = false)
     private Boolean ispublic;
+
+    @Transient // Este campo no se persistirá en la base de datos
+    private String ownerUsername;
 }

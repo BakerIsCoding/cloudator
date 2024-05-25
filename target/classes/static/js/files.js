@@ -58,7 +58,8 @@ function deleteFile(fileId) {
         });
 }
 
-function copiarAlPortapapeles(element) {
+function copiarAlPortapapeles(event, element) {
+    event.preventDefault();
     const url = element.querySelector('a').href;
     navigator.clipboard.writeText(url).then(() => {
         alert('URL copiada al portapapeles: ' + url);

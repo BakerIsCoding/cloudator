@@ -98,7 +98,7 @@
                                                         <div class="tooltip-container"
                                                             onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
                                                             onmouseout="ocultarMensaje(this.querySelector('.tooltip'))"
-                                                            onclick="copiarAlPortapapeles(this)">
+                                                            onclick="copiarAlPortapapeles(event, this)">
                                                             <a th:href="${file.url}"
                                                                 class="mdi mdi-content-copy icon-md"></a>
                                                             <span class="tooltip">Copiar en Portapapeles</span>

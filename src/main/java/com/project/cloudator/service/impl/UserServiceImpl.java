@@ -352,4 +352,9 @@ public class UserServiceImpl implements UserService {
         return roles.stream().map(Role::getDisplayName).collect(Collectors.toList());
     }
 
+    public String getUsernameById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user != null ? user.getUsername() : null;
+    }
+
 }

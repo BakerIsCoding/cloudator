@@ -112,6 +112,9 @@ public class UserController {
     @Autowired
     private UserImg userMethods;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     @Value("${domain}")
     private String domain;
 
@@ -228,16 +231,13 @@ public class UserController {
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
 
-        System.out.println("ID del usuario: " + userServerId);
-        System.out.println("ID del usuario a eliminar: " + id);
-
         if (userServerId != id) {
             return "redirect:/error401/";
         } else {
             userService.deleteUser(id);
             redirectAttributes.addFlashAttribute("deleteAccount", "Se ha eliminado la cuenta correctamente.");
             logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
-            return "redirect:/logout?delete=true";
+            return "redirect:/logout";
         }
     }
 
@@ -298,12 +298,20 @@ public class UserController {
         return "/files";
     }
 
+    /**
+     * Convierte un tipo MIME a una cadena que representa la extensión del archivo.
+     *
+     * @param mimeType El tipo MIME que se quiere convertir.
+     * @return La extensión del archivo correspondiente al tipo MIME proporcionado.
+     *         Si ocurre un error al determinar el tipo de archivo, se devuelve
+     *         "Otro".
+     */
     public String mimeToString(String mimeType) {
         try {
             MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
             MimeType type = allTypes.forName(mimeType);
             String extension = type.getExtension();
-            if (mimeType == "application/x-msdownload") {
+            if (mimeType.equals("application/x-msdownload")) {
                 extension = ".exe";
             }
             // delete "."
@@ -381,9 +389,6 @@ public class UserController {
      * @return Una redirección a la página de edición del usuario con un mensaje de
      *         éxito o error.
      */
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
     @PostMapping("/post/settingsuser")
     public String postUserInfo(@Valid @ModelAttribute("user") User userr,
             BindingResult result, Model model) {
@@ -516,12 +521,19 @@ public class UserController {
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
 
+        List<File> files = fileService.findFilesByFilename(search);
+        files.forEach(file -> {
+            Long ownerId = file.getOwner();
+            String ownerUsername = userService.getUsernameById(ownerId);
+            file.setOwnerUsername(ownerUsername);
+            file.setFiletype(mimeToString(file.getFiletype()));
+        });
+
+        model.addAttribute("files", files);
+
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
-
-        List<File> files = fileService.findFilesByFilename(search);
-        model.addAttribute("files", files);
 
         logWriter.writeLog("El usuario con id '" + userServerId + "' ha buscado '" + search + "'.");
 

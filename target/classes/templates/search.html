@@ -53,23 +53,44 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Resultados de la búsqueda</h4>
                                     <div class="table-responsive">
-                                        <table id="fileTable" class="table table-striped" style="text-align:center">
+                                        <table id="fileTable" class="display fileTable">
                                             <thead>
                                                 <tr>
                                                     <th>Nombre</th>
                                                     <th>Tipo</th>
                                                     <th>Tamaño</th>
                                                     <th>Fecha</th>
+                                                    <th>Subido por</th>
                                                     <th>Descargar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="file : ${files}">
+                                                <tr th:each="file : ${files}" th:id="'file-' + ${file.id}">
                                                     <td th:text="${file.filename}">Filename</td>
                                                     <td th:text="${file.filetype}">Filetype</td>
-                                                    <td th:text="${file.filesize}">Filesize</td>
-                                                    <td th:text="${#dates.format(file.filedate, 'dd/MM/yyyy')}">Filedate</td>
-                                                    <td><a th:href="${file.url}" class="mdi mdi-download icon-md"></a></td>
+                                                    <td class="filesize" th:text="${file.filesize}">Filesize</td>
+                                                    <td th:text="${#dates.format(file.filedate, 'dd/MM/yyyy')}">Filedate
+                                                    </td>
+                                                    <td th:text="${file.ownerUsername}">Owner</td>
+                                                    <td>
+                                                        <div class="tooltip-container"
+                                                            onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                                                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))">
+                                                            <a th:href="${file.url}"
+                                                                class="icon-green mdi mdi-download icon-md"></a>
+                                                            <span class="tooltip">Descargar Archivo</span>
+                                                        </div>
+                                                        <span class="espacio"></span>
+
+                                                        <div class="tooltip-container"
+                                                            onmouseover="mostrarMensaje(this.querySelector('.tooltip'))"
+                                                            onmouseout="ocultarMensaje(this.querySelector('.tooltip'))"
+                                                            onclick="copiarAlPortapapeles(event, this)">
+                                                            <a th:href="${file.url}"
+                                                                class="mdi mdi-content-copy icon-md"></a>
+                                                            <span class="tooltip">Copiar en Portapapeles</span>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -113,6 +134,33 @@
     <!-- Custom js for this page -->
     <script th:src="@{../../../static/js/dashboard.js}"></script>
     <script th:src="@{../../../static/js/dataTables.js}"></script>
+    <script th:src="@{../../../static/js/tooltips.js}"></script>
+    <script>
+        function copiarAlPortapapeles(event, element) {
+            event.preventDefault();
+            const url = element.querySelector('a').href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('URL copiada al portapapeles: ' + url);
+            }).catch(err => {
+                console.error('Error al copiar la URL: ', err);
+            });
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const filesizeElements = document.querySelectorAll('.filesize');
+            filesizeElements.forEach(function (element) {
+                const bytes = parseInt(element.innerText, 10);
+                element.innerText = formatBytes(bytes);
+            });
+        });
+    </script>
     <!-- End custom js for this page -->
 </body>
 
