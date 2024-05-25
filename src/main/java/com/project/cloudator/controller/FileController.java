@@ -73,19 +73,12 @@ public class FileController {
 
 	@Autowired
 	private UserService userService;
-	// destination folder to upload the files
-	// private static String UPLOAD_FOLDER = "C://CloudatorFiles//UPLOAD//";
-	// private static final String STORAGE_SERVER_URL =
-	// "https://host.cloudator.live/upload/file"; //DESCOMENTAR CUANDO FUNCIONE EN
-	// EL SERVIDOR.
 
 	@Value("${domain}")
 	private String domain;
 
-	// private final String STORAGE_SERVER_URL = domain + "upload/file";
-	// private final String STORAGE_SERVER_URL =
-	// "https://host.cloudator.live/upload/file";
-	private final String STORAGE_SERVER_URL = "http://management-pants.gl.at.ply.gg:27118/upload/file";
+	// private final String STORAGE_SERVER_URL = "https://host.cloudator.live";
+	private final String STORAGE_SERVER_URL = "http://management-pants.gl.at.ply.gg:27118";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
@@ -123,6 +116,8 @@ public class FileController {
 
 		try {
 			fileService.updateFileVisibility(fileId, isPublic);
+			logWriter.writeLog("El usuario con id '" + userId + "' ha cambiado la visibilidad del archivo con id '"
+					+ fileId);
 			return ResponseEntity.ok("Visibilidad del archivo actualizada con éxito");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -141,7 +136,6 @@ public class FileController {
 			// Verificar si el archivo pertenece al usuario
 			boolean isOwner = fileService.checkFileOwnership(fileId, userId);
 			if (!isOwner) {
-				// Redirige a la página de error personalizada
 				return new ModelAndView("redirect:/error401/");
 			}
 
@@ -151,8 +145,7 @@ public class FileController {
 			// Configurar la solicitud POST al otro endpoint
 			try {
 				RestTemplate restTemplate = new RestTemplate();
-				String url = "http://management-pants.gl.at.ply.gg:27118/file/delete";
-				// String url = "http://host.cloudator.live/file/delete";
+				String url = STORAGE_SERVER_URL + "/file/delete";
 
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -165,7 +158,7 @@ public class FileController {
 				ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
 				System.out.println("file server response: " + response.getBody());
 			} catch (Exception e) {
-				logWriter.writeLog("Error al realizar la solicitud POST: " + e.getMessage());
+				logWriter.writeError("Error al realizar la solicitud POST al intentar eliminar un archivo: " + e.getMessage());
 				return new ModelAndView("redirect:/users/files/").addObject("message",
 						"Error al comunicar con el servidor de archivos");
 			}
@@ -175,7 +168,7 @@ public class FileController {
 			logWriter.writeLog("El usuario con id '" + userId + "' ha eliminado el archivo con id '" + fileId + "'.");
 			return new ModelAndView("redirect:/users/files/").addObject("message", "Archivo eliminado correctamente");
 		} catch (Exception e) {
-			logWriter.writeLog("Error al eliminar el archivo: " + e.getMessage());
+			logWriter.writeError("Error al eliminar el archivo: " + e.getMessage());
 			return new ModelAndView("redirect:/users/files/").addObject("message", "Error al eliminar el archivo");
 		}
 	}
@@ -190,7 +183,7 @@ public class FileController {
 	 *         de archivos y los mensajes flash.
 	 */
 	@PostMapping("/post/upload")
-	public ModelAndView fileUpload(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
@@ -198,7 +191,7 @@ public class FileController {
 		Long userServerId = userService.getUserIdByUsername(username);
 
 		if (file.isEmpty()) {
-			return new ModelAndView("upload", "message", "Ha ocurrido un error: Selecciona un archivo válido");
+			return ResponseEntity.status(600).body("Selecciona un archivo válido");
 		}
 
 		try {
@@ -230,8 +223,9 @@ public class FileController {
 			System.out.println("Comparación resultado: " + totalStorageFinal.compareTo(maxStorage));
 
 			if (totalStorageFinal.compareTo(maxStorage) >= 0) {
-				return new ModelAndView("upload", "message",
-						"Ha ocurrido un error: Excede el espacio de almacenamiento disponible");
+				return ResponseEntity.status(400).body("Selecciona un archivo válido");
+				// return new ModelAndView("upload", "message", "Ha ocurrido un error: Excede el
+				// espacio de almacenamiento disponible");
 			}
 
 			HttpHeaders headers = new HttpHeaders();
@@ -247,9 +241,9 @@ public class FileController {
 			body.add("owner", userServerId);
 
 			HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
+			String finalUrl = STORAGE_SERVER_URL + "/upload/file";
 			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> responseEntity = restTemplate.postForEntity(STORAGE_SERVER_URL, requestEntity,
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity(finalUrl, requestEntity,
 					String.class);
 
 			// Aquí se incluye la respuesta del servidor
@@ -284,62 +278,22 @@ public class FileController {
 
 				fileService.saveFileOnDb(fileEntity);
 				logWriter.writeLog("El usuario con id '" + userServerId + "' ha subido un archivo.");
+
 			} catch (Exception e) {
-
-				System.out.println(
-						"Error en filecontroller, mensaje:" + e.getMessage() + "\nStack: ");
-				e.printStackTrace();
-
-				redirectAttributes.addFlashAttribute("message",
-						"Ha ocurrido un error: Error al procesar el archivo");
-
 				logWriter.writeLog("Error al subir el archivo: " + e.getMessage());
-
-				return modelAndView;
-
+				return ResponseEntity.status(600).body(e.getMessage());
 			}
 
-			return modelAndView;
-		} catch (IOException e) {
-			logWriter.writeLog("Error al subir el archivo: " + e.getMessage());
-			return new ModelAndView("upload", "message", "Ha ocurrido un error: Error al procesar el archivo");
+			return ResponseEntity.status(200).body("El archivo se ha subido correctamente");
+		} catch (Exception e) {
+			logWriter.writeLog("El usuario '" + userServerId + "'' ha intentado subir un archivo, pero ha ocurrido un error: " + e.getMessage());
+			String errorMessage = e.getMessage();
+			if (e.getMessage().contains("El archivo ya existe")) {
+				errorMessage = "El archivo ya existe";
+			}
+			return ResponseEntity.status(600).body(errorMessage);
+
 		}
 
 	}
-
-	/*
-	 * private static final String EXTERNAL_FILE_PATH =
-	 * "C://CloudatorFiles//DOWNLOAD//";
-	 * 
-	 * @RequestMapping("/download/file/{fileName}")
-	 * public String downloadResource(HttpServletRequest request,
-	 * HttpServletResponse response,
-	 * 
-	 * @PathVariable("fileName") String fileName) throws IOException {
-	 * 
-	 * File file = new File(EXTERNAL_FILE_PATH + fileName);
-	 * if (file.exists()) {
-	 * // Get MIME type of the file
-	 * String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-	 * if (mimeType == null) {
-	 * // unknown mimetype so set the mimetype to application/octet-stream
-	 * mimeType = "application/octet-stream";
-	 * }
-	 * 
-	 * response.setContentType(mimeType);
-	 * response.setHeader("Content-Disposition",
-	 * String.format("attachment; filename=\"" + file.getName() + "\""));
-	 * response.setContentLength((int) file.length());
-	 * 
-	 * InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-	 * FileCopyUtils.copy(inputStream, response.getOutputStream());
-	 * return "redirect:/users/edit/?error01=1";
-	 * 
-	 * } else {
-	 * return "status";
-	 * // return new ModelAndView("status", "message",
-	 * "Archivo subido correctamente");
-	 * }
-	 * }
-	 */
 }

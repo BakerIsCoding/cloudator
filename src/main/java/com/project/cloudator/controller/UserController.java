@@ -242,88 +242,6 @@ public class UserController {
     }
 
     /**
-     * Guarda el nombre de usuario actualizado de un usuario.
-     *
-     * @param user   El objeto UserDto con los datos del usuario.
-     * @param result El objeto BindingResult para manejar los errores de validación.
-     * @param model  El modelo para almacenar los datos del usuario.
-     * @param id     El ID del usuario.
-     * @return La vista para redirigir después de guardar el nombre de usuario.
-     */
-    @PostMapping("/users/save/{id}/username")
-    public String saveUsername(@Valid @ModelAttribute("user") UserDto user,
-            BindingResult result,
-            Model model, @PathVariable Long id) {
-        User usernameExisting = userService.findByUsername(user.getUsername());
-        logWriter.writeLog(
-                "El usuario con id '" + id + "' ha cambiado su nombre de usuario a '" + user.getUsername() + "'.");
-
-        if (!regex.isValidUsername(user.getUsername())) {
-            return "redirect:/users/edit/" + id + "?error01=1";
-        }
-        if (usernameExisting != null) {
-            return "redirect:/users/edit/" + id + "?error0=1";
-        }
-        String username = user.getUsername();
-        userService.updateUsername(id, username);
-        return "redirect:/users/edit/" + id + "?success0=1";
-    }
-
-    /**
-     * Guarda el correo electrónico actualizado de un usuario.
-     *
-     * @param user   El objeto UserDto con los datos del usuario.
-     * @param result El objeto BindingResult para manejar los errores de validación.
-     * @param id     El ID del usuario.
-     * @return La vista para redirigir después de guardar el correo electrónico.
-     */
-    @PostMapping("/users/save/{id}/mail")
-    public String saveEmail(@Valid UserDto user,
-            BindingResult result, RedirectAttributes redirectAttributes,
-            @PathVariable Long id) {
-
-        User mailExisting = userService.findByEmail(user.getEmail());
-        logWriter.writeLog(
-                "El usuario con id '" + id + "' ha cambiado su correo electrónico a '" + user.getEmail() + "'.");
-
-        if (!regex.isValidMail(user.getEmail())) {
-            return "redirect:/users/edit/" + id + "?error1=1";
-        }
-        if (mailExisting != null) {
-            return "redirect:/users/edit/" + id + "?error1=1";
-        }
-        String mail = user.getEmail();
-        userService.updateEmail(id, mail);
-
-        return "redirect:/users/edit/" + id + "?success1=1";
-    }
-
-    /**
-     * Guarda la contraseña actualizada de un usuario.
-     *
-     * @param user   El objeto UserDto con los datos del usuario.
-     * @param result El objeto BindingResult para manejar los errores de validación.
-     * @param model  El modelo para almacenar los datos del usuario.
-     * @param id     El ID del usuario.
-     * @return La vista para redirigir después de guardar la contraseña.
-     */
-    @PostMapping("/users/save/{id}/password")
-    public String savePassword(@Valid @ModelAttribute("user") UserDto user,
-            BindingResult result,
-            Model model, @PathVariable Long id) {
-        if (!regex.isValidPassword(user.getPassword())) {
-            return "redirect:/users/edit/" + id + "?error2=1";
-        }
-
-        String password = user.getPassword();
-        userService.updatePassword(id, password);
-
-        logWriter.writeLog("El usuario con id '" + id + "' ha cambiado su contraseña.");
-
-        return "redirect:/users/edit/" + id + "?success2=1";
-    }
-
-    /**
      * Muestra los detalles de un usuario específico.
      *
      * @param id    El ID del usuario.
@@ -486,8 +404,6 @@ public class UserController {
             Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
             UserDetails userDetails = (UserDetails) currentAuth.getPrincipal();
             String oldusername = userDetails.getUsername();
-            System.out.println("Old username: " + oldusername);
-            System.out.println("New username: " + userr.getUsername());
 
             // Cargar los detalles del usuario actualizado
             UserDetails updatedUserDetails = customUserDetailsService.loadUserByUsername(userr.getUsername());
@@ -496,14 +412,8 @@ public class UserController {
 
             // Actualizar el contexto de seguridad
             SecurityContextHolder.getContext().setAuthentication(newAuth);
-            /*
-             * // Verificar la nueva autenticación
-             * Authentication newAuth2 =
-             * SecurityContextHolder.getContext().getAuthentication();
-             * UserDetails userDetails2 = (UserDetails) newAuth2.getPrincipal();
-             * String newusername = userDetails2.getUsername();
-             * System.out.println("New username: " + newusername);
-             */
+
+            logWriter.writeLog("El usuario con id '" + userId + "' ha actualizado sus datos de usuario");
 
             if (userr.getRoles() != null) {
                 return "redirect:/users/edit/?success=2=1";
@@ -536,22 +446,34 @@ public class UserController {
             BindingResult result, Model model) {
 
         Role role = RoleRepository.fetchRoleById(userinfo.getId());
+        Boolean updatedSuccess = false;
         model.addAttribute("role", role);
 
         String userId = userinfo.getId().toString();
 
         try {
             userInfoService.save(userinfo);
+            updatedSuccess = true;
+            logWriter.writeLog("El usuario con id '" + userId + "' ha actualizado sus datos opcionales.");
+        } catch (Exception e) {
+            return "redirect:/users/edit/?error=1";
+        }
+
+        try {
 
             if (role.getName().equals("ROLE_ADMIN") || role.getName().equals("ROLE_SUPERADMIN")) {
-                return "redirect:/admin/edit/userId?success=2=1";
-
+                return "redirect:/admin/edit/" + userId + "?success=2=1";
             } else {
                 return "redirect:/users/edit/?success=1";
             }
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return "redirect:/users/edit/?error=1";
+            if (updatedSuccess == false) {
+                return "redirect:/users/edit/?error=1";
+            } else {
+                return "redirect:/users/edit/?success=1";
+            }
+
         }
 
     }
