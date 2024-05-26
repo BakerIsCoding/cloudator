@@ -65,13 +65,10 @@
                 <div class="form-group">
                   <label>Contraseña</label>
                   <div class="password-container">
-                    <input id="password" name="password" placeholder="Introduce contraseña" th:field="*{password}"
-                      type="password" class="form-control p_input" required>
-                    <button type="button" class="info-button mdi mdi-information-outline"
-                      onmouseover="mostrarMensaje(this.parentElement.querySelector('.tooltipRegister'))"
-                      onmouseout="ocultarMensaje(this.parentElement.querySelector('.tooltipRegister'))"></button>
-                    <div class="tooltipRegister">(Mínimo 8 caracteres, incluyendo números, mayúsculas y minúsculas y un
-                      caracter especial "$ ; . _ - * .")</div>
+                    <input id="password" name="password" placeholder="Introduce contraseña" type="password" class="form-control p_input" required="">
+                    <button type="button" class="button-eye mdi mdi-eye-off" onclick="mostrarContrasena()"></button>
+                    <button type="button" class="info-button mdi mdi-information-outline" onmouseover="mostrarMensaje(this.parentElement.querySelector('.tooltipRegister'))" onmouseout="ocultarMensaje(this.parentElement.querySelector('.tooltipRegister'))"></button>
+                    <div class="tooltipRegister">(Mínimo 8 carácteres, incluyendo números, mayúsculas, minúsculas y un carácter especial "$!%+@?;._\\-*")</div>
                   </div>
                   <div th:if="${param.errorpassword}">
                     <div class="alert alert-danger">

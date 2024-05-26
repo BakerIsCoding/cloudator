@@ -50,20 +50,12 @@
 
                 <div class="form-group">
                   <label for="password" class="control-label">Contraseña</label>
+                  <div class="password-container">
                   <input type="password" id="password" name="password" class="form-control p_input"
                     placeholder="Contraseña" required>
+                    <button type="button" class="button-eye mdi mdi-eye-off" style="right: 5px !important" onclick="mostrarContrasena()"></button>
+                    </div>
                 </div>
-                <!--
-                <div class="form-group d-flex align-items-center justify-content-between">
-                      <div class="form-check">
-                          <label class="form-check-label" for="rememberMe">
-                              <input type="checkbox" id="rememberMe" name="rememberMe" class="form-check-input"> Recuerdame
-                          </label>
-                      </div>
-                      <br>
-                  <a href="#" class="forgot-pass">Has olvidado la contraseña?</a>
-                </div>
-                -->
                 <div class="text-center">
                   <button type="submit" class="margin-top28 btn btn-primary btn-block enter-btn">Iniciar sesión</button>
                 </div>
@@ -93,8 +85,18 @@
   <script th:src="@{../../../static/js/settings.js}"></script>
   <script th:src="@{../../../static/js/todolist.js}"></script>
   <script th:src="@{../../../static/js/eventColorLogin.js}"></script>
+  <script>
+    function mostrarContrasena() {
+    var x = document.getElementById("password");
+    var y = document.getElementById("confirmar");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+  </script>
   <!-- endinject -->
   
 </body>
-
 </html>

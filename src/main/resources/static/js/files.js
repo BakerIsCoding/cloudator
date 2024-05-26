@@ -13,18 +13,23 @@ document.querySelectorAll('.visualizacionPoP').forEach(item => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
-                return response.json();
+                return response.text();
             })
-            .then(data => {
-                console.log('Success:', data);
-                alert('Visibilidad del archivo actualizada con éxito!');
+            .then(text => {
+                try {
+                    console.log('Success:', text);
+                   
+                } catch (error) {
+                    throw new Error('La respuesta no es un JSON válido: ' + text);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error al actualizar la visibilidad del archivo: ' + error.message);
+            
             });
     });
 });
+
 function addIdToModal(fileId) {
     document.getElementById('deleteID').innerHTML = "";
     document.getElementById('deleteID').innerHTML = fileId;

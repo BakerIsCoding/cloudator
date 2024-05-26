@@ -413,10 +413,11 @@
         }
       })
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Error al eliminar el usuario');
+          if (response.ok) {
+            window.location.href = "/logout";
+          }else{
+            throw new Error('Ha ocurrido un error al eliminar tu cuenta.');
           }
-          window.location.reload();
         })
         .catch(error => {
           console.error('Error:', error);

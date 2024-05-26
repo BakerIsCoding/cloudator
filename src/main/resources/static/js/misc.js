@@ -5,41 +5,31 @@
     var sidebar = $('.sidebar');
 
     function addActiveClass(element) {
-      var current = location.pathname.split("/").slice(-2)[0].replace(/^\/|\/$/g, '');
-      if (current == "users" || current == "admin") {
-        // para las páginas principales "users" o "admin"
-        if (element.attr('href').indexOf(current) !== -1 && !$('.nav-item.active').length) {
-            element.parents('.nav-item').last().addClass('active');
-            if (element.parents('.sub-menu').length) {
-                element.closest('.collapse').addClass('show');
-                element.addClass('active');
-            }
-        }
-      } else {
-        // para las demás páginas
-        if (element.attr('href').indexOf(current) !== -1) {
+        var currentPath = location.pathname;
+        var elementPath = element.attr('href');
+
+        // Comparamos la URL completa
+        if (currentPath === elementPath) {
             element.parents('.nav-item').first().addClass('active');
             if (element.parents('.sub-menu').length) {
                 element.closest('.collapse').addClass('show');
                 element.addClass('active');
             }
-              if (element.parents('.submenu-item').length) {
+            if (element.parents('.submenu-item').length) {
                 element.addClass('active');
-              }
+            }
         }
-      }
     }
-    
-    
+
     $('.nav li a', sidebar).each(function() {
-      var $this = $(this);
-      addActiveClass($this);
-    })
+        var $this = $(this);
+        addActiveClass($this);
+    });
 
     $('.horizontal-menu .nav li a').each(function() {
-      var $this = $(this);
-      addActiveClass($this);
-    })
+        var $this = $(this);
+        addActiveClass($this);
+    });
 
     //Cierra otros elementos de menú cuando se abre uno
 

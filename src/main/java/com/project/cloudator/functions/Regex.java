@@ -11,22 +11,26 @@ public class Regex {
      * - Debe contener al menos un dígito.
      * - Debe contener al menos una letra minúscula.
      * - Debe contener al menos una letra mayúscula.
-     * - Debe contener al menos uno de los siguientes caracteres especiales: $, ;, ., _, -, *.
-     * - Debe tener una longitud mínima de 8 caracteres y una longitud máxima de 64 caracteres.
+     * - Debe contener al menos uno de los siguientes caracteres especiales: $, ;,
+     * ., _, -, *.
+     * - Debe tener una longitud mínima de 8 caracteres y una longitud máxima de 64
+     * caracteres.
      *
      * @param password La contraseña a verificar.
      * @return true si la contraseña es válida, false de lo contrario.
      */
     public boolean isValidPassword(String password) {
-        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$;._\\-*]).{8,64}$";
+        String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$!%+@?;._\\-*]).{8,64}$";
         return Pattern.matches(passwordPattern, password);
     }
 
     /**
-     * Verifica si una dirección de correo electrónico es válida según el estándar RFC 5322.
+     * Verifica si una dirección de correo electrónico es válida según el estándar
+     * RFC 5322.
      *
      * @param mail La dirección de correo electrónico a verificar.
-     * @return true si la dirección de correo electrónico es válida, false de lo contrario.
+     * @return true si la dirección de correo electrónico es válida, false de lo
+     *         contrario.
      */
     public boolean isValidMail(String mail) {
         String mailPattern = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
@@ -35,7 +39,8 @@ public class Regex {
 
     /**
      * Verifica si una cadena cumple con los siguientes criterios:
-     * - Debe tener una longitud mínima de 1 caracter y una longitud máxima de 32 caracteres.
+     * - Debe tener una longitud mínima de 1 caracter y una longitud máxima de 32
+     * caracteres.
      * - Solo puede contener números o letras.
      *
      * @param input La cadena a verificar.

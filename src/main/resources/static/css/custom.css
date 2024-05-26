@@ -97,11 +97,11 @@
     background-size: cover;
 }
 
-.margin-top28{
+.margin-top28 {
     margin-top: 28px;
 }
 
-.roundedbig{
+.roundedbig {
     border-radius: 4.25rem !important;
 }
 
@@ -122,9 +122,9 @@
 }
 
 .sign-upnoM {
-    margin-top: 0px!important;
-    margin-bottom: 0px!important;
-    
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+
 }
 
 .sign-upnoM a:hover {
@@ -375,8 +375,8 @@ body {
 
 .tooltipRegister {
     position: absolute;
-    top: -30px;
-    left: calc(100% + 10px);
+    top: -120px;
+    left: calc(100% + -130px);
     font-size: 14px;
     margin-left: 10px;
     padding: 10px;
@@ -480,25 +480,28 @@ body {
 }
 
 /* Estilos para selects y inputs de texto con !important para asegurar la prioridad */
-select, input[type="search"] {
-    color: white !important; 
-    background-color: #333 !important; 
-    border: 1px solid #555 !important; 
+select,
+input[type="search"] {
+    color: white !important;
+    background-color: #333 !important;
+    border: 1px solid #555 !important;
 }
 
-select:focus, input[type="search"]:focus {
-    outline: 2px solid #777 !important; 
+select:focus,
+input[type="search"]:focus {
+    outline: 2px solid #777 !important;
 }
 
 select option {
-    background-color: #333 !important; 
-    color: white !important; 
+    background-color: #333 !important;
+    color: white !important;
 }
-.terms a{
+
+.terms a {
     color: #739FEA;
 }
 
-.sign-up a{
+.sign-up a {
     color: #739FEA !important;
 }
 
@@ -506,7 +509,45 @@ select option {
     width: 100%;
 }
 
-.fileTable th, .fileTable td {
+.fileTable th,
+.fileTable td {
     text-align: center !important;
     vertical-align: middle !important;
+}
+
+/* god estilo register */
+
+.password-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-container input {
+    flex: 1;
+    padding-right: 90px;
+    /* Espacio para los botones */
+}
+
+.password-container button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.password-container .mdi-eye-off {
+    right: 40px;
+}
+
+.password-container .info-button {
+    right: 10px;
+}
+
+.password-container:hover .tooltipRegister {
+    display: block;
+}
+.button-eye{
+    color: #0d6efd;
 }

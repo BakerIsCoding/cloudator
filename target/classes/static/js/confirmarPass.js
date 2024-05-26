@@ -5,13 +5,23 @@ function verificarContrasena() {
 
     // Verificar si las contraseñas coinciden
     if (contraseña !== confirmarContraseña) {
-        console.log("Las contraseñas no coinciden");
-        href = "http://localhost:8080/register?errorpassworddif=true"
+        
+        href = "https://cloudator.live/register?errorpassworddif=true"
         window.location.href = href;
         return; // Detiene la ejecución de la función si las contraseñas no coinciden
     } else {
-        console.log("Las contraseñas coinciden");
 
         document.querySelector("form").submit(); // Envía el formulario manualmente
     }
   }
+function mostrarContrasena() {
+    var x = document.getElementById("password");
+    var y = document.getElementById("confirmar");
+    if (x.type === "password") {
+        x.type = "text";
+        y.type = "text";
+    } else {
+        x.type = "password";
+        y.type = "password";
+    }
+}

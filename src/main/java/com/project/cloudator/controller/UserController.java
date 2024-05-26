@@ -1,11 +1,7 @@
 package com.project.cloudator.controller;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-//////
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,37 +12,26 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.net.http.HttpHeaders;
-import java.nio.file.StandardOpenOption;
-
-//////
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypes;
 
-//////
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.web.exchanges.HttpExchange.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.File;
@@ -59,22 +44,14 @@ import com.project.cloudator.functions.UserImg;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.service.UserService;
-import com.project.cloudator.repository.RoleRepository;
-import com.project.cloudator.repository.UserAccessRepository;
 import com.project.cloudator.repository.UserInfoRepository;
 import com.project.cloudator.repository.UserRoleRepository;
 import com.project.cloudator.security.CustomUserDetailsService;
 import com.project.cloudator.service.FileService;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 public class UserController {
@@ -96,12 +73,6 @@ public class UserController {
 
     @Autowired
     private LogWriter logWriter;
-
-    @Autowired
-    private HttpServletRequest request;
-
-    @Autowired
-    private HttpServletResponse response;
 
     @Autowired
     private FileService fileService;
@@ -225,19 +196,39 @@ public class UserController {
      * @return La vista para redirigir después de eliminar el usuario.
      */
     @GetMapping("/users/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<String> delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication1.getPrincipal();
         String username = userDetails.getUsername();
         Long userServerId = userService.getUserIdByUsername(username);
 
         if (userServerId != id) {
-            return "redirect:/error401/";
+            return ResponseEntity.status(401).body("No tienes permiso para eliminar este usuario.");
         } else {
-            userService.deleteUser(id);
-            redirectAttributes.addFlashAttribute("deleteAccount", "Se ha eliminado la cuenta correctamente.");
-            logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
-            return "redirect:/logout";
+            RestTemplate restTemplate = new RestTemplate();
+
+            try {
+                String deleteAccountEndpoint = domain + "file/account/delete";
+                ResponseEntity<String> response = restTemplate.postForEntity(
+                        deleteAccountEndpoint + "?id=" + id,
+                        null,
+                        String.class);
+
+                if (response.getStatusCode().is2xxSuccessful()) {
+                    userService.deleteUser(id);
+                    redirectAttributes.addFlashAttribute("deleteAccount", "Se ha eliminado la cuenta correctamente.");
+                    logWriter.writeLog("El usuario con id '" + id + "' ha eliminado su cuenta.");
+                    return ResponseEntity.status(200).body("Se ha eliminado la cuenta correctamente.");
+                } else {
+                    redirectAttributes.addFlashAttribute("deleteAccount",
+                            "Error al eliminar la cuenta en el servidor de archivos.");
+                }
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("deleteAccount",
+                        "Error al comunicarse con el servidor de archivos.");
+            }
+
+            return ResponseEntity.status(200).body("Se ha eliminado la cuenta correctamente.");
         }
     }
 
@@ -280,7 +271,6 @@ public class UserController {
         String username = userDetails.getUsername();
 
         Long userServerId = userService.getUserIdByUsername(username);
-
         List<File> files = fileService.findFilesByOwner(userServerId);
 
         files.forEach(file -> {
@@ -292,8 +282,6 @@ public class UserController {
         // Se añade el objeto user a thymeleaf
         User user = userService.getUserById(userServerId);
         model.addAttribute("user", user);
-        // model.addAttribute("userIMG",
-        // domain + "/upload/" + userServerId + "/pfp/profile.jpg");
 
         return "/files";
     }
@@ -346,7 +334,6 @@ public class UserController {
 
         Long authUserId = userMethods.getUserId();
 
-        /////
         Path tempFile = Paths.get(System.getProperty("java.io.tmpdir"), image.getOriginalFilename());
         image.transferTo(tempFile);
 
@@ -361,8 +348,6 @@ public class UserController {
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         System.out.println("URL foto perfil: " + uri);
-
-        /////
 
         String url = domain + "upload/" + authUserId + "/pfp/profile.jpg";
 

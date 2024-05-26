@@ -52,7 +52,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Lista Usuarios</h4>
-                  <div th:if="${not #lists.isEmpty(users)}">
+                  <div th:if="${not #lists.isEmpty(users)}" class="table-responsive">
                     <table id="fileTable" class="display fileTable" style="width:100%">
                       <thead>
                         <tr class="tituloBlanco text-center th">

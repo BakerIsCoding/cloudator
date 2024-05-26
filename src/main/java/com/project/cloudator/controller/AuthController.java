@@ -26,9 +26,6 @@ import com.project.cloudator.service.SecurityService;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Controller
 public class AuthController {
     @Autowired
@@ -50,8 +47,6 @@ public class AuthController {
     private String domain;
 
     private RestTemplate restTemplate = new RestTemplate();
-
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     /**
      * Devuelve el formulario de inicio de sesión.

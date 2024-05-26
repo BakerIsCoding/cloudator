@@ -9,11 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
-import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 
 import com.project.cloudator.dto.UserDto;
 import com.project.cloudator.entity.Role;
@@ -38,8 +30,6 @@ import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.service.UserService;
 import com.project.cloudator.repository.RoleRepository;
 import com.project.cloudator.repository.UserAccessRepository;
-import com.project.cloudator.repository.UserRepository;
-import com.project.cloudator.service.UserAccessService;
 import com.project.cloudator.service.UserInfoService;
 import com.project.cloudator.entity.UserAccess;
 import com.project.cloudator.entity.UserInfo;
@@ -165,43 +155,43 @@ public class AdminController {
      * Borra un usuario por su identificador.
      * 
      * @param id Identificador del usuario a borrar.
-     * @return La vista para redirigir a la lista de usuarios.
+     * @return Una respuesta 200 con un mensaje de éxito.
      */
     @GetMapping("/admin/users/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         userService.deleteUser(id);
         logWriter.writeLog("El usuario con id '" + id + "' ha sido eliminado por un administrador.");
-        return "redirect:/admin";
+        return ResponseEntity.status(200).body("Se ha eliminado el usuario con id '" + id + "' correctamente.");
     }
 
     /**
      * Bloquea un usuario por su identificador.
      * 
      * @param id Identificador del usuario a bloquear.
-     * @return La vista para redirigir a la lista de usuarios.
+     * @return Una respuesta 200 con un mensaje de éxito.
      */
     @GetMapping("/admin/users/block/{id}")
-    public String block(@PathVariable Long id) {
+    public ResponseEntity<String> block(@PathVariable Long id) {
         Boolean isBlocked = userService.blockUser(id);
         if (isBlocked) {
             logWriter.writeLog("El usuario con id '" + id + "' ha sido bloqueado por un administrador.");
         }
-        return "redirect:/admin";
+        return ResponseEntity.status(200).body("Se ha bloqueado el usuario con id '" + id + "' correctamente.");
     }
 
     /**
      * Desbloquea un usuario por su identificador.
      * 
      * @param id Identificador del usuario a desbloquear.
-     * @return La vista para redirigir a la lista de usuarios.
+     * @return Una respuesta 200 con un mensaje de éxito.
      */
     @GetMapping("/admin/users/unblock/{id}")
-    public String unblock(@PathVariable Long id) {
+    public ResponseEntity<String> unblock(@PathVariable Long id) {
         Boolean isUnblocked = userService.unBlockUser(id);
         if (isUnblocked) {
             logWriter.writeLog("El usuario con id '" + id + "' ha sido desbloqueado por un administrador.");
         }
-        return "redirect:/admin";
+        return ResponseEntity.status(200).body("Se ha desbloqueado el usuario con id '" + id + "' correctamente.");
     }
 
     /**
@@ -233,15 +223,15 @@ public class AdminController {
      * Maneja la solicitud GET para ascender a un usuario a Administrador.
      *
      * @param id El ID del usuario que se quiere ascender.
-     * @return Una redirección a la página de administración.
+     * @return Una respuesta 200 con un mensaje de éxito.
      */
     @GetMapping("/admin/users/upgrade/{id}")
-    public String upgrade(@PathVariable Long id) {
+    public ResponseEntity<String> upgrade(@PathVariable Long id) {
         Long newRole = 2L;
         userService.updateRole(id, newRole);
         logWriter.writeLog(
                 "El usuario con id '" + id + "' ha sido ascendido a Administrador por un SuperAdministrador.");
-        return "redirect:/admin";
+        return ResponseEntity.status(200).body("Se ha ascendido el usuario con id '" + id + "' a Administrador.");
     }
 
 }

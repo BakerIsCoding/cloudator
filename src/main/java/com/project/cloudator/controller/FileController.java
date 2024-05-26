@@ -1,14 +1,6 @@
 package com.project.cloudator.controller;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,11 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
+
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,16 +35,13 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.project.cloudator.entity.File;
 import com.project.cloudator.entity.Role;
-import com.project.cloudator.entity.User;
 import com.project.cloudator.functions.LogWriter;
 import com.project.cloudator.jwt.JsonWebTokenManager;
 import com.project.cloudator.repository.UserRoleRepository;
 import com.project.cloudator.service.FileService;
 import com.project.cloudator.service.UserService;
-import com.project.cloudator.functions.LogWriter;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class FileController {
@@ -77,8 +64,9 @@ public class FileController {
 	@Value("${domain}")
 	private String domain;
 
-	// private final String STORAGE_SERVER_URL = "https://host.cloudator.live";
-	private final String STORAGE_SERVER_URL = "http://management-pants.gl.at.ply.gg:27118";
+	private final String STORAGE_SERVER_URL = "https://host.cloudator.live";
+	// private final String STORAGE_SERVER_URL =
+	// "http://management-pants.gl.at.ply.gg:27118";
 
 	@GetMapping("/upload")
 	public String showViewUpload() {
@@ -118,10 +106,10 @@ public class FileController {
 			fileService.updateFileVisibility(fileId, isPublic);
 			logWriter.writeLog("El usuario con id '" + userId + "' ha cambiado la visibilidad del archivo con id '"
 					+ fileId);
-			return ResponseEntity.ok("Visibilidad del archivo actualizada con éxito");
+			return ResponseEntity.status(200).body("Visibilidad del archivo actualizada con éxito");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error al actualizar la visibilidad del archivo: " + e.getMessage());
+			logWriter.writeError("Error al actualizar la visibilidad del archivo: " + e.getMessage());
+			return ResponseEntity.status(500).body("Ha ocurrido un error al actualizar la visibilidad del archivo");
 		}
 	}
 
