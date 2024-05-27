@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.project.cloudator.entity.File;
 import com.project.cloudator.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
