@@ -21,8 +21,8 @@ En el archivo de `src/main/resources/application.properties` se encuentra la con
 - `spring.datasource.password` Contraseña de la base de datos
 - `spring.servlet.multipart.max-file-size` Se debe poner el tamaño maximo que puede pasar por el servidor (EN GB)
 - `spring.servlet.multipart.max-request-size` Se debe poner el tamaño maximo que puede pasar por el servidor (EN GB)
-- `secretkey` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretencryptor`
-- `secretencryptor` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretkey`
+- `secretkey` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretencryptor` pero igual que en el servidor de [files](https://github.com/BakerIsCoding/cloudator-files)
+- `secretencryptor` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretkey` pero igual que en el servidor de [files](https://github.com/BakerIsCoding/cloudator-files)
 - `domain` El dominio de la aplicación de archivos
 
 ### Instalación
