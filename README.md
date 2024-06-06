@@ -19,6 +19,8 @@ En el archivo de `src/main/resources/application.properties` se encuentra la con
 - `spring.datasource.url` Url de la base de datos
 - `spring.datasource.username` Usuario de la base de datos
 - `spring.datasource.password` Contraseña de la base de datos
+- `spring.servlet.multipart.max-file-size` Se debe poner el tamaño maximo que puede pasar por el servidor (EN GB)
+- `spring.servlet.multipart.max-request-size` Se debe poner el tamaño maximo que puede pasar por el servidor (EN GB)
 - `secretkey` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretencryptor`
 - `secretencryptor` Se utiliza para la encriptación y desencriptación, debe ser diferente a `secretkey`
 - `domain` El dominio de la aplicación de archivos
