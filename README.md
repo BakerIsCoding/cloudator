@@ -8,6 +8,13 @@ Cloudator es una aplicación de Java Spring Boot diseñada para proporcionar una
 - **Gestión de Archivos**: Subida, descarga y gestión de archivos.
 - **Interfaz de Usuario**: Interfaces interactivas y fáciles de usar para la gestión de archivos.
 
+### Capturas
+- Landing
+<img src="https://i.postimg.cc/3xpjNyYb/landing.jpg" alt="perfil" width="900">
+
+- Home
+<img src="https://i.postimg.cc/WbdwRWKV/Home.jpg" alt="perfil" width="900">
+
 ### Estructura del Proyecto
 
 - **Backend**: Desarrollado con Java Spring Boot, gestionando la autenticación de usuarios, almacenamiento de archivos y endpoints de la API.
